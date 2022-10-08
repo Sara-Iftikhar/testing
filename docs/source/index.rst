@@ -8,7 +8,7 @@ Welcome to adsorption_ai's scripts!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Scripts:
+   :caption: Scripts
 
    auto_examples/index
 
