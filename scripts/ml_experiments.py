@@ -42,7 +42,9 @@ plt.show()
 
 # %%
 
-_ = comparisons.compare_errors('mse', data=ads_df_enc, show=False)
+_ = comparisons.compare_errors('mse', data=ads_df_enc,
+                               cutoff_val=1e15, cutoff_type="less",
+                               show=False)
 plt.tight_layout()
 plt.show()
 
@@ -57,3 +59,15 @@ plt.show()
 # %%
 
 comparisons.taylor_plot(data=ads_df_enc)
+
+# %%
+comparisons.compare_edf_plots(data=ads_df_enc, exclude=["SGDRegressor", "KernelRidge", "PoissonRegressor"])
+
+# %%
+_ = comparisons.compare_regression_plots(data=ads_df_enc, figsize=(12, 14))
+
+# %%
+
+_ = comparisons.compare_residual_plots(data=ads_df_enc, figsize=(12, 14))
+
+
