@@ -76,7 +76,7 @@ callbacks.append(keras.callbacks.EarlyStopping(
 
 h = model.fit(x=X_train, y=y_train,
           validation_data=(X_test, y_test),
-          epochs=4, batch_size=24,
+          epochs=400, batch_size=24,
               callbacks=callbacks)
 
 # %%
