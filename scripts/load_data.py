@@ -87,13 +87,16 @@ def get_data():
     return X_train, y_train, X_test, y_test
 
 
+def make_path():
+    path = os.path.join(os.getcwd(), 'results', f'mlp_{dateandtime_now()}')
+    os.makedirs(path)
+    return path
 
-def get_fitted_model():
+def get_fitted_model(return_path=False):
 
     X_train, y_train, X_test, y_test = get_data()
 
-    path = os.path.join(os.getcwd(), 'results', f'mlp_{dateandtime_now()}')
-    os.makedirs(path)
+    path = make_path()
 
     reset_seed()
 
@@ -113,10 +116,24 @@ def get_fitted_model():
     model.compile(optimizer=Adam(learning_rate=0.004561316449575947),
                   loss='mse')
 
+    callbacks = get_callbacks(path)
+
+    model.fit(x=X_train, y=y_train,
+                  validation_data=(X_test, y_test),
+                  epochs=400, batch_size=24,
+                  callbacks=callbacks, verbose=0)
+
     # %%
+    update_model_with_best_weights(model, path)
+
+    if return_path:
+        return model, path
+    return model
+
+
+def get_callbacks(path):
     _monitor = 'val_loss'
     fname = "{val_loss:.5f}.hdf5"
-
     callbacks = list()
     callbacks.append(keras.callbacks.ModelCheckpoint(
         filepath=path + f"{os.sep}weights_" + "{epoch:03d}_" + fname,
@@ -129,18 +146,16 @@ def get_fitted_model():
         monitor=_monitor, min_delta=0.001,
         patience=100, verbose=0, mode='auto'
     ))
+    return callbacks
 
-    h = model.fit(x=X_train, y=y_train,
-                  validation_data=(X_test, y_test),
-                  epochs=400, batch_size=24,
-                  callbacks=callbacks, verbose=0)
 
-    # %%
+def update_model_with_best_weights(model, path):
     # find and update best weights
     best_weights = [f for f in os.listdir(path) if f.endswith(".hdf5")][-1]
     filepath = os.path.join(path, best_weights)
     model.load_weights(filepath)
-    return model
+    return
+
 
 def reset_seed(seed=313):
     import numpy as np
@@ -157,7 +172,7 @@ def reset_seed(seed=313):
     return
 
 
-def confidenc_interval(model, X_train, y_train, X_test, alpha,
+def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,
                     n_splits=5):
 
     def generate_results_dataset(preds, _ci):
@@ -172,7 +187,13 @@ def confidenc_interval(model, X_train, y_train, X_test, alpha,
 
         return _df
 
-    model.fit(X_train, y_train)
+    path = make_path()
+    callbacks = get_callbacks(path)
+    model.fit(X_train, y_train, batch_size=24, verbose=0,
+              validation_data=(X_test, y_test),
+              epochs=400, callbacks=callbacks)
+    update_model_with_best_weights(model, path)
+
     residuals = y_train - model.predict(X_train)
     ci = np.quantile(residuals, 1 - alpha)
     preds = model.predict(X_test)
@@ -185,7 +206,12 @@ def confidenc_interval(model, X_train, y_train, X_test, alpha,
         X_train_, X_test_ = X_train[train_index], X_train[test_index]
         y_train_, y_test_ = y_train[train_index], y_train[test_index]
 
-        model.fit(X_train_, y_train_)
+        path = make_path()
+        callbacks = get_callbacks(path)
+        model.fit(X_train_, y_train_, validation_data=(X_test_, y_test_),
+                  callbacks=callbacks, verbose=0, batch_size=24, epochs=400)
+        update_model_with_best_weights(model, path)
+
         estimators.append(model)
         _pred = model.predict(X_test_)
         res.extend(list(y_test_ - _pred.reshape(-1, )))
@@ -209,6 +235,11 @@ def confidenc_interval(model, X_train, y_train, X_test, alpha,
     df['upper'] = top
     df['lower'] = bottom
 
+    return df
+
+def plot_ci(df, alpha):
+    # plots the confidence interval
+
     fig, ax = plt.subplots(figsize=(6, 3))
     ax.fill_between(np.arange(len(df)), df['upper'], df['lower'], alpha=0.5, color='C1')
     p1 = ax.plot(df['pred'], color="C1", label="Prediction")
@@ -217,9 +248,6 @@ def confidenc_interval(model, X_train, y_train, X_test, alpha,
     ax.legend([(p2[0], p1[0]), ], [f'{percent}% Confidence Interval'],
               fontsize=12)
     ax.set_xlabel("Test Samples", fontsize=12)
-    ax.set_ylabel(model.output_features[0], fontsize=12)
-    fpath = os.path.join(model.path, f"{percent}_interval_")
-    plt.savefig(fpath, dpi=300, bbox_inches="tight")
-    plt.show()
+    ax.set_ylabel("Adsorption Capacity", fontsize=12)
 
-    return
+    return ax
