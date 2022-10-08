@@ -1,0 +1,24 @@
+
+.ipynb_checkpoints/
+__pycache__/
+.idea/
+.vscode/
+
+*.png
+*.xlsx
+*.h5
+
+catboost_info
+
+# build related
+*dist/
+*build/
+
+# docs
+site/
+docs/source/auto_examples/
+docs/source/gen_modules/
+
+# private stuff
+results/
+data/

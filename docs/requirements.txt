@@ -1,0 +1,17 @@
+git+https://github.com/AtrCheema/AI4Water.git@dev
+numpy==1.20.3
+matplotlib==3.4.3
+tensorflow==1.15.0
+h5py==2.10
+sklearn==0.24.2
+
+sphinx
+sphinx-prompt
+sphinx_rtd_theme
+sphinx_issues
+sphinx-gallery
+
+openpyxl
+
+shap==0.41.0
+umap-learn
