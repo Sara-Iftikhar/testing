@@ -15,3 +15,4 @@ openpyxl
 
 shap==0.41.0
 umap-learn
+protobuf==3.19.1
