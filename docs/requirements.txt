@@ -16,3 +16,7 @@ openpyxl
 shap==0.41.0
 umap-learn
 protobuf==3.19.1
+seaborn
+
+git+https://github.com/AtrCheema/PDPbox1.git
+
