@@ -36,26 +36,33 @@ test_p = model.predict(x=X_test)
 
 evaluate_model(y_test, test_p)
 
-# &&
+# %%
 
+alpha = 0.05
 df = confidenc_interval(model, X_train[0:685], y_train[0:685],
                         X_test, y_test,
-                        alpha=0.05)
+                        alpha=alpha)
 
-plot_ci(df, 0.05)
-percent = int((1 - 0.05) * 100)
+# %%
+
+plot_ci(df, alpha)
+percent = int((1 - alpha) * 100)
 fpath = os.path.join(path, f"{percent}_interval_")
 plt.savefig(fpath, dpi=300, bbox_inches="tight")
+plt.tight_layout()
 plt.show()
 
 # %%
-plot_ci(df.iloc[0:50], 0.05)
-percent = int((1 - 0.05) * 100)
+
+plot_ci(df.iloc[0:50], alpha)
+percent = int((1 - alpha) * 100)
 fpath = os.path.join(path, f"{percent}_interval_")
 plt.savefig(fpath, dpi=300, bbox_inches="tight")
+plt.tight_layout()
 plt.show()
 
 # %%
+
 alpha = 0.1
 df = confidenc_interval(model, X_train[0:685], y_train[0:685],
                         X_test, y_test,
@@ -69,6 +76,7 @@ plt.tight_layout()
 plt.show()
 
 # %%
+
 plot_ci(df.iloc[0:50], alpha)
 percent = int((1 - alpha) * 100)
 fpath = os.path.join(path, f"{percent}_interval_")
@@ -77,6 +85,30 @@ plt.tight_layout()
 plt.show()
 
 # %%
+
+alpha = 0.15
+df = confidenc_interval(model, X_train[0:685], y_train[0:685],
+                        X_test, y_test,
+                        alpha=alpha)
+
+plot_ci(df, alpha)
+percent = int((1 - alpha) * 100)
+fpath = os.path.join(path, f"{percent}_interval_")
+plt.savefig(fpath, dpi=300, bbox_inches="tight")
+plt.tight_layout()
+plt.show()
+
+# %%
+
+plot_ci(df.iloc[0:50], alpha)
+percent = int((1 - alpha) * 100)
+fpath = os.path.join(path, f"{percent}_interval_")
+plt.savefig(fpath, dpi=300, bbox_inches="tight")
+plt.tight_layout()
+plt.show()
+
+# %%
+
 alpha = 0.2
 df = confidenc_interval(model, X_train[0:685], y_train[0:685],
                         X_test, y_test,
@@ -90,6 +122,30 @@ plt.tight_layout()
 plt.show()
 
 # %%
+
+plot_ci(df.iloc[0:50], alpha)
+percent = int((1 - alpha) * 100)
+fpath = os.path.join(path, f"{percent}_interval_")
+plt.savefig(fpath, dpi=300, bbox_inches="tight")
+plt.tight_layout()
+plt.show()
+
+# %%
+
+alpha = 0.25
+df = confidenc_interval(model, X_train[0:685], y_train[0:685],
+                        X_test, y_test,
+                        alpha=alpha)
+
+plot_ci(df, alpha)
+percent = int((1 - alpha) * 100)
+fpath = os.path.join(path, f"{percent}_interval_")
+plt.savefig(fpath, dpi=300, bbox_inches="tight")
+plt.tight_layout()
+plt.show()
+
+# %%
+
 plot_ci(df.iloc[0:50], alpha)
 percent = int((1 - alpha) * 100)
 fpath = os.path.join(path, f"{percent}_interval_")
