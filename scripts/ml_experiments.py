@@ -5,6 +5,7 @@ ML Experiments
 """
 import site
 site.addsitedir(r"E:\AA\AI4Water")
+site.addsitedir(r"E:\AA\PDPbox1")
 
 import matplotlib.pyplot as plt
 
@@ -31,7 +32,13 @@ comparisons = MLRegressionExperiments(
 
 # %%
 
-comparisons.fit(data=ads_df_enc, run_type="dry_run" )
+comparisons.fit(data=ads_df_enc, run_type="dry_run",
+                include=['RandomForestRegressor', 'XGBRegressor',
+                         'CatBoostRegressor', 'AdaBoostRegressor',
+                         'BaggingRegressor', 'DecisionTreeRegressor',
+                         'HistGradientBoostingRegressor', 'LGBMRegressor',
+                         'ExtraTreesRegressor', 'ExtraTreeRegressor']
+                )
 
 # %%
 
@@ -43,7 +50,7 @@ plt.show()
 # %%
 
 _ = comparisons.compare_errors('mse', data=ads_df_enc,
-                               cutoff_val=1e8, cutoff_type="less",
+                               cutoff_val=1e7, cutoff_type="less",
                                show=False)
 plt.tight_layout()
 plt.show()
@@ -56,14 +63,21 @@ _ = best_models = comparisons.compare_errors('r2_score',
                                              show=False)
 plt.tight_layout()
 plt.show()
+
 # %%
 
 comparisons.taylor_plot(data=ads_df_enc)
 
 # %%
-comparisons.compare_edf_plots(data=ads_df_enc, exclude=["SGDRegressor", "KernelRidge", "PoissonRegressor"])
+
+comparisons.compare_edf_plots(data=ads_df_enc,
+                              exclude=["SGDRegressor", "KernelRidge", "PoissonRegressor"],
+                              show=False)
+plt.tight_layout()
+plt.show()
 
 # %%
+
 _ = comparisons.compare_regression_plots(data=ads_df_enc, figsize=(12, 14))
 
 # %%
