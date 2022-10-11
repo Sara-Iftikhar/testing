@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 from ai4water.postprocessing._info_plots import prediction_distribution_plot, feature_interaction
 
-from load_data import get_dataset, get_data, get_fitted_model
+from utils import get_dataset, get_data, get_fitted_model, evaluate_model
 
 # %%
 X_train, y_train, X_test, y_test = get_data()
@@ -27,6 +27,10 @@ model = get_fitted_model()
  # %%
 
 test_p = model.predict(x=X_test)
+
+# %%
+
+evaluate_model(y_test, test_p)
 
 # %%
 # Feature Interaction

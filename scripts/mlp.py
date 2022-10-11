@@ -22,7 +22,7 @@ from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 
-from load_data import get_data, reset_seed
+from utils import get_data, reset_seed, evaluate_model
 
 reset_seed(313)
 
@@ -95,9 +95,7 @@ train_p = model.predict(x=X_train,)
 
 # %%
 
-metrics = RegressionMetrics(y_train,train_p)
-for i in ['mse', 'rmse', 'r2', 'r2_score', 'mape']:
-    print(i, getattr(metrics, i)())
+evaluate_model(y_train, train_p)
 
 # %%
 
@@ -134,9 +132,7 @@ test_p = model.predict(x=X_test,)
 
 # %%
 
-metrics = RegressionMetrics(y_test,test_p)
-for i in ['mse', 'rmse', 'r2', 'r2_score', 'mape']:
-    print(i, getattr(metrics, i)())
+evaluate_model(y_test, test_p)
 
 # %%
 

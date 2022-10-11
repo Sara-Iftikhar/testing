@@ -11,7 +11,7 @@ from ai4water.eda import EDA
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from load_data import ads_df
+from utils import ads_df
 
 ads_df = ads_df.copy(deep=True)
 

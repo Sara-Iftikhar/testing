@@ -15,6 +15,8 @@ from tensorflow.keras.optimizers import Adam
 from ai4water.preprocessing import DataSet
 from ai4water.utils.utils import dateandtime_now
 
+from SeqMetrics import RegressionMetrics
+
 #read excel
 ads_df = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
 # regen_df = pd.read_excel('Adsorption and regeneration data.xlsx', sheet_name=1)
@@ -251,3 +253,8 @@ def plot_ci(df, alpha):
     ax.set_ylabel("Adsorption Capacity", fontsize=12)
 
     return ax
+
+def evaluate_model(true, predicted):
+    metrics = RegressionMetrics(true, predicted)
+    for i in ['mse', 'rmse', 'r2', 'r2_score', 'mape']:
+        print(i, getattr(metrics, i)())

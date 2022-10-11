@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # %%
 
-from load_data import _make_data
+from utils import _make_data
 from ai4water.experiments import MLRegressionExperiments
 
 # %%
@@ -43,7 +43,7 @@ plt.show()
 # %%
 
 _ = comparisons.compare_errors('mse', data=ads_df_enc,
-                               cutoff_val=1e15, cutoff_type="less",
+                               cutoff_val=1e8, cutoff_type="less",
                                show=False)
 plt.tight_layout()
 plt.show()
