@@ -46,25 +46,25 @@ eda.correlation()
 
 # %%
 
-# h_paras = ads_df.columns
-#
-# fig, axes = plt.subplots(nrows=4, ncols=3,
-#                             figsize=(12, 12),
-#                         squeeze=False)
-#
-# if not isinstance(axes, np.ndarray):
-#     axes = np.array([axes])
-#
-# for ax, col, label  in zip(axes.flat, ads_df, h_paras):
-#
-#     sns.lineplot(ads_df[col], ax=ax,
-#                 palette = 'Spectral',
-#            #show=False,
-#          #title=label,
-#          )
-#     ax.legend(fontsize=10)
-# plt.legend()
-# plt.show()
+h_paras = ads_df.columns
+
+fig, axes = plt.subplots(nrows=4, ncols=3,
+                            figsize=(12, 12),
+                        squeeze=False)
+
+if not isinstance(axes, np.ndarray):
+    axes = np.array([axes])
+
+for ax, col, label  in zip(axes.flat, ads_df, h_paras):
+
+    sns.lineplot(ads_df[col], ax=ax,
+                palette = 'Spectral',
+           #show=False,
+         #title=label,
+         )
+    ax.legend(fontsize=10)
+plt.legend()
+plt.show()
 
 # %%
 
@@ -75,21 +75,21 @@ plt.show()
 
 # %%
 
-# h_paras = ads_df.columns
-#
-# fig, axes = plt.subplots(nrows=4, ncols=3,
-#                             figsize=(12, 12),
-#                         squeeze=False)
-#
-# if not isinstance(axes, np.ndarray):
-#     axes = np.array([axes])
-#
-# for ax, col, label  in zip(axes.flat, ads_df, h_paras):
-#
-#     hist(ads_df[col], ax=ax,
-#            show=False,
-#          title=label,
-#          )
-#     ax.legend(fontsize=10)
-# plt.legend()
-# plt.show()
+h_paras = ads_df.columns
+
+fig, axes = plt.subplots(nrows=4, ncols=3,
+                            figsize=(12, 12),
+                        squeeze=False)
+
+if not isinstance(axes, np.ndarray):
+    axes = np.array([axes])
+
+for ax, col, label  in zip(axes.flat, ads_df, h_paras):
+
+    hist(ads_df[col], ax=ax,
+           show=False,
+         title=label,
+         )
+    ax.legend(fontsize=10)
+plt.legend()
+plt.show()
