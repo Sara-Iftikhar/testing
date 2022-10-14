@@ -32,11 +32,12 @@ comparisons = MLRegressionExperiments(
 # %%
 
 comparisons.fit(data=ads_df_enc, run_type="dry_run",
-                include=['RandomForestRegressor', 'XGBRegressor',
-                         'CatBoostRegressor', 'AdaBoostRegressor',
+                include=['XGBRegressor',
+                          'AdaBoostRegressor', 'LinearSVR',
                          'BaggingRegressor', 'DecisionTreeRegressor',
-                         'HistGradientBoostingRegressor', 'LGBMRegressor',
-                         'ExtraTreesRegressor', 'ExtraTreeRegressor']
+                         'HistGradientBoostingRegressor',
+                         'ExtraTreesRegressor', 'ExtraTreeRegressor',
+                         'LinearRegression', 'KNeighborsRegressor']
                 )
 
 # %%
