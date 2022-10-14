@@ -13,10 +13,11 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 from ai4water.postprocessing import LossCurve, ProcessPredictions
 from ai4water.utils.utils import dateandtime_now
-from SeqMetrics import RegressionMetrics
 
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.models import Model
@@ -100,9 +101,6 @@ evaluate_model(y_train, train_p)
 # %%
 
 pp = ProcessPredictions(mode='regression', forecast_len=1,
-                   plots=['regression',
-                    'residual', 'prediction', 'errors', 'edf'
-                    ],
                    path=path)
 
 pp.edf_plot(y_train, train_p, 'train', path)
@@ -119,11 +117,22 @@ pp.errors_plot(y_train, train_p, 'train', path)
 pp.residual_plot(pd.DataFrame(y_train), pd.DataFrame(train_p), 'train', path)
 
 # %%
-pp.prediction_plot(pd.DataFrame(y_train), pd.DataFrame(train_p), 'train', path)
 
-# %%
+data_ = [pd.DataFrame(y_train, columns=['observed']), pd.DataFrame(train_p, columns=['predicted'])]
+data = pd.concat(data_, axis=1)
 
-pp.regression_plot(pd.DataFrame(y_train), pd.DataFrame(train_p), 'train', path)
+sns.set_style("white")
+gridobj = sns.lmplot(x="observed", y="predicted",
+                     data=data,
+                     height=7, aspect=1.3, robust=True,
+                     scatter_kws=dict(s=150, linewidths=1.0, edgecolors='black',
+                                      marker="3",
+                                      alpha=0.5))
+gridobj.ax.set_xticklabels(gridobj.ax.get_xticklabels(), fontsize=20)
+gridobj.ax.set_yticklabels(gridobj.ax.get_yticklabels(), fontsize=20)
+gridobj.ax.set_xlabel(gridobj.ax.get_xlabel(), fontsize=24)
+gridobj.ax.set_ylabel(gridobj.ax.get_ylabel(), fontsize=24)
+plt.show()
 
 # %%
 # Test data
@@ -152,9 +161,20 @@ pp.errors_plot(y_test, test_p, 'test', path)
 pp.residual_plot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'test', path)
 
 # %%
-pp.prediction_plot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'test', path)
 
-# %%
+data_ = [pd.DataFrame(y_test, columns=['observed']), pd.DataFrame(test_p, columns=['predicted'])]
+data = pd.concat(data_, axis=1)
 
-pp.regression_plot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'train', path)
-
+sns.set_style("white")
+gridobj = sns.lmplot(x="observed", y="predicted",
+                     data=data,
+                     height=7, aspect=1.3, robust=True,
+                     scatter_kws=dict(s=150, linewidths=1.0, edgecolors='black',
+                                      marker="3",
+                                      alpha=0.5))
+gridobj.ax.set_xticklabels(gridobj.ax.get_xticklabels(), fontsize=20)
+gridobj.ax.set_yticklabels(gridobj.ax.get_yticklabels(), fontsize=20)
+gridobj.ax.set_xlabel(gridobj.ax.get_xlabel(), fontsize=24)
+gridobj.ax.set_ylabel(gridobj.ax.get_ylabel(), fontsize=24)
+plt.tight_layout()
+plt.show()
