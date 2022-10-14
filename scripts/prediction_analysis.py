@@ -9,7 +9,7 @@ site.addsitedir(r"E:\AA\AI4Water")
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from ai4water.postprocessing._info_plots import prediction_distribution_plot, feature_interaction
+from ai4water.postprocessing import prediction_distribution_plot, feature_interaction
 
 from utils import get_dataset, get_data, get_fitted_model, evaluate_model
 
@@ -35,49 +35,49 @@ evaluate_model(y_test, test_p)
 # %%
 # Feature Interaction
 # --------------------
-_, _, _ = feature_interaction(
+_ = feature_interaction(
     model.predict ,
     X = pd.DataFrame(X_test, columns=dataset.input_features),
     features = ['Adsorption_time (min)', 'calcination (min)'],
     feature_names = ['Adsorption_time (min)', 'calcination (min)'],
-    plot_type="heatmap",
+annotate=True, num_grid_points=None,
 )
 plt.show()
 
 # %%
-_, _, _ = feature_interaction(
+_ = feature_interaction(
     model.predict ,
     X = pd.DataFrame(X_test, columns=dataset.input_features),
     features = ['Adsorption_time (min)', 'initial concentration'],
     feature_names = ['Adsorption_time (min)', 'initial concentration'],
-    plot_type="heatmap",
+    annotate=True
 )
 plt.show()
 
 # %%
-_, _, _ = feature_interaction(
+_ = feature_interaction(
     model.predict ,
     X = pd.DataFrame(X_test, columns=dataset.input_features),
     features = ['Adsorption_time (min)', 'solution pH'],
     feature_names = ['Adsorption_time (min)', 'solution pH'],
-    plot_type="heatmap",
+    annotate=True
 )
 plt.show()
 
 # %%
-_, _, _ = feature_interaction(
+_ = feature_interaction(
     model.predict ,
     X = pd.DataFrame(X_test, columns=dataset.input_features),
     features = ['Adsorption_time (min)', 'adsorbent loading '],
     feature_names = ['Adsorption_time (min)', 'adsorbent loading '],
-    plot_type="heatmap",
+    annotate=True
 )
 plt.show()
 
 # %%
 # Prediction Distribution
 # ------------------------
-_, _, _ = out = prediction_distribution_plot(mode='regression',
+_ = out = prediction_distribution_plot(mode='regression',
                              inputs=pd.DataFrame(X_test, columns=dataset.input_features),
                              prediction=test_p,
                              feature='Adsorption_time (min)',

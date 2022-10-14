@@ -20,6 +20,8 @@ from utils import get_dataset, get_fitted_model, evaluate_model
 
 # %%
 
+CAT_FEATURES = ['Adsorbent', 'Dye']
+
 print(shap.__version__)
 
 # %%
@@ -125,34 +127,55 @@ plt.show()
 inds = shap.utils.potential_interactions(shap_values_exp[:, "Surface area"], shap_values_exp)
 
 # make plots colored by each of the top three possible interacting features
-for i in range(3):
-    scatter(shap_values_exp[:, "Surface area"], show=False,
-            color=shap_values_exp[:,inds[i]],
-            )
-    plt.tight_layout()
-    plt.show()
+n, n_plots = 0, 0
+while n<=len(feature_names):
+    if shap_values_exp.feature_names[inds[n]] not in CAT_FEATURES:
+        scatter(shap_values_exp[:, "Surface area"], show=False,
+                color=shap_values_exp[:,inds[n]],
+                )
+        plt.tight_layout()
+        plt.show()
+        n_plots += 1
+
+    if n_plots >= 3:
+        break
+    n += 1
 
 # %%
 
 inds = shap.utils.potential_interactions(shap_values_exp[:, "calcination_temperature"], shap_values_exp)
 
-for i in range(3):
-    scatter(shap_values_exp[:, "calcination_temperature"], show=False,
-            color=shap_values_exp[:,inds[i]],
-            )
-    plt.tight_layout()
-    plt.show()
+n, n_plots = 0, 0
+while n<=len(feature_names):
+    if shap_values_exp.feature_names[inds[n]] not in CAT_FEATURES:
+        scatter(shap_values_exp[:, "calcination_temperature"], show=False,
+                color=shap_values_exp[:,inds[n]],
+                )
+        plt.tight_layout()
+        plt.show()
+        n_plots += 1
+
+    if n_plots >=3:
+        break
+    n += 1
 
 # %%
 
 inds = shap.utils.potential_interactions(shap_values_exp[:, "initial concentration"], shap_values_exp)
 
-for i in range(3):
-    scatter(shap_values_exp[:, "initial concentration"], show=False,
-            color=shap_values_exp[:,inds[i]],
-            )
-    plt.tight_layout()
-    plt.show()
+n, n_plots = 0, 0
+while n<=len(feature_names):
+    if shap_values_exp.feature_names[inds[n]] not in CAT_FEATURES:
+        scatter(shap_values_exp[:, "initial concentration"], show=False,
+                color=shap_values_exp[:,inds[n]],
+                )
+        plt.tight_layout()
+        plt.show()
+        n_plots += 1
+
+    if n_plots >= 3:
+        break
+    n += 1
 
 # %%
 
@@ -254,95 +277,16 @@ print(shap_values.shape)
 
 # %%
 
-imshow(shap_values, aspect="auto", colorbar=True,
-       xticklabels=feature_names, show=False)
-plt.tight_layout()
-plt.show()
-
-# %%
-
 shap_values_exp = Explanation(
     shap_values,
     data=x_test_original,
     feature_names=feature_names
 )
 
-heatmap(shap_values_exp, show=False)
-plt.tight_layout()
-plt.show()
-
-# %%
-
-heatmap(shap_values_exp, feature_values=shap_values_exp.abs.max(0), show=False)
-plt.tight_layout()
-plt.show()
-
-# %%
-
-heatmap(shap_values_exp, instance_order=shap_values_exp.sum(1), show=False)
-plt.tight_layout()
-plt.show()
-
 # %%
 
 beeswarm(shap_values_exp, show=False)
 plt.tight_layout()
-plt.show()
-
-# %%
-
-violin(shap_values, feature_names=feature_names, show=False)
-plt.tight_layout()
-plt.show()
-
-# %%
-
-index = test_p.argmax()
-e = Explanation(
-    shap_values[index],
-    base_values=exp.expected_value[0],
-    data=x_test_original[index],
-    feature_names=feature_names
-)
-
-waterfall(e, show=False)
-plt.tight_layout()
-plt.show()
-
-# %%
-
-index = test_p.argmin()
-e = Explanation(
-    shap_values[index],
-    base_values=exp.expected_value[0],
-    data=x_test_original[index],
-    feature_names=feature_names
-)
-
-waterfall(e, show=False)
-plt.tight_layout()
-plt.show()
-
-# %%
-
-tsne = TSNE(n_components=2)
-sv_2D = tsne.fit_transform(shap_values)
-
-s = plt.scatter(sv_2D[:, 0], sv_2D[:, 1], c=y_test.reshape(-1,), cmap="Spectral",
-            s=5)
-plt.gca().set_aspect('equal', 'datalim')
-plt.colorbar(s)
-plt.title('TSNE projection of shap values', fontsize=18)
-plt.show()
-
-# %%
-
-sv_umap = UMAP(n_components=2).fit_transform(shap_values)
-s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=y_test.reshape(-1,),
-            s=5, cmap="Spectral")
-plt.gca().set_aspect('equal', 'datalim')
-plt.colorbar(s)
-plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
 # %%
