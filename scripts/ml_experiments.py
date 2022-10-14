@@ -5,7 +5,6 @@ ML Experiments
 """
 import site
 site.addsitedir(r"E:\AA\AI4Water")
-site.addsitedir(r"E:\AA\PDPbox1")
 
 import matplotlib.pyplot as plt
 

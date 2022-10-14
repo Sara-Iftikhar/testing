@@ -6,7 +6,6 @@ EDA
 
 import site
 site.addsitedir(r"E:\AA\AI4Water")
-site.addsitedir(r"E:\AA\PDPbox1")
 
 import numpy as np
 import matplotlib.pyplot as plt
