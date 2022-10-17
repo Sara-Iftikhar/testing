@@ -158,3 +158,36 @@ edf_plot(np.abs(y_test-test_p), xlabel='Absolute error',
          label='Test', ax=ax, show=False)
 plt.tight_layout()
 plt.show()
+
+# %%
+
+ax = regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
+        marker_size=60,
+        ci=False,
+        marker_color='indigo',
+        line_style='--',
+        line_color='indigo',
+        line_kws=dict(linewidth=3.0),
+        scatter_kws=dict(linewidths=0, edgecolors='snow',
+                         marker="8",
+                         alpha=0.5,
+                         label='Training'
+                         ),
+             show=False
+        )
+
+regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
+        marker_size=60,
+        ci=False,
+        marker_color='crimson',
+        line_kws=dict(linewidth=0),
+        scatter_kws=dict(linewidths=0, edgecolors='crimson',
+                         marker="s",
+                         alpha=0.5,
+                         label='Test'
+                         ),
+        show=False,
+        ax=ax
+        )
+ax.legend(fontsize=16, markerscale=1.5)
+plt.show()
