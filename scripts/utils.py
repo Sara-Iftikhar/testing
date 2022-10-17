@@ -94,6 +94,7 @@ def get_fitted_model(return_path=False):
         input_features=ds.input_features,
         output_features=ds.output_features,
         epochs=400, batch_size=24,
+        verbosity=0
     )
 
     model.fit(X_train, y_train)
