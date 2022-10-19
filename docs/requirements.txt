@@ -1,5 +1,5 @@
 git+https://github.com/AtrCheema/AI4Water.git@dev
-numpy
+numpy==1.19.5
 matplotlib==3.4.3
 tensorflow==2.6.0
 h5py
