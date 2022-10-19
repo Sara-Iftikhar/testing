@@ -11,7 +11,6 @@ site.addsitedir(r"E:\AA\easy_mpl")
 import os
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
