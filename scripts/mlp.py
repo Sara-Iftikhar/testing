@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "Times New Roman"
 
 from ai4water import Model
 from ai4water.models import MLP
@@ -20,7 +21,7 @@ from ai4water.utils.utils import get_version_info
 from ai4water.postprocessing import LossCurve, ProcessPredictions
 from ai4water.utils.utils import dateandtime_now
 from ai4water.utils import edf_plot
-from easy_mpl import plot, regplot
+from easy_mpl import plot, regplot, ridge
 from SeqMetrics import RegressionMetrics
 
 from utils import get_data, evaluate_model, get_dataset
@@ -190,4 +191,60 @@ regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         ax=ax
         )
 ax.legend(fontsize=16, markerscale=1.5)
+plt.show()
+
+
+# %%
+
+fig, axes = plt.subplots(figsize=(9,7))
+ax = ridge([train_p.reshape(-1,), test_p.reshape(-1,)],
+           color=['snow', 'snow'],
+           line_color=['indigo', 'crimson'],
+           line_width=3.0,
+           share_axes=True,
+           fill_kws={'alpha':0.05},
+           show=False,
+           ax=axes,
+           cut=0.15
+           )
+ax[0].set_ylabel('Prediction distribution', fontsize=20)
+ax[0].tick_params(axis='y', labelsize=15)
+ax[0].set_xlabel('Observed', fontsize=20)
+ax[0].tick_params(axis='x', labelsize=15)
+ax[0].set_ylim(-0, 0.003)
+ax2 = ax[0].twinx()
+
+ax2 = regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
+        marker_size=60,
+        ci=False,
+        marker_color='indigo',
+        line_style='-.',
+        line_color='black',
+        line_kws=dict(linewidth=3.0),
+        scatter_kws=dict(linewidths=0, edgecolors='snow',
+                         marker="8",
+                         alpha=0.5,
+                         label='Training'
+                         ),
+        show=False,
+        ax=ax2,
+        )
+
+ax2 = regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
+        marker_size=60,
+        ci=False,
+        marker_color='crimson',
+        line_kws=dict(linewidth=0),
+        scatter_kws=dict(linewidths=0, edgecolors='crimson',
+                         marker="s",
+                         alpha=0.5,
+                         label='Test'
+                         ),
+        show=False,
+        ax=ax2
+        )
+ax2.legend(fontsize=20, markerscale=1.5, loc=9)
+ax2.set_ylabel('Predicted', fontsize=20)
+ax2.tick_params(axis='y', labelsize=15)
+plt.tight_layout()
 plt.show()
