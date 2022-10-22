@@ -1,10 +1,11 @@
 git+https://github.com/AtrCheema/AI4Water.git@dev
-numpy==1.19.5
+numpy
 matplotlib==3.4.3
 tensorflow==2.6.0
 keras==2.6.0
 h5py
 sklearn
+seaborn
 
 sphinx
 sphinx-prompt
