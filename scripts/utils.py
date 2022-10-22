@@ -9,26 +9,26 @@ from sklearn.model_selection import KFold
 
 from ai4water import Model
 from ai4water.models import MLP
+from ai4water.postprocessing import prediction_distribution_plot
 
 from ai4water.preprocessing import DataSet
 from ai4water.utils.utils import dateandtime_now
 
 from SeqMetrics import RegressionMetrics
+from easy_mpl import violin_plot
 
-#read excel
+# read excel
 ads_df = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
-# regen_df = pd.read_excel('Adsorption and regeneration data.xlsx', sheet_name=1)
 
-#dropping unnecessary columns
+# dropping unnecessary columns
 ads_df = ads_df.drop(columns=['final concentation', 'Volume (mL)',
                               'Unnamed: 16','Unnamed: 17',
                               'Unnamed: 18', 'Unnamed: 19',
                               'Unnamed: 20', 'Unnamed: 21',
                               'Unnamed: 22', 'Unnamed: 23'
                               ])
-# regen_df = regen_df.drop(columns=['Desorption'])
 
-#function for OHE
+# function for OHE
 def _ohe_encoder(df:pd.DataFrame, col_name:str)->tuple:
     assert isinstance(col_name, str)
 
@@ -39,6 +39,7 @@ def _ohe_encoder(df:pd.DataFrame, col_name:str)->tuple:
     df[cols_added] = ohe_cat
 
     return df, cols_added, encoder
+
 
 def _make_data():
     #applying OHE
@@ -51,6 +52,7 @@ def _make_data():
     df1 = ads_df_enc.pop('qe')
     ads_df_enc['qe'] = df1
     return ads_df_enc, adsorbent_enc, dye_encoder
+
 
 def get_dataset():
     ads_df_enc, adsorbent_encoder, dye_encoder = _make_data()
@@ -80,6 +82,7 @@ def make_path():
     os.makedirs(path)
     return path
 
+
 def get_fitted_model(return_path=False):
 
     X_train, y_train, X_test, y_test = get_data()
@@ -102,6 +105,7 @@ def get_fitted_model(return_path=False):
     if return_path:
         return model, path
     return model
+
 
 def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,
                     n_splits=5):
@@ -164,6 +168,7 @@ def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,
 
     return df
 
+
 def plot_ci(df, alpha):
     # plots the confidence interval
 
@@ -179,7 +184,48 @@ def plot_ci(df, alpha):
 
     return ax
 
+
 def evaluate_model(true, predicted):
     metrics = RegressionMetrics(true, predicted)
     for i in ['mse', 'rmse', 'r2', 'r2_score', 'mape']:
         print(i, getattr(metrics, i)())
+    return
+
+
+def plot_violin_(feature_name, test_p, cut, grid=None):
+
+    _, _, X_test, _ = get_data()
+    dataset, _, _ = get_dataset()
+
+    ax, df = prediction_distribution_plot(
+        mode='regression',
+        inputs=pd.DataFrame(X_test, columns=dataset.input_features),
+        prediction=test_p,
+        feature=feature_name,
+        feature_name=feature_name,
+        show=False,
+        cust_grid_points=grid
+    )
+
+    preds = {}
+    for interval in df['display_column']:
+        st, en = interval.split(',')
+        st = float(''.join(e for e in st if e not in ["]", ")", "[", "("]))
+        en = float(''.join(e for e in en if e not in ["]", ")", "[", "("]))
+        df1 = pd.DataFrame(X_test, columns=dataset.input_features)
+        df1['target'] = test_p
+        df1 = df1[[feature_name, 'target']]
+        df1 = df1[(df1[feature_name] >= st) & (df1[feature_name] < en)]
+        preds[interval] = df1['target'].values
+
+    for k, v in preds.items():
+        assert len(v) > 0, f"{k} has no values in it"
+
+    plt.close('all')
+    ax = violin_plot(list(preds.values()), cut=cut, show=False)
+    ax.set_xticks(range(len(preds)))
+    ax.set_xticklabels(list(preds.keys()))
+    ax.set_title(feature_name)
+    ax.set_facecolor("#fbf9f4")
+    plt.show()
+    return
