@@ -1,6 +1,6 @@
 git+https://github.com/AtrCheema/AI4Water.git@dev
 git+https://github.com/Sara-Iftikhar/easy_mpl.git@dev
-numpy
+numpy==1.19.5
 matplotlib==3.4.3
 tensorflow==2.6.0
 keras==2.6.0
