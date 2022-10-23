@@ -257,7 +257,58 @@ sv_umap = UMAP(n_components=2).fit_transform(shap_values)
 s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=y_test.reshape(-1,),
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
-plt.colorbar(s)
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Predicted Adsorption Capacity', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,0],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Adsorption_time (min)', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,1],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('calcination_temperature', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,2],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('calcination (min)', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,3],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('initial concentration', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,4],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('solution pH', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
