@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import KFold
 
+from ai4water.functional import Model as f_model
 from ai4water import Model
 from ai4water.models import MLP
 from ai4water.postprocessing import prediction_distribution_plot
@@ -83,22 +84,33 @@ def make_path():
     return path
 
 
-def get_fitted_model(return_path=False):
+def get_fitted_model(return_path=False,
+                     model_type=None):
 
     X_train, y_train, X_test, y_test = get_data()
     ds, _, _ = get_dataset()
 
     path = make_path()
-
-    model = Model(
-        model=MLP(units=37, num_layers=4,
-                  activation='relu'),
-        lr=0.004561316449575947,
-        input_features=ds.input_features,
-        output_features=ds.output_features,
-        epochs=400, batch_size=24,
-        verbosity=0
-    )
+    if model_type=='functional':
+        model = f_model(
+            model=MLP(units=37, num_layers=4,
+                      activation='relu'),
+            lr=0.004561316449575947,
+            input_features=ds.input_features,
+            output_features=ds.output_features,
+            epochs=400, batch_size=24,
+            verbosity=0
+        )
+    else:
+        model = Model(
+            model=MLP(units=37, num_layers=4,
+                      activation='relu'),
+            lr=0.004561316449575947,
+            input_features=ds.input_features,
+            output_features=ds.output_features,
+            epochs=400, batch_size=24,
+            verbosity=0
+        )
 
     model.fit(X_train, y_train)
 

@@ -5,6 +5,10 @@ shap
 """
 import site
 site.addsitedir(r"E:\AA\AI4Water")
+site.addsitedir(r"E:\AA\easy_mpl")
+
+import tensorflow as tf
+tf.compat.v1.disable_v2_behavior()
 
 import shap
 import numpy as np
@@ -40,7 +44,7 @@ X_test, y_test = dataset.test_data()
 feature_names = dataset.input_features[0:11] + ['Adsorbent'] + ['Dye']
 # %%
 
-model = get_fitted_model()
+model = get_fitted_model(model_type='functional')
 
 # %%
 
@@ -78,7 +82,7 @@ x_test_original = np.column_stack((X_test[:, 0:11], adsorbent_original, dye_orig
 # %%
 # Deep Explainer
 # ---------------
-exp = DeepExplainer(model, data=X_train)
+exp = DeepExplainer(model._model, data=X_train)
 
 sv = exp.shap_values(X_test)[0]
 
@@ -293,7 +297,7 @@ plt.show()
 # Gradient Explainer
 # ------------------
 
-exp = GradientExplainer(model, data=[X_train])
+exp = GradientExplainer(model._model, data=[X_train])
 
 sv = exp.shap_values(X_test)[0]
 
