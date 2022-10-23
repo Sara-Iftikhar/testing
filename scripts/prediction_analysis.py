@@ -135,7 +135,7 @@ plot_violin_('Volume (L)', test_p, 0.4)
 plot_violin_('adsorption_temperature ', test_p, 0.4)
 
 # %%
-plot_violin_('Particle size', test_p, 0.4)
+plot_violin_('Particle size', test_p, [0.4, 1.2, 0.4, 0.4, 0.4, 0.4])
 
 # %%
 plot_violin_('Surface area', test_p, 0.4)
