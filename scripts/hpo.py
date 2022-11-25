@@ -1,7 +1,7 @@
 """
-====================
-hpo
-====================
+===========================
+Hyperparameter Optimization
+===========================
 """
 
 import site
@@ -23,9 +23,54 @@ from ai4water.hyperopt import Categorical, Real, Integer, HyperOpt
 
 from SeqMetrics import RegressionMetrics
 
-from utils import _make_data
+from utils import _make_data, get_data, evaluate_model, get_dataset
+
+# %%
 
 ads_df_enc, _, _ = _make_data()
+
+# %%
+
+X_train, y_train, X_test, y_test = get_data()
+ds ,  _, _ = get_dataset()
+
+# %%
+# Performance with default hyperparameters
+# ----------------------------------------
+
+model = Model(
+                model=MLP(),
+                input_features=ds.input_features,
+                output_features=ds.output_features
+             )
+
+# %%
+
+model.fit(X_train,y_train, validation_data=(X_test, y_test))
+
+# %%
+# Training data
+# --------------
+
+train_p = model.predict(x=X_train,)
+
+# %%
+
+evaluate_model(y_train, train_p)
+
+# %%
+# Test data
+# ----------
+
+test_p = model.predict(x=X_test,)
+
+# %%
+
+evaluate_model(y_test, test_p)
+
+# %%
+# Hyperparameter Optimization
+# ---------------------------
 
 PREFIX = f"hpo_mlp_{dateandtime_now()}"
 ITER = 0
@@ -34,6 +79,8 @@ num_iterations = 70
 MONITOR = {"mse": [], "r2_score": [], "r2": []}
 
 seed = 1575
+
+# %%
 
 def objective_fn(
         prefix: str = None,
@@ -97,15 +144,21 @@ def objective_fn(
 
     return val_score
 
+# %%
+
 param_space = [
     Integer(30, 100, name="units"),
     Integer(1, 4, name="num_layers"),
     Categorical(["relu", "elu", "tanh", "sigmoid"], name="activation"),
     Real(0.00001, 0.01, name="lr"),
     Categorical([4, 8, 12, 16, 24, 32, 48, 64], name="batch_size")
-]
+                ]
+
+# %%
 
 x0 = [30, 1, "relu", 0.001, 8]
+
+# %%
 
 optimizer = HyperOpt(
     algorithm="bayes",
@@ -117,17 +170,29 @@ optimizer = HyperOpt(
     opt_path=f"results{SEP}{PREFIX}"
 )
 
+# %%
+
 results = optimizer.fit()
+
+# %%
 
 best_iteration = optimizer.best_iter()
 
+# %%
+
 print(f"optimized parameters are \n{optimizer.best_paras()} at {best_iteration}")
 
-# for key in ['mse']:
-#     print(key, np.nanmin(MONITOR[key]), np.nanargmin(MONITOR[key]))
-#
+# %%
+
+for key in ['mse']:
+    print(key, np.nanmin(MONITOR[key]), np.nanargmin(MONITOR[key]))
+
+# %%
+
 for key in ['r2', 'r2_score']:
     print(key, np.nanmax(MONITOR[key]), np.nanargmax(MONITOR[key]))
+
+# %%
 
 model = objective_fn(prefix=f"{PREFIX}{SEP}best",
                      seed=seed,
@@ -137,6 +202,8 @@ model = objective_fn(prefix=f"{PREFIX}{SEP}best",
                      predict=True,
                      **optimizer.best_paras())
 
-model.evaluate_on_test_data(data=ads_df_enc, metrics='nse')
+# %%
+
+model.evaluate_on_test_data(data=ads_df_enc, metrics='r2')
 
 
