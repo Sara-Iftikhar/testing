@@ -204,6 +204,6 @@ model = objective_fn(prefix=f"{PREFIX}{SEP}best",
 
 # %%
 
-model.evaluate_on_test_data(data=ads_df_enc, metrics='r2')
+model.evaluate_on_test_data(data=ads_df_enc, metrics=['r2', 'nse'])
 
 
