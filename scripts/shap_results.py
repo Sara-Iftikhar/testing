@@ -64,20 +64,20 @@ print(f"Average value on prediction on training data {train_p.mean()}")
 evaluate_model(y_train, train_p)
 
 # %%
-adsorbent_ohe = X_test[:, 11:54]
+adsorbent_ohe = X_test[:, 10:58]
 adsorbent_original = adsorbent_enc.inverse_transform(adsorbent_ohe)
 print(adsorbent_ohe.shape, adsorbent_original.shape)
 
 # %%
 
-dye_ohe = X_test[:, 54:]
+dye_ohe = X_test[:, 58:]
 dye_original = dye_enc.inverse_transform(dye_ohe)
 
 print(dye_ohe.shape, dye_original.shape)
 
 # %%
 
-x_test_original = np.column_stack((X_test[:, 0:11], adsorbent_original, dye_original))
+x_test_original = np.column_stack((X_test[:, 0:10], adsorbent_original, dye_original))
 
 # %%
 # Deep Explainer
@@ -86,11 +86,11 @@ exp = DeepExplainer(model._model, data=X_train)
 
 sv = exp.shap_values(X_test)[0]
 
-dye_sv = sv[:, 54:].sum(axis=1)
+dye_sv = sv[:, 58:].sum(axis=1)
 
-adsorbent_sv = sv[:, 11:54].sum(axis=1)
+adsorbent_sv = sv[:, 10:58].sum(axis=1)
 
-shap_values = np.column_stack((sv[:, 0:11], dye_sv, adsorbent_sv))
+shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
 
 print(shap_values.shape)
 
@@ -113,7 +113,7 @@ shap_values_exp = Explanation(
 
 # %%
 
-for i in range(0,11):
+for i in range(0,10):
     scatter(shap_values_exp[:, i], show=False)
     plt.tight_layout()
     plt.show()
@@ -322,11 +322,11 @@ exp = KernelExplainer(model.predict, X_train_summary)
 
 sv = exp.shap_values(X_test)[0]
 
-dye_sv = sv[:, 54:].sum(axis=1)
+dye_sv = sv[:, 58:].sum(axis=1)
 
-adsorbent_sv = sv[:, 11:54].sum(axis=1)
+adsorbent_sv = sv[:, 10:58].sum(axis=1)
 
-shap_values = np.column_stack((sv[:, 0:11], dye_sv, adsorbent_sv))
+shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
 
 print(shap_values.shape)
 
@@ -352,11 +352,11 @@ exp = GradientExplainer(model._model, data=[X_train])
 
 sv = exp.shap_values(X_test)[0]
 
-dye_sv = sv[:, 54:].sum(axis=1)
+dye_sv = sv[:, 58:].sum(axis=1)
 
-adsorbent_sv = sv[:, 11:54].sum(axis=1)
+adsorbent_sv = sv[:, 10:58].sum(axis=1)
 
-shap_values = np.column_stack((sv[:, 0:11], dye_sv, adsorbent_sv))
+shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
 
 print(shap_values.shape)
 
