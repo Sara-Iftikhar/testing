@@ -1,12 +1,12 @@
 git+https://github.com/AtrCheema/AI4Water.git@dev
-easy_mpl
+easy_mpl==0.21.0
 numpy==1.19.5
 matplotlib==3.4.3
 tensorflow==2.6.0
 keras==2.6.0
-h5py
-sklearn
-scikit-optimize
+h5py==3.1.0
+sklearn==1.0.2
+scikit-optimize==0.9.0
 seaborn
 
 sphinx
