@@ -48,9 +48,8 @@ _ = model.prediction_analysis(
     annotate_kws={'annotate_fontsize':15,
                   'annotate_colors': np.array([['black', 'black', 'black', 'black'],
                                               ['black', 'black', 'black', 'black'],
-                                              ['black', 'black', 'black', 'black'],
-                                              ['black', 'black', 'black', 'black'],
-                                              ['white', 'black', 'black', 'black']])}
+                                              ['black', 'white', 'black', 'black'],
+                                              ['black', 'black', 'black', 'black']])}
     )
 
 
@@ -62,11 +61,10 @@ _ = model.prediction_analysis(
     grid_types=["percentile", "percentile"],
     num_grid_points=[6, 6],
     annotate_kws={'annotate_fontsize': 15,
-                  'annotate_colors': np.array([['black', 'black', 'black', 'black'],
-                                               ['black', 'black', 'black', 'black'],
-                                               ['black', 'black', 'black', 'black'],
-                                               ['black', 'black', 'black', 'black'],
-                                               ['white', 'black', 'black', 'black']])}
+                  'annotate_colors': np.array([['black', 'black', 'black', 'black', 'black'],
+                                               ['black', 'black', 'black', 'black', 'black'],
+                                               ['black', 'black', 'black', 'black', 'black'],
+                                               ['white', 'black', 'black', 'black', 'black']])}
 )
 
 # %%
@@ -77,26 +75,24 @@ _ = model.prediction_analysis(
     grid_types=["percentile", "percentile"],
     num_grid_points=[6, 6],
     annotate_kws={'annotate_fontsize': 15,
-                  'annotate_colors': np.array([['black', 'black', 'black', 'black'],
-                                               ['black', 'black', 'black', 'black'],
-                                               ['black', 'black', 'black', 'black'],
-                                               ['black', 'black', 'black', 'black'],
-                                               ['white', 'black', 'black', 'black']])}
+                  'annotate_colors': np.array([['black', 'white', 'black', 'black'],
+                                               ['black', 'white', 'black', 'black'],
+                                               ['black', 'white', 'black', 'black'],
+                                               ['black', 'black', 'black', 'black']])}
 )
 
 
 # %%
 _ = model.prediction_analysis(
     x = pd.DataFrame(X_test, columns=dataset.input_features),
-    features = ['Adsorption_time (min)', 'adsorbent loading '],
-    feature_names = ['Adsorption_time (min)', 'adsorbent loading '],
+    features = ['Adsorption_time (min)', 'adsorbent loading'],
+    feature_names = ['Adsorption_time (min)', 'adsorbent loading'],
     grid_types=["percentile", "percentile"],
     num_grid_points=[6, 6],
     annotate_kws={'annotate_fontsize': 15,
                   'annotate_colors': np.array([['black', 'black', 'black', 'black', 'black'],
                                                ['black', 'black', 'black', 'black', 'black'],
-                                               ['black', 'black', 'black', 'black', 'white'],
-                                               ['black', 'black', 'black', 'black', 'white'],
+                                               ['black', 'white', 'black', 'black', 'black'],
                                                ['black', 'black', 'black', 'black', 'black']])
                                  }
 )
@@ -126,16 +122,13 @@ plot_violin_('initial concentration', test_p, 0.4)
 plot_violin_('solution pH', test_p, 0.4)
 
 # %%
-plot_violin_('adsorbent loading ', test_p, 0.4)
+plot_violin_('adsorbent loading', test_p, 0.4)
 
 # %%
 plot_violin_('Volume (L)', test_p, 0.4)
 
 # %%
-plot_violin_('adsorption_temperature ', test_p, 0.4)
-
-# %%
-plot_violin_('Particle size', test_p, [0.4, 1.2, 0.4, 0.4, 0.4, 0.4])
+plot_violin_('adsorption_temperature', test_p, 0.4)
 
 # %%
 plot_violin_('Surface area', test_p, 0.4)

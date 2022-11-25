@@ -6,6 +6,7 @@ EDA
 
 import site
 site.addsitedir(r"E:\AA\AI4Water")
+site.addsitedir(r"E:\AA\easy_mpl")
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,9 +15,9 @@ import seaborn as sns
 from ai4water.eda import EDA
 from easy_mpl import hist
 
-from utils import ads_df
+from utils import data_before_encoding
 
-ads_df = ads_df.copy(deep=True)
+ads_df = data_before_encoding()
 
 # %%
 print(ads_df.shape)

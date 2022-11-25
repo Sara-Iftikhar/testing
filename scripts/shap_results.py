@@ -41,7 +41,7 @@ X_test, y_test = dataset.test_data()
 
 # %%
 
-feature_names = dataset.input_features[0:11] + ['Adsorbent'] + ['Dye']
+feature_names = dataset.input_features[0:10] + ['Adsorbent'] + ['Dye']
 # %%
 
 model = get_fitted_model(model_type='functional')

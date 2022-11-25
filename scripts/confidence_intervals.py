@@ -8,7 +8,8 @@ site.addsitedir(r"E:\AA\AI4Water")
 
 import os
 import matplotlib.pyplot as plt
-from utils import get_dataset, get_fitted_model, confidenc_interval, plot_ci, evaluate_model
+from utils import get_dataset, get_fitted_model, \
+    confidenc_interval, plot_ci, evaluate_model
 
 # %%
 
@@ -23,7 +24,7 @@ X_test, y_test = dataset.test_data()
 
 # %%
 
-feature_names = dataset.input_features[0:11] + ['Adsorbent'] + ['Dye']
+feature_names = dataset.input_features[0:10] + ['Adsorbent'] + ['Dye']
 # %%
 
 model, path = get_fitted_model(return_path=True)

@@ -1,5 +1,8 @@
-
+import site
+site.addsitedir(r"E:\AA\AI4Water")
+site.addsitedir(r"E:\AA\easy_mpl")
 import os
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -18,16 +21,6 @@ from ai4water.utils.utils import dateandtime_now
 from SeqMetrics import RegressionMetrics
 from easy_mpl import violin_plot
 
-# read excel
-ads_df = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
-
-# dropping unnecessary columns
-ads_df = ads_df.drop(columns=['final concentation', 'Volume (mL)',
-                              'Unnamed: 16','Unnamed: 17',
-                              'Unnamed: 18', 'Unnamed: 19',
-                              'Unnamed: 20', 'Unnamed: 21',
-                              'Unnamed: 22', 'Unnamed: 23'
-                              ])
 
 # function for OHE
 def _ohe_encoder(df:pd.DataFrame, col_name:str)->tuple:
@@ -41,29 +34,66 @@ def _ohe_encoder(df:pd.DataFrame, col_name:str)->tuple:
 
     return df, cols_added, encoder
 
+def data_before_encoding():
+
+    # read excel
+    ads_df = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
+    dye_df = pd.read_excel('Dyes data.xlsx', sheet_name=0)
+
+    # dropping unnecessary columns
+    ads_df = ads_df.drop(columns=['final concentation', 'Volume (mL)',
+                                  'Unnamed: 16', 'Unnamed: 17',
+                                  'Unnamed: 18', 'Unnamed: 19',
+                                  'Unnamed: 20', 'Unnamed: 21',
+                                  'Unnamed: 22', 'Unnamed: 23',
+                                  'Particle size'
+                                  ])
+
+    dye_df = dye_df.drop(columns=['C', 'H', 'O', 'N', 'Ash', 'H/C', 'O/C',
+                                  'N/C', 'Average pore size',
+                                  'rpm', 'g/L', 'Ion Concentration (M)',
+                                  'Humic acid', 'wastewater type',
+                                  'Adsorption type', 'Cf', 'Ref'
+                                  ])
+
+    # merging data
+    data = [ads_df, dye_df]
+
+    whole_data = pd.concat(data)
+    whole_data = whole_data.dropna()
+
+    whole_data = whole_data.reset_index()
+    whole_data.pop('index')
+
+    return whole_data
+
 
 def _make_data():
+
+    whole_data = data_before_encoding()
+
     #applying OHE
-    ads_df_enc_, _, adsorbent_enc = _ohe_encoder(ads_df, 'Adsorbent')
-    ads_df_enc__ = ads_df_enc_.drop(columns='Adsorbent')
+    whole_data_enc_, _, adsorbent_enc = _ohe_encoder(whole_data, 'Adsorbent')
+    whole_data_enc__ = whole_data_enc_.drop(columns='Adsorbent')
 
-    ads_df_enc, _, dye_encoder = _ohe_encoder(ads_df_enc__, 'Dye')
-    ads_df_enc = ads_df_enc.drop(columns='Dye')
+    whole_data_enc, _, dye_encoder = _ohe_encoder(whole_data_enc__, 'Dye')
+    whole_data_enc = whole_data_enc.drop(columns='Dye')
 
-    df1 = ads_df_enc.pop('qe')
-    ads_df_enc['qe'] = df1
-    return ads_df_enc, adsorbent_enc, dye_encoder
+    df1 = whole_data_enc.pop('qe')
+    whole_data_enc['qe'] = df1
+
+    return whole_data_enc, adsorbent_enc, dye_encoder
 
 
 def get_dataset():
-    ads_df_enc, adsorbent_encoder, dye_encoder = _make_data()
+    whole_data_enc, adsorbent_encoder, dye_encoder = _make_data()
 
-    dataset = DataSet(data=ads_df_enc,
-                      seed=1509,
+    dataset = DataSet(data=whole_data_enc,
+                      seed=1575,
                       val_fraction=0.0,
                       split_random=True,
-                      input_features=ads_df_enc.columns.tolist()[0:-1],
-                      output_features=ads_df_enc.columns.tolist()[-1:],
+                      input_features=whole_data_enc.columns.tolist()[0:-1],
+                      output_features=whole_data_enc.columns.tolist()[-1:],
                       )
     return dataset, adsorbent_encoder, dye_encoder
 
@@ -93,22 +123,22 @@ def get_fitted_model(return_path=False,
     path = make_path()
     if model_type=='functional':
         model = f_model(
-            model=MLP(units=37, num_layers=4,
+            model=MLP(units=99, num_layers=4,
                       activation='relu'),
-            lr=0.004561316449575947,
+            lr=0.006440897421063212,
             input_features=ds.input_features,
             output_features=ds.output_features,
-            epochs=400, batch_size=24,
+            epochs=400, batch_size=48,
             verbosity=0
         )
     else:
         model = Model(
             model=MLP(units=37, num_layers=4,
                       activation='relu'),
-            lr=0.004561316449575947,
+            lr=0.006440897421063212,
             input_features=ds.input_features,
             output_features=ds.output_features,
-            epochs=400, batch_size=24,
+            epochs=400, batch_size=48,
             verbosity=0
         )
 
@@ -135,7 +165,7 @@ def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,
         return _df
 
     path = make_path()
-    model.fit(X_train, y_train, batch_size=24, verbose=0,
+    model.fit(X_train, y_train, batch_size=48, verbose=0,
               validation_data=(X_test, y_test),
               epochs=400)
 
@@ -153,7 +183,7 @@ def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,
 
         path = make_path()
         model.fit(X_train_, y_train_, validation_data=(X_test_, y_test_),
-                   verbose=0, batch_size=24, epochs=400)
+                   verbose=0, batch_size=48, epochs=400)
 
         estimators.append(model)
         _pred = model.predict(X_test_)
@@ -204,7 +234,10 @@ def evaluate_model(true, predicted):
     return
 
 
-def plot_violin_(feature_name, test_p, cut, grid=None):
+def plot_violin_(feature_name, test_p, cut,
+                 grid=None,
+                 show_bar=False,
+                 show_violin=True):
 
     _, _, X_test, _ = get_data()
     dataset, _, _ = get_dataset()
@@ -218,6 +251,25 @@ def plot_violin_(feature_name, test_p, cut, grid=None):
         show=False,
         cust_grid_points=grid
     )
+
+    if show_bar:
+        plt.show()
+
+    if feature_name == 'calcination_temperature':
+        df.drop(3, inplace=True)
+        df['display_column'] = ['[25,550)', '[550,600)', '[600,700)', '[700,800)', '[800,900)']
+
+    elif feature_name == 'initial concentration':
+        df.drop(0, inplace=True)
+        df['display_column'] = ['[1.01,10)', '[10,50)', '[50,100)', '[100,200)', '[200,300)', '[300,400)', '[400,900)']
+
+    elif feature_name == 'Volume (L)':
+        df.drop(1, inplace=True)
+        df['display_column'] = ['[0.02,0.04)', '[0.04,0.05)', '[0.05,0.1)', '[0.1,0.25)', '[0.25,1)']
+
+    elif feature_name == 'adsorbent loading':
+        df.drop(2, inplace=True)
+        df['display_column'] = ['[0.0,0.01)', '[0.01,0.04)', '[0.04,0.1)', '[0.1,0.5)', '[0.5,2.47)', '[2.47,10)']
 
     preds = {}
     for interval in df['display_column']:
@@ -239,5 +291,7 @@ def plot_violin_(feature_name, test_p, cut, grid=None):
     ax.set_xticklabels(list(preds.keys()))
     ax.set_title(feature_name)
     ax.set_facecolor("#fbf9f4")
-    plt.show()
-    return
+
+    if show_violin:
+        plt.show()
+    return ax

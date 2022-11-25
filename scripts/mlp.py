@@ -38,12 +38,12 @@ path = os.path.join(os.getcwd(),'results',f'mlp_{dateandtime_now()}')
 os.makedirs(path)
 
 model = Model(
-    model=MLP(units=37, num_layers=4,
+    model=MLP(units=99, num_layers=4,
               activation='relu'),
-    lr=0.004561316449575947,
+    lr=0.006440897421063212,
     input_features=ds.input_features,
     output_features=ds.output_features,
-    epochs=400, batch_size=24,
+    epochs=400, batch_size=48,
     verbosity=0
 )
 
