@@ -247,3 +247,20 @@ ax2.set_ylabel('Predicted', fontsize=20)
 ax2.tick_params(axis='y', labelsize=15)
 plt.tight_layout()
 plt.show()
+
+# %%
+
+import seaborn as sns
+
+# predicted
+sns.distplot(pd.DataFrame(train_p))
+sns.distplot(pd.DataFrame(test_p))
+
+plt.show()
+
+# true
+sns.distplot(pd.DataFrame(y_train), bins=1000)
+sns.distplot(pd.DataFrame(y_test), bins=1000)
+
+plt.show()
+

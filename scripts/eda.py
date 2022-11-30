@@ -14,10 +14,24 @@ import seaborn as sns
 
 from ai4water.eda import EDA
 from easy_mpl import hist
+from easy_mpl import boxplot
+from easy_mpl.utils import create_subplots
 
 from utils import data_before_encoding
 
+
+COLUMNS = {
+    "Adsorption_time (min)": "Adsop. Time",
+    "calcination_temperature": "Calc. Temp",
+    "calcination (min)": "Calc. ",
+    "initial concentration": "Ini. Conc.",
+    "adsorbent loading": "Adsorb. Load.",
+    "adsorption_temperature": "Adsorp. Temp.",
+}
+
 ads_df = data_before_encoding()
+
+ads_df = ads_df.rename(COLUMNS, axis=1)
 
 # %%
 print(ads_df.shape)
@@ -40,9 +54,11 @@ ads_df['Dye'].unique()
 ads_df.pop("Adsorbent")
 ads_df.pop("Dye")
 
-eda = EDA(data = ads_df, save=False)
+eda = EDA(data = ads_df, save=False, show=False)
 
 eda.correlation()
+plt.tight_layout()
+plt.show()
 
 # %%
 
@@ -68,10 +84,16 @@ plt.show()
 
 # %%
 
-ax = sns.boxplot(ads_df)
-ax.set_xticks(np.arange(len(ads_df.columns)))
-ax.set_xticklabels(ads_df.columns, rotation=65)
+fig, axes = create_subplots(ads_df.shape[1])
+for ax, col in zip(axes.flat, ads_df.columns):
+    sns.boxplot(ads_df[col], ax=ax,
+                fliersize=0.6,
+                color='lightpink',
+                orient='h',
+                )
+    ax.set_xlabel(col)
 plt.show()
+
 
 # %%
 

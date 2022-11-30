@@ -141,7 +141,7 @@ while n<=len(feature_names):
         plt.show()
         n_plots += 1
 
-    if n_plots >= 3:
+    if n_plots >= 10:
         break
     n += 1
 
@@ -159,7 +159,7 @@ while n<=len(feature_names):
         plt.show()
         n_plots += 1
 
-    if n_plots >=3:
+    if n_plots >=10:
         break
     n += 1
 
@@ -177,7 +177,7 @@ while n<=len(feature_names):
         plt.show()
         n_plots += 1
 
-    if n_plots >= 3:
+    if n_plots >= 10:
         break
     n += 1
 
