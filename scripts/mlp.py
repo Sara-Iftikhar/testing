@@ -23,7 +23,7 @@ from ai4water.utils import edf_plot
 from easy_mpl import plot, regplot, ridge
 from SeqMetrics import RegressionMetrics
 
-from utils import get_data, evaluate_model, get_dataset, get_fitted_model
+from utils import get_data, evaluate_model, get_dataset
 
 get_version_info()
 
@@ -34,7 +34,23 @@ ds ,  _, _ = get_dataset()
 
 # %%
 
-model, h = get_fitted_model()
+path = os.path.join(os.getcwd(),'results',f'mlp_{dateandtime_now()}')
+os.makedirs(path)
+
+model = Model(
+    model=MLP(units=99, num_layers=4,
+              activation='relu'),
+    lr=0.006440897421063212,
+    input_features=ds.input_features,
+    output_features=ds.output_features,
+    epochs=400, batch_size=48,
+    verbosity=0
+)
+
+# %%
+
+h = model.fit(X_train,y_train,
+          validation_data=(X_test, y_test))
 
 # %%
 
