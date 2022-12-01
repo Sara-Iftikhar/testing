@@ -42,6 +42,7 @@ ds ,  _, _ = get_dataset()
 
 model = Model(
                 model=MLP(),
+                epochs=400,
                 input_features=ds.input_features,
                 output_features=ds.output_features
              )

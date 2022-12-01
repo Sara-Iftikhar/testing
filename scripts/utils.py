@@ -142,11 +142,11 @@ def get_fitted_model(return_path=False,
             verbosity=0
         )
 
-    model.fit(X_train, y_train)
+    h = model.fit(X_train, y_train)
 
     if return_path:
-        return model, path
-    return model
+        return model, path, h
+    return model, h
 
 
 def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,

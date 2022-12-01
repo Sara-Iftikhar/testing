@@ -25,7 +25,7 @@ dataset, _, _ = get_dataset()
 
 # %%
 
-model = get_fitted_model()
+model, _ = get_fitted_model()
 
 # %%
 
@@ -104,16 +104,7 @@ _ = model.prediction_analysis(
 plot_violin_('Adsorption_time (min)', test_p, 0.4)
 
 # %%
-# plot_violin_('Adsorbent', test_p, 0.4)
-
-# %%
 plot_violin_('calcination_temperature', test_p, 0.4)
-
-# %%
-# plot_violin_('calcination (min)', test_p, 0.4)
-
-# %%
-# plot_violin_('Dye', test_p, 0.4)
 
 # %%
 plot_violin_('initial concentration', test_p, 0.4)
