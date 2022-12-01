@@ -6,13 +6,14 @@ Hyperparameter Optimization
 
 import site
 site.addsitedir(r"E:\AA\AI4Water")
-site.addsitedir(r"E:\AA\easy_mpl")
 
 import os
 import math
 import numpy as np
 from skopt.plots import plot_objective
 import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "Times New Roman"
+
 SEP = os.sep
 
 from typing import Union

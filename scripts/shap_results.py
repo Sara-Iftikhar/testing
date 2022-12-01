@@ -5,7 +5,6 @@ shap
 """
 import site
 site.addsitedir(r"E:\AA\AI4Water")
-site.addsitedir(r"E:\AA\easy_mpl")
 
 import tensorflow as tf
 tf.compat.v1.disable_v2_behavior()
@@ -13,9 +12,11 @@ tf.compat.v1.disable_v2_behavior()
 import shap
 import numpy as np
 import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "Times New Roman"
+
 from shap import DeepExplainer, GradientExplainer, KernelExplainer
 from shap import Explanation
-from shap.plots import scatter, bar, beeswarm, force, violin, heatmap, waterfall
+from shap.plots import scatter, beeswarm, violin, heatmap, waterfall
 from sklearn.manifold import TSNE
 from easy_mpl import imshow
 from umap import UMAP

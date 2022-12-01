@@ -8,6 +8,8 @@ site.addsitedir(r"E:\AA\AI4Water")
 
 import os
 import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "Times New Roman"
+
 from utils import get_dataset, get_fitted_model, \
     confidenc_interval, plot_ci, evaluate_model
 

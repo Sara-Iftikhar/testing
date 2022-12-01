@@ -6,15 +6,14 @@ EDA
 
 import site
 site.addsitedir(r"E:\AA\AI4Water")
-site.addsitedir(r"E:\AA\easy_mpl")
 
 import numpy as np
 import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "Times New Roman"
+
 import seaborn as sns
 
 from ai4water.eda import EDA
-from easy_mpl import hist
-from easy_mpl import boxplot
 from easy_mpl.utils import create_subplots
 
 from utils import data_before_encoding

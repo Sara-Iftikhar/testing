@@ -5,7 +5,6 @@ Prediction Analysis
 """
 import site
 site.addsitedir(r"E:\AA\AI4Water")
-#site.addsitedir(r"E:\AA\easy_mpl")
 
 import numpy as np
 import pandas as pd
