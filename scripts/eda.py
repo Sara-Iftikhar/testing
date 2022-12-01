@@ -22,8 +22,8 @@ from utils import data_before_encoding
 
 COLUMNS = {
     "Adsorption_time (min)": "Adsop. Time",
-    "calcination_temperature": "Calc. Temp",
-    "calcination (min)": "Calc. ",
+    "calcination_temperature": "Calcin. Temp",
+    "calcination (min)": "Calcination ",
     "initial concentration": "Ini. Conc.",
     "adsorbent loading": "Adsorb. Load.",
     "adsorption_temperature": "Adsorp. Temp.",
@@ -63,10 +63,10 @@ plt.show()
 # %%
 
 h_paras = ads_df.columns
-
-fig, axes = plt.subplots(nrows=4, ncols=3,
-                            figsize=(12, 12),
-                        squeeze=False)
+fig, axes = create_subplots(ads_df.shape[1])
+# fig, axes = plt.subplots(nrows=4, ncols=3,
+#                             figsize=(12, 12),
+#                         squeeze=False)
 
 if not isinstance(axes, np.ndarray):
     axes = np.array([axes])
@@ -80,6 +80,7 @@ for ax, col, label  in zip(axes.flat, ads_df, h_paras):
          )
     ax.legend(fontsize=10)
 plt.legend()
+plt.tight_layout()
 plt.show()
 
 # %%
@@ -92,26 +93,28 @@ for ax, col in zip(axes.flat, ads_df.columns):
                 orient='h',
                 )
     ax.set_xlabel(col)
+plt.tight_layout()
 plt.show()
 
 
 # %%
 
 h_paras = ads_df.columns
-
-fig, axes = plt.subplots(nrows=4, ncols=3,
-                            figsize=(12, 12),
-                        squeeze=False)
+fig, axes = create_subplots(ads_df.shape[1])
+# fig, axes = plt.subplots(nrows=4, ncols=3,
+#                             figsize=(12, 12),
+#                         squeeze=False)
 
 if not isinstance(axes, np.ndarray):
     axes = np.array([axes])
 
 for ax, col, label  in zip(axes.flat, ads_df, h_paras):
 
-    hist(ads_df[col], ax=ax,
-           show=False,
-         title=label,
+    sns.histplot(ads_df[col], ax=ax,
+           #show=False,
+         #title=label,
          )
     ax.legend(fontsize=10)
 plt.legend()
+plt.tight_layout()
 plt.show()

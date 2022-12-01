@@ -11,6 +11,8 @@ site.addsitedir(r"E:\AA\easy_mpl")
 import os
 import math
 import numpy as np
+from skopt.plots import plot_objective
+import matplotlib.pyplot as plt
 SEP = os.sep
 
 from typing import Union
@@ -205,5 +207,39 @@ model = objective_fn(prefix=f"{PREFIX}{SEP}best",
 # %%
 
 model.evaluate_on_test_data(data=ads_df_enc, metrics=['r2', 'nse'])
+
+# %%
+
+optimizer._plot_convergence(save=False)
+
+# %%
+
+optimizer._plot_parallel_coords(figsize=(14, 8), save=False)
+
+# %%
+
+optimizer._plot_distributions(save=False)
+
+# %%
+
+optimizer.plot_importance(save=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+_ = plot_objective(results)
+
+# %%
+
+optimizer._plot_evaluations(save=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+optimizer._plot_edf(save=False)
+
+
 
 
