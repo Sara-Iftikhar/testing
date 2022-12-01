@@ -214,14 +214,6 @@ optimizer._plot_convergence(save=False)
 
 # %%
 
-optimizer._plot_parallel_coords(figsize=(14, 8), save=False)
-
-# %%
-
-optimizer._plot_distributions(save=False)
-
-# %%
-
 optimizer.plot_importance(save=False)
 plt.tight_layout()
 plt.show()
@@ -229,16 +221,6 @@ plt.show()
 # %%
 
 _ = plot_objective(results)
-
-# %%
-
-optimizer._plot_evaluations(save=False)
-plt.tight_layout()
-plt.show()
-
-# %%
-
-optimizer._plot_edf(save=False)
 
 
 

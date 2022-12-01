@@ -147,42 +147,6 @@ while n<=len(feature_names):
 
 # %%
 
-inds = shap.utils.potential_interactions(shap_values_exp[:, "calcination_temperature"], shap_values_exp)
-
-n, n_plots = 0, 0
-while n<=len(feature_names):
-    if shap_values_exp.feature_names[inds[n]] not in CAT_FEATURES:
-        scatter(shap_values_exp[:, "calcination_temperature"], show=False,
-                color=shap_values_exp[:,inds[n]],
-                )
-        plt.tight_layout()
-        plt.show()
-        n_plots += 1
-
-    if n_plots >=10:
-        break
-    n += 1
-
-# %%
-
-inds = shap.utils.potential_interactions(shap_values_exp[:, "initial concentration"], shap_values_exp)
-
-n, n_plots = 0, 0
-while n<=len(feature_names):
-    if shap_values_exp.feature_names[inds[n]] not in CAT_FEATURES:
-        scatter(shap_values_exp[:, "initial concentration"], show=False,
-                color=shap_values_exp[:,inds[n]],
-                )
-        plt.tight_layout()
-        plt.show()
-        n_plots += 1
-
-    if n_plots >= 10:
-        break
-    n += 1
-
-# %%
-
 heatmap(shap_values_exp, show=False)
 plt.tight_layout()
 plt.show()
