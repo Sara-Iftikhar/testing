@@ -11,6 +11,7 @@ tf.compat.v1.disable_v2_behavior()
 
 import shap
 import numpy as np
+import platform
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
@@ -281,33 +282,35 @@ plt.show()
 # Kernel Explainer
 # ----------------
 
-X_train_summary = shap.kmeans(X_train, 10)
+if platform.system()=='Windows':
 
-exp = KernelExplainer(model.predict, X_train_summary)
+    X_train_summary = shap.kmeans(X_train, 10)
 
-sv = exp.shap_values(X_test)[0]
+    exp = KernelExplainer(model.predict, X_train_summary)
 
-dye_sv = sv[:, 58:].sum(axis=1)
+    sv = exp.shap_values(X_test)[0]
 
-adsorbent_sv = sv[:, 10:58].sum(axis=1)
+    dye_sv = sv[:, 58:].sum(axis=1)
 
-shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
+    adsorbent_sv = sv[:, 10:58].sum(axis=1)
 
-print(shap_values.shape)
+    shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
 
-# %%
+    print(shap_values.shape)
 
-shap_values_exp = Explanation(
-    shap_values,
-    data=x_test_original,
-    feature_names=feature_names
-)
+    # %%
 
-# %%
+    shap_values_exp = Explanation(
+        shap_values,
+        data=x_test_original,
+        feature_names=feature_names
+    )
 
-beeswarm(shap_values_exp, show=False)
-plt.tight_layout()
-plt.show()
+    # %%
+
+    beeswarm(shap_values_exp, show=False)
+    plt.tight_layout()
+    plt.show()
 
 # %%
 # Gradient Explainer

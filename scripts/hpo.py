@@ -8,6 +8,7 @@ import site
 site.addsitedir(r"E:\AA\AI4Water")
 
 import os
+import platform
 import math
 import numpy as np
 from skopt.plots import plot_objective
@@ -211,18 +212,19 @@ model = objective_fn(prefix=f"{PREFIX}{SEP}best",
 model.evaluate_on_test_data(data=ads_df_enc, metrics=['r2', 'nse'])
 
 # %%
+if platform.system()=='Windows':
+    
+    optimizer._plot_convergence(save=False)
 
-optimizer._plot_convergence(save=False)
+    # %%
 
-# %%
+    optimizer.plot_importance(save=False)
+    plt.tight_layout()
+    plt.show()
 
-optimizer.plot_importance(save=False)
-plt.tight_layout()
-plt.show()
+    # %%
 
-# %%
-
-#_ = plot_objective(results)
+    _ = plot_objective(results)
 
 
 
