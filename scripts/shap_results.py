@@ -11,6 +11,8 @@ tf.compat.v1.disable_v2_behavior()
 
 import shap
 import numpy as np
+import pandas as pd
+import seaborn as sns
 import platform
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
@@ -21,8 +23,9 @@ from shap.plots import scatter, beeswarm, violin, heatmap, waterfall
 from sklearn.manifold import TSNE
 from easy_mpl import imshow
 from umap import UMAP
+from easy_mpl.utils import create_subplots
 
-from utils import get_dataset, get_fitted_model, evaluate_model
+from utils import get_dataset, get_fitted_model, evaluate_model, box_violin
 
 # %%
 
@@ -96,6 +99,15 @@ shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
 
 print(shap_values.shape)
 
+# %%
+
+sv_df = pd.DataFrame(shap_values, columns=feature_names)
+fig, axes = create_subplots(shap_values.shape[1])
+for ax, col in zip(axes.flat, sv_df.columns):
+    box_violin(ax=ax, data=sv_df[col], palette="Set2")
+    ax.set_xlabel(col)
+plt.tight_layout()
+plt.show()
 
 # %%
 

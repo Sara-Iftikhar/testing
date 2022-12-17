@@ -16,7 +16,7 @@ import seaborn as sns
 from ai4water.eda import EDA
 from easy_mpl.utils import create_subplots
 
-from utils import data_before_encoding
+from utils import data_before_encoding, box_violin
 
 
 COLUMNS = {
@@ -91,6 +91,15 @@ for ax, col in zip(axes.flat, ads_df.columns):
                 color='lightpink',
                 orient='h',
                 )
+    ax.set_xlabel(col)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+fig, axes = create_subplots(ads_df.shape[1])
+for ax, col in zip(axes.flat, ads_df.columns):
+    box_violin(ax=ax, data=ads_df[col], palette="Set2")
     ax.set_xlabel(col)
 plt.tight_layout()
 plt.show()

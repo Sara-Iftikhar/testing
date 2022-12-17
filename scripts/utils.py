@@ -6,6 +6,7 @@ import warnings
 
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import KFold
@@ -125,9 +126,9 @@ def get_fitted_model(return_path=False,
         path = os.path.join(os.getcwd(), 'results', 'mlp_20221217_213202')
         cpath = os.path.join(path, 'config.json')
         if model_type == 'functional':
-            model = f_model.from_config_file(path=cpath)
+            model = f_model.from_config_file(config_path=cpath)
         else:
-            model = Model.from_config_file(path=cpath)
+            model = Model.from_config_file(config_path=cpath)
         wpath = os.path.join(path, 'weights_585_1982.99475.hdf5')
         model.update_weights(wpath)
         fpath = os.path.join(path, 'losses.csv')
@@ -313,3 +314,29 @@ def plot_violin_(feature_name, test_p, cut,
     if show_violin:
         plt.show()
     return ax
+
+def box_violin(ax, data, palette=None):
+    if palette is None:
+        palette = sns.cubehelix_palette(start=.5, rot=-.5, dark=0.3, light=0.7)
+    ax = sns.violinplot(orient='h', data=data,
+                        palette=palette,
+                        scale="width", inner=None,
+                        ax=ax)
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+
+    for violin in ax.collections:
+        bbox = violin.get_paths()[0].get_extents()
+        x0, y0, width, height = bbox.bounds
+        violin.set_clip_path(plt.Rectangle((x0, y0), width, height / 2, transform=ax.transData))
+
+    sns.boxplot(orient='h', data=data, saturation=1, showfliers=False,
+                width=0.3, boxprops={'zorder': 3, 'facecolor': 'none'}, ax=ax)
+    old_len_collections = len(ax.collections)
+    #sns.stripplot(orient='h', data=data, color='dodgerblue', ax=ax)
+    for dots in ax.collections[old_len_collections:]:
+        dots.set_offsets(dots.get_offsets() + np.array([0, 0.12]))
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+    return
