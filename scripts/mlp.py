@@ -55,12 +55,21 @@ h = model.fit(X_train,y_train,
 
 # %%
 
-ax = plot(h.history['loss'], show=False, label='training'
+legend_properties = {'weight':'bold',
+                     'size': 14}
+
+ax = plot(h.history['loss'], show=False, label='Training'
                     , xlabel='Epochs', ylabel='Loss'
                     )
-plot(h.history['val_loss'], ax=ax, label='validation',
-                xlabel='Epochs', ylabel='Loss'
-                )
+ax = plot(h.history['val_loss'], ax=ax, label='Test',
+                xlabel='Epochs', ylabel='Loss', show=False)
+
+ax.set_ylabel(ylabel= 'Loss', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Epochs', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+ax.legend(prop=legend_properties)
+plt.show()
 
 # %%
 # Training data
@@ -147,7 +156,10 @@ regplot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'Test',
 
 # %%
 
-_, ax = plt.subplots(figsize=(5,4))
+legend_properties = {'weight':'bold',
+                     'size': 14}
+_, ax = plt.subplots(#figsize=(5,4)
+                     )
 
 edf_plot(np.abs(y_train-train_p), label='Training',
         c=np.array([200, 49, 40])/255,
@@ -156,11 +168,22 @@ edf_plot(np.abs(y_train-train_p), label='Training',
          show=False, ax=ax,)
 edf_plot(np.abs(y_test-test_p), xlabel='Absolute error',
          c=np.array([68, 178, 205])/255, linewidth=2.5,
-         label='Test', ax=ax, show=False)
+         label='Test', ax=ax, show=False,
+         grid=True)
+ax.set_ylabel(ylabel= 'Commulative Probabilty', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Absolute Error', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticks().round(2), size=12, weight='bold')
+ax.legend(prop=legend_properties)
+plt.title("Empirical Distribution Function Plot",fontweight="bold")
 plt.tight_layout()
 plt.show()
 
 # %%
+
+
+legend_properties = {'weight':'bold',
+                     'size': 14}
 
 ax = regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
         marker_size=60,
@@ -190,13 +213,20 @@ regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         show=False,
         ax=ax
         )
-ax.legend(fontsize=16, markerscale=1.5)
+ax.set_ylabel(ylabel= 'Loss', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Epochs', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+ax.legend(prop=legend_properties)
 plt.show()
 
 
 # %%
 
-fig, axes = plt.subplots(figsize=(9,7))
+legend_properties = {'weight':'bold',
+                     'size': 14,}
+fig, axes = plt.subplots(#figsize=(9,7)
+                         )
 ax = ridge([train_p.reshape(-1,), test_p.reshape(-1,)],
            color=['snow', 'snow'],
            line_color=['indigo', 'crimson'],
@@ -207,12 +237,15 @@ ax = ridge([train_p.reshape(-1,), test_p.reshape(-1,)],
            ax=axes,
            cut=0.15
            )
-ax[0].set_ylabel('Prediction distribution', fontsize=20)
-ax[0].tick_params(axis='y', labelsize=15)
-ax[0].set_xlabel('Observed', fontsize=20)
-ax[0].tick_params(axis='x', labelsize=15)
-ax[0].set_ylim(-0, 0.003)
+ax[0].set_ylabel('Prediction distribution', fontsize=14, weight='bold')
+#ax[0].tick_params(axis='y', labelsize=15)
+ax[0].set_xlabel('Observed', fontsize=14, weight='bold')
+#ax[0].tick_params(axis='x', labelsize=15)
+ax[0].set_xticklabels(ax[0].get_xticks().astype(int), size=12, weight='bold')
+ax[0].set_yticklabels(ax[0].get_yticks(), size=12, weight='bold')
+ax[0].set_ylim(-0, 0.004)
 ax2 = ax[0].twinx()
+
 
 ax2 = regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
         marker_size=60,
@@ -243,9 +276,9 @@ ax2 = regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         show=False,
         ax=ax2
         )
-ax2.legend(fontsize=20, markerscale=1.5, loc=9)
-ax2.set_ylabel('Predicted', fontsize=20)
-ax2.tick_params(axis='y', labelsize=15)
+ax2.set_ylabel('Predicted', fontsize=14, weight='bold')
+ax2.set_yticklabels(ax2.get_yticks().astype(int), size=12, weight='bold')
+ax2.legend(prop=legend_properties, loc = 'upper center')
 plt.tight_layout()
 plt.show()
 

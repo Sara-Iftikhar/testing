@@ -220,16 +220,19 @@ model.evaluate(X_test, y_test, metrics=['r2', 'nse'])
 if platform.system()=='Windows':
     
     optimizer._plot_convergence(save=False, grid=True)
-
-    # %%
+    plt.show()
 
     optimizer.plot_importance(save=False)
     plt.tight_layout()
     plt.show()
 
-    # %%
+    optimizer._plot_parallel_coords(figsize=(14, 8))
+    plt.tight_layout()
+    plt.show()
 
     _ = plot_objective(results)
+
+
 
 
 
