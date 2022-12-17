@@ -10,6 +10,7 @@ site.addsitedir(r"E:\AA\AI4Water")
 import os
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
@@ -42,8 +43,9 @@ model = Model(
     lr=0.006440897421063212,
     input_features=ds.input_features,
     output_features=ds.output_features,
-    epochs=400, batch_size=48,
-    verbosity=0
+    epochs=600, batch_size=48,
+    verbosity=0,
+    prefix=path,
 )
 
 # %%
@@ -249,8 +251,6 @@ plt.show()
 
 # %%
 
-import seaborn as sns
-
 # predicted
 sns.distplot(pd.DataFrame(train_p))
 sns.distplot(pd.DataFrame(test_p))
@@ -263,3 +263,17 @@ sns.distplot(pd.DataFrame(y_test), bins=1000)
 
 plt.show()
 
+# %%
+
+train_df = pd.DataFrame(np.column_stack([y_train, train_p]),
+                        columns=['train_true', 'train_predicted'])
+
+test_df = pd.DataFrame(np.column_stack([y_test, test_p]),
+                        columns=['test_true', 'test_predicted'])
+
+ax = sns.jointplot(data=train_df, x="train_true",
+                   y="train_predicted", kind="reg")
+
+sns.jointplot(data=test_df, x="test_true",
+                   y="test_predicted", kind="reg",
+              ax=ax)

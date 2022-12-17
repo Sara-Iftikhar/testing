@@ -115,34 +115,52 @@ def make_path():
 
 
 def get_fitted_model(return_path=False,
-                     model_type=None):
+                     model_type=None,
+                     from_config=True):
 
     X_train, y_train, X_test, y_test = get_data()
     ds, _, _ = get_dataset()
 
-    path = make_path()
-    if model_type=='functional':
-        model = f_model(
-            model=MLP(units=99, num_layers=4,
-                      activation='relu'),
-            lr=0.006440897421063212,
-            input_features=ds.input_features,
-            output_features=ds.output_features,
-            epochs=400, batch_size=48,
-            verbosity=0
-        )
-    else:
-        model = Model(
-            model=MLP(units=37, num_layers=4,
-                      activation='relu'),
-            lr=0.006440897421063212,
-            input_features=ds.input_features,
-            output_features=ds.output_features,
-            epochs=400, batch_size=48,
-            verbosity=0
-        )
+    if from_config:
+        path = os.path.join(os.getcwd(), 'results', 'mlp_20221217_213202')
+        cpath = os.path.join(path, 'config.json')
+        if model_type == 'functional':
+            model = f_model.from_config_file(path=cpath)
+        else:
+            model = Model.from_config_file(path=cpath)
+        wpath = os.path.join(path, 'weights_585_1982.99475.hdf5')
+        model.update_weights(wpath)
+        fpath = os.path.join(path, 'losses.csv')
+        df = pd.read_csv(fpath)[['loss', 'val_loss']]
+        class History(object):
+            def init(self):
+                self.history = df.to_dict()
 
-    h = model.fit(X_train, y_train)
+        h = History()
+    else:
+        path = make_path()
+        if model_type=='functional':
+            model = f_model(
+                model=MLP(units=99, num_layers=4,
+                          activation='relu'),
+                lr=0.006440897421063212,
+                input_features=ds.input_features,
+                output_features=ds.output_features,
+                epochs=400, batch_size=48,
+                verbosity=0
+            )
+        else:
+            model = Model(
+                model=MLP(units=37, num_layers=4,
+                          activation='relu'),
+                lr=0.006440897421063212,
+                input_features=ds.input_features,
+                output_features=ds.output_features,
+                epochs=400, batch_size=48,
+                verbosity=0
+            )
+
+        h = model.fit(X_train, y_train)
 
     if return_path:
         return model, path, h

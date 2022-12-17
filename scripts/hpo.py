@@ -21,17 +21,12 @@ from typing import Union
 
 from ai4water import Model
 from ai4water.models import MLP
-from ai4water.utils.utils import jsonize
-from ai4water.utils.utils import dateandtime_now
+from ai4water.utils.utils import jsonize, TrainTestSplit, dateandtime_now
 from ai4water.hyperopt import Categorical, Real, Integer, HyperOpt
 
 from SeqMetrics import RegressionMetrics
 
 from utils import _make_data, get_data, evaluate_model, get_dataset
-
-# %%
-
-ads_df_enc, _, _ = _make_data()
 
 # %%
 
@@ -79,11 +74,23 @@ evaluate_model(y_test, test_p)
 
 PREFIX = f"hpo_mlp_{dateandtime_now()}"
 ITER = 0
-num_iterations = 70
+
+# %%
+# Number of iterations will be 70 when running locally, it will be
+# 40 on cloud due to computational constraints.
+if platform.system()=='Windows':
+    num_iterations = 70
+else:
+    num_iterations = 40
+
+# %%
 
 MONITOR = {"mse": [], "r2_score": [], "r2": []}
 
 seed = 1575
+
+spliter = TrainTestSplit(seed=seed)
+train_x, val_x, train_y, val_y = spliter.split_by_random(X_train, y_train)
 
 # %%
 
@@ -91,8 +98,7 @@ def objective_fn(
         prefix: str = None,
         return_model: bool = False,
         epochs:int = 50,
-        verbosity: int = -1,
-        predict : bool = False,
+        fit_on_all_data : bool = False,
         seed=seed,
         **suggestions
                 )->Union[float, Model]:
@@ -108,20 +114,21 @@ def objective_fn(
         batch_size=suggestions["batch_size"],
         lr=suggestions["lr"],
         prefix=prefix or PREFIX,
-        train_fraction=0.8,
-        val_fraction=0.3,
         split_random=True,
         seed=seed,
         epochs=epochs,
-        input_features=ads_df_enc.columns.tolist()[0:-1],
-        output_features=ads_df_enc.columns.tolist()[-1:],
-        verbosity=verbosity)
+        input_features=ds.input_features,
+        output_features=ds.output_features,
+        verbosity=0)
 
     # train model
-    _model.fit(data=ads_df_enc)
+    if fit_on_all_data:
+        _model.fit(X_train,y_train, validation_data=(X_test, y_test))
+    else:
+        _model.fit(train_x, train_y, validation_data=(val_x, val_y))
 
     # evaluate model
-    t, p = _model.predict_on_validation_data(data=ads_df_enc, return_true=True,
+    t, p = _model.predict(val_x, val_y, return_true=True,
                                              process_results=False)
     metrics = RegressionMetrics(t, p)
     val_score = metrics.mse()
@@ -139,10 +146,9 @@ def objective_fn(
 
     ITER += 1
 
-    if predict:
-        _model.predict_on_training_data(data=ads_df_enc)
-        _model.predict_on_validation_data(data=ads_df_enc)
-        _model.predict_on_all_data(data=ads_df_enc)
+    if fit_on_all_data:
+        _model.predict(X_train,y_train)
+        _model.predict(X_test, y_test)
 
     if return_model:
         return _model
@@ -203,18 +209,17 @@ model = objective_fn(prefix=f"{PREFIX}{SEP}best",
                      seed=seed,
                      return_model=True,
                      epochs=400,
-                     verbosity=1,
-                     predict=True,
+                     fit_on_all_data=True,
                      **optimizer.best_paras())
 
 # %%
 
-model.evaluate_on_test_data(data=ads_df_enc, metrics=['r2', 'nse'])
+model.evaluate(X_test, y_test, metrics=['r2', 'nse'])
 
 # %%
 if platform.system()=='Windows':
     
-    optimizer._plot_convergence(save=False)
+    optimizer._plot_convergence(save=False, grid=True)
 
     # %%
 
