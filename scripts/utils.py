@@ -307,8 +307,9 @@ def plot_violin_(feature_name, test_p, cut,
     plt.close('all')
     ax = violin_plot(list(preds.values()), cut=cut, show=False)
     ax.set_xticks(range(len(preds)))
-    ax.set_xticklabels(list(preds.keys()))
-    ax.set_title(feature_name)
+    ax.set_xticklabels(list(preds.keys()), size=12, weight='bold')
+    ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+    ax.set_title(feature_name, size=14, fontweight="bold")
     ax.set_facecolor("#fbf9f4")
 
     if show_violin:

@@ -121,7 +121,8 @@ plot_violin_('Volume (L)', test_p, 0.4)
 plot_violin_('adsorption_temperature', test_p, 0.4)
 
 # %%
-plot_violin_('Surface area', test_p, 0.4)
+grid = [2.75, 26.55, 81, 147.2, 495.5, 1085, 1509.11, 2430]
+plot_violin_('Surface area', test_p, 0.4, grid=grid)
 
 # %%
 grid = [0.0, 0.18, 0.38, 0.39, 0.72, 1.32]

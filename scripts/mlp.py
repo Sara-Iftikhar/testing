@@ -10,11 +10,13 @@ site.addsitedir(r"E:\AA\AI4Water")
 import os
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
-plt.rcParams["font.family"] = "Times New Roman"
-
-from ai4water import Model
+plt.rcParams["font.family"] = "serif"
+plt.rcParams["font.serif"] = ["Times New Roman"]
+import seaborn as sns
+sns.set(font="Times New Roman")
+sns.set_style({'font.family': 'Times New Roman'})
+from ai4water.functional import Model
 from ai4water.models import MLP
 from ai4water.utils.utils import get_version_info
 from ai4water.postprocessing import LossCurve, ProcessPredictions
@@ -52,24 +54,6 @@ model = Model(
 
 h = model.fit(X_train,y_train,
           validation_data=(X_test, y_test))
-
-# %%
-
-legend_properties = {'weight':'bold',
-                     'size': 14}
-
-ax = plot(h.history['loss'], show=False, label='Training'
-                    , xlabel='Epochs', ylabel='Loss'
-                    )
-ax = plot(h.history['val_loss'], ax=ax, label='Test',
-                xlabel='Epochs', ylabel='Loss', show=False)
-
-ax.set_ylabel(ylabel= 'Loss', fontsize=14, weight='bold')
-ax.set_xlabel(xlabel='Epochs', fontsize=14, weight='bold')
-ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
-ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
-ax.legend(prop=legend_properties)
-plt.show()
 
 # %%
 # Training data
@@ -138,6 +122,8 @@ pp.errors_plot(y_test, test_p, 'test', path)
 # %%
 pp.residual_plot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'test', path)
 
+
+
 # %%
 
 regplot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'Test',
@@ -153,6 +139,55 @@ regplot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'Test',
                          alpha=0.7
                          )
         )
+
+# %%
+# combined
+# --------
+
+# %%
+
+legend_properties = {'weight':'bold',
+                     'size': 14}
+
+ax = plot(h.history['loss'], show=False, label='Training'
+                    , xlabel='Epochs', ylabel='Loss'
+                    )
+ax = plot(h.history['val_loss'], ax=ax, label='Test',
+                xlabel='Epochs', ylabel='Loss', show=False)
+
+ax.set_ylabel(ylabel= 'Loss', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Epochs', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+ax.legend(prop=legend_properties)
+plt.show()
+
+# %%
+# scatter plot of prediction and errors with KDE
+# %%
+train_er = pd.DataFrame((y_train - train_p), columns=['Error'])
+train_er['prediction'] = train_p
+train_er['hue'] = 'Train'
+test_er = pd.DataFrame((y_test - test_p), columns=['Error'])
+test_er['prediction'] = test_p
+test_er['hue'] = 'Test'
+
+df_er = pd.concat([train_er, test_er], axis=0)
+
+legend_properties = {'weight':'bold',
+                     'size': 14,}
+
+g = sns.jointplot(data=df_er, x="prediction",
+                     y="Error",
+              hue='hue', palette='husl')
+ax = g.ax_joint
+ax.axhline(0.0)
+ax.set_ylabel(ylabel= 'Residual', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Prediction', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+ax.legend(prop=legend_properties)
+plt.show()
 
 # %%
 
@@ -180,7 +215,6 @@ plt.tight_layout()
 plt.show()
 
 # %%
-
 
 legend_properties = {'weight':'bold',
                      'size': 14}
@@ -219,7 +253,6 @@ ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
 plt.show()
-
 
 # %%
 
@@ -282,31 +315,33 @@ ax2.legend(prop=legend_properties, loc = 'upper center')
 plt.tight_layout()
 plt.show()
 
+
+# scatter plot of true and predicted with train and test KDE
 # %%
-
-# predicted
-sns.distplot(pd.DataFrame(train_p))
-sns.distplot(pd.DataFrame(test_p))
-
-plt.show()
-
-# true
-sns.distplot(pd.DataFrame(y_train), bins=1000)
-sns.distplot(pd.DataFrame(y_test), bins=1000)
-
-plt.show()
-
-# %%
-
 train_df = pd.DataFrame(np.column_stack([y_train, train_p]),
-                        columns=['train_true', 'train_predicted'])
+                        columns=['true', 'predicted'])
+
+train_df['hue'] = 'Train'
 
 test_df = pd.DataFrame(np.column_stack([y_test, test_p]),
-                        columns=['test_true', 'test_predicted'])
+                        columns=['true', 'predicted'])
 
-ax = sns.jointplot(data=train_df, x="train_true",
-                   y="train_predicted", kind="reg")
+test_df['hue'] = 'Test'
 
-sns.jointplot(data=test_df, x="test_true",
-                   y="test_predicted", kind="reg",
-              ax=ax)
+df = pd.concat([train_df, test_df], axis=0)
+
+legend_properties = {'weight':'bold',
+                     'size': 14,}
+
+g = sns.jointplot(data=df, x="true",
+                     y="predicted",
+              hue='hue', palette='husl')
+
+ax = g.ax_joint
+
+ax.set_ylabel(ylabel= 'Predicted', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='True', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+ax.legend(prop=legend_properties)
+plt.show()
