@@ -417,7 +417,8 @@ def shap_scatter(
                                fontsize=14, weight="bold")
 
             if 'volume' in feature_wrt_name.lower():
-                cbar.ax.set_yticklabels(cbar.ax.get_yticks().astype(float), size=12, weight='bold')
+                ticks = np.round(cbar.ax.get_yticks(), 2)
+                cbar.ax.set_yticklabels(ticks, size=12, weight='bold')
             else:
                 cbar.ax.set_yticklabels(cbar.ax.get_yticks().astype(int), size=12, weight='bold')
 

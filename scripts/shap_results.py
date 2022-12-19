@@ -157,8 +157,11 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
               feature_wrt = df['Dye'],
               is_categorical=True,
-              feature_wrt_encoder=dye_enc
+              feature_wrt_encoder=dye_enc,
+             show=False
               )
+plt.tight_layout()
+plt.show()
 
 
 # %%
@@ -168,19 +171,22 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'])
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
-              feature_wrt = df['calcination (min)'])
+              feature_wrt = df['calcination (min)'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
-              feature_wrt = df['Surface area'])
+              feature_wrt = df['Surface area'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
-              feature_wrt = df['Pore volume'])
+              feature_wrt = df['Pore volume'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
               feature_wrt = df['Dye'],
               is_categorical=True,
-              feature_wrt_encoder=dye_enc
+              feature_wrt_encoder=dye_enc,
+             show=False
               )
+plt.tight_layout()
+plt.show()
 
 
 # %%
@@ -190,22 +196,25 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'])
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
-              feature_wrt = df['Surface area'])
+              feature_wrt = df['Surface area'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
-              feature_wrt = df['solution pH'])
+              feature_wrt = df['solution pH'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
-              feature_wrt = df['adsorbent loading'])
+              feature_wrt = df['adsorbent loading'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
-              feature_wrt = df['Volume (L)'])
+              feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
               feature_wrt = df['Dye'],
               is_categorical=True,
-              feature_wrt_encoder=dye_enc
+              feature_wrt_encoder=dye_enc,
+             show=False
               )
+plt.tight_layout()
+plt.show()
 
 
 # %%
@@ -215,25 +224,28 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'])
 
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['Pore volume'])
+              feature_wrt = df['Pore volume'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['Surface area'])
+              feature_wrt = df['Surface area'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['initial concentration'])
+              feature_wrt = df['initial concentration'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['solution pH'])
+              feature_wrt = df['solution pH'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['calcination_temperature'])
+              feature_wrt = df['calcination_temperature'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
               feature_wrt = df['Dye'],
               is_categorical=True,
-              feature_wrt_encoder=dye_enc
+              feature_wrt_encoder=dye_enc,
+             show=False
               )
+plt.tight_layout()
+plt.show()
 
 # %%
 # Adsorption_time (min)
@@ -267,13 +279,13 @@ shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'])
 
 shap_scatter(
     shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'],
-    feature_wrt = df_ads_t["Pore volume"],
+    feature_wrt = df_ads_t["Pore volume"], cmap = 'RdBu'
 )
 # %%
 
 shap_scatter(
     shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'],
-    feature_wrt = df_ads_t["calcination (min)"],
+    feature_wrt = df_ads_t["calcination (min)"], cmap = 'RdBu'
 )
 
 # %%
@@ -281,8 +293,11 @@ shap_scatter(
     shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'],
     feature_wrt = df_ads_t['Dye'],
     feature_wrt_encoder = dye_enc_ads_t,
-    is_categorical=True
+    is_categorical=True,
+    show=False
 )
+plt.tight_layout()
+plt.show()
 
 
 # %%
@@ -309,8 +324,11 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
               feature_wrt = df['Dye'],
               is_categorical=True,
-              feature_wrt_encoder=dye_enc
+              feature_wrt_encoder=dye_enc,
+             show=False
               )
+plt.tight_layout()
+plt.show()
 
 # %%
 # Pore Volume
@@ -335,8 +353,11 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'],
               feature_wrt = df['Dye'],
               is_categorical=True,
-              feature_wrt_encoder=dye_enc
+              feature_wrt_encoder=dye_enc,
+             show=False,
               )
+plt.tight_layout()
+plt.show()
 
 # %%
 # Solution pH
@@ -359,8 +380,11 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'],
               feature_wrt = df['Dye'],
               is_categorical=True,
-              feature_wrt_encoder=dye_enc
+              feature_wrt_encoder=dye_enc,
+             show=False,
               )
+plt.tight_layout()
+plt.show()
 
 # %%
 
