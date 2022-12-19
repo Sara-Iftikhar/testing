@@ -10,6 +10,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import KFold
+import shap
+from shap.plots import scatter
+from matplotlib.lines import Line2D
 
 from ai4water.functional import Model as f_model
 from ai4water import Model
@@ -316,6 +319,7 @@ def plot_violin_(feature_name, test_p, cut,
         plt.show()
     return ax
 
+
 def box_violin(ax, data, palette=None):
     if palette is None:
         palette = sns.cubehelix_palette(start=.5, rot=-.5, dark=0.3, light=0.7)
@@ -341,3 +345,141 @@ def box_violin(ax, data, palette=None):
     ax.set_ylim(ylim)
 
     return
+
+def shap_interaction_all(shap_values_exp, feature, feature_names, CAT_FEATURES):
+    inds = shap.utils.potential_interactions(shap_values_exp[:, feature], shap_values_exp)
+
+    # make plots colored by each of the top three possible interacting features
+    n, n_plots = 0, 0
+    while n <= len(feature_names):
+        if shap_values_exp.feature_names[inds[n]] not in CAT_FEATURES:
+            scatter(shap_values_exp[:, feature], show=False,
+                    color=shap_values_exp[:, inds[n]],
+                    )
+            plt.tight_layout()
+            plt.show()
+            n_plots += 1
+
+        if n_plots >= 10:
+            break
+        n += 1
+
+    return
+
+
+def shap_scatter(
+        shap_values,
+        feature_wrt:pd.Series = None,
+        feature_wrt_encoder=None,
+        show_hist=True,
+        show=True,
+        palette_name = "tab20",
+        s = 5,
+        is_categorical=False,
+        ax = None,
+        **scatter_kws
+):
+    if ax is None:
+        fig, ax = plt.subplots()
+
+    if feature_wrt is None:
+        c = None
+    else:
+        if is_categorical:
+            rgb_values = sns.color_palette(palette_name, feature_wrt.unique().__len__())
+            color_map = dict(zip(feature_wrt.unique(), rgb_values))
+            c= feature_wrt.map(color_map)
+        else:
+            c= feature_wrt.values.reshape(-1,)
+
+    pc = ax.scatter(shap_values.data,
+                   shap_values.values,
+                   c=c,
+                   s=s,
+                   **scatter_kws
+                   )
+
+    if feature_wrt is not None:
+        feature_wrt_name = ' '.join(feature_wrt.name.split('_'))
+        if is_categorical:
+            # add a legend
+            c_codes = feature_wrt_encoder.inverse_transform(np.array(list(color_map.keys())))
+            handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=v,
+                              label=k, markersize=8) for k, v in zip(c_codes, color_map.values())]
+
+            ax.legend(title=feature_wrt_name,
+                  handles=handles, bbox_to_anchor=(1.05, 1), loc='upper left',
+                      title_fontsize=14
+                      )
+        else:
+            cbar = plt.colorbar(pc, aspect=80)
+            cbar.ax.set_ylabel(feature_wrt_name, rotation=270, labelpad=14,
+                               fontsize=14, weight="bold")
+
+            if 'volume' in feature_wrt_name.lower():
+                cbar.ax.set_yticklabels(cbar.ax.get_yticks().astype(float), size=12, weight='bold')
+            else:
+                cbar.ax.set_yticklabels(cbar.ax.get_yticks().astype(int), size=12, weight='bold')
+
+            cbar.set_alpha(1)
+            cbar.outline.set_visible(False)
+
+    feature_name = ' '.join(shap_values.feature_names.split('_'))
+
+    ax.set_xlabel(feature_name, fontsize=14, weight="bold")
+    ax.set_ylabel(f"SHAP value for {feature_name}", fontsize=14, weight="bold")
+
+    if 'volume' in feature_name.lower():
+        ticks = np.round(ax.get_xticks(), 2)
+        ax.set_xticklabels(ticks, size=12, weight='bold')
+    else:
+       ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+
+    ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+
+    if show_hist:
+        x = shap_values.data
+
+        if len(x) >= 500:
+            bin_edges = 50
+        elif len(x) >= 200:
+            bin_edges = 20
+        elif len(x) >= 100:
+            bin_edges = 10
+        else:
+            bin_edges = 5
+
+        ax2 = ax.twinx()
+
+        xlim = ax.get_xlim()
+
+        ax2.hist(x.reshape(-1,), bin_edges,
+                 range=(xlim[0], xlim[1]),
+                 density=False, facecolor='#000000', alpha=0.1, zorder=-1)
+        ax2.set_ylim(0, len(x))
+        ax2.set_yticks([])
+
+    if show:
+        plt.show()
+
+    return ax
+
+
+def _jitter_data(data, x_jitter, seed=None):
+
+    s = np.random.RandomState(seed)
+    s.random_sample([1, 2, 3])
+
+    if x_jitter > 0:
+        if x_jitter > 1: x_jitter = 1
+        xvals = data.copy()
+        if isinstance(xvals[0], float):
+            xvals = xvals.astype(np.float)
+            xvals = xvals[~np.isnan(xvals)]
+        xvals = np.unique(xvals) # returns a sorted array
+        if len(xvals) >= 2:
+            smallest_diff = np.min(np.diff(xvals))
+            jitter_amount = x_jitter * smallest_diff
+            data += (s.random_sample(size = len(data))*jitter_amount) - (jitter_amount/2)
+
+    return data
