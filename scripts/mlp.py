@@ -22,10 +22,10 @@ from ai4water.utils.utils import get_version_info
 from ai4water.postprocessing import LossCurve, ProcessPredictions
 from ai4water.utils.utils import dateandtime_now
 from ai4water.utils import edf_plot
-from easy_mpl import plot, regplot, ridge
+from easy_mpl import plot, regplot, ridge, circular_bar_plot
 from SeqMetrics import RegressionMetrics
 
-from utils import get_data, evaluate_model, get_dataset
+from utils import get_data, evaluate_model, get_dataset, data_before_encoding
 
 get_version_info()
 
@@ -33,6 +33,23 @@ get_version_info()
 
 X_train, y_train, X_test, y_test = get_data()
 ds ,  _, _ = get_dataset()
+original_data = data_before_encoding()
+
+# %%
+# There are total 12 input features used in this study, which are listed below.
+# Two of them are categorical features i.e. 'Adsorbent' and 'Dye'. Categorical
+# features have encoded using One-Hot encoder.
+
+# %%
+
+print(original_data.columns[:-1])
+
+# %%
+# While there is one target, which is listed below
+
+# %%
+
+print(original_data.columns[-1])
 
 # %%
 
@@ -75,11 +92,22 @@ pp = ProcessPredictions(mode='regression', forecast_len=1,
 pp.murphy_plot(y_train,train_p, prefix="train", where=path, inputs=X_train)
 
 # %%
-pp.is_multiclass_ = False
-pp.errors_plot(y_train, train_p, 'train', path)
 
-# %%
-pp.residual_plot(pd.DataFrame(y_train), pd.DataFrame(train_p), 'train', path)
+metrics = RegressionMetrics(y_train, train_p)
+errors = metrics.calculate_all()
+
+for err in ['kl_sym']:
+    errors.pop(err)
+
+n_errors = {}
+for k,v in errors.items():
+    if 0.<v<5.0:
+        n_errors[k] = v
+
+ax = circular_bar_plot(n_errors, sort=True, show=False, figsize=(8,9))
+plt.tight_layout()
+plt.show()
+
 
 # %%
 
@@ -116,13 +144,20 @@ pp = ProcessPredictions(mode='regression', forecast_len=1, path=path)
 pp.murphy_plot(y_test, test_p, prefix="test", where=path, inputs=X_test)
 
 # %%
-pp.is_multiclass_ = False
-pp.errors_plot(y_test, test_p, 'test', path)
+metrics = RegressionMetrics(y_test, test_p)
+errors = metrics.calculate_all()
 
-# %%
-pp.residual_plot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'test', path)
+for err in ['kl_sym']:
+    errors.pop(err)
 
+n_errors = {}
+for k,v in errors.items():
+    if 0.<v<5.0:
+        n_errors[k] = v
 
+ax = circular_bar_plot(n_errors, sort=True, show=False, figsize=(8,9))
+plt.tight_layout()
+plt.show()
 
 # %%
 
