@@ -69,8 +69,8 @@ def data_before_encoding():
     whole_data = whole_data.reset_index()
     whole_data.pop('index')
 
-    whole_data.columns = ['Adsorption Time (min)', 'Adsorbent', 'Calcination Temperature',
-                    'Calcination (min)', 'Dye', 'Initial Concentration', 'Solution pH',
+    whole_data.columns = ['Adsorption Time (min)', 'Adsorbent', 'Pyrolysis Temperature',
+                    'Pyrolysis Time (min)', 'Dye', 'Initial Concentration', 'Solution pH',
                     'Adsorbent Loading', 'Volume (L)', 'Adsorption Temperature',
                     'Surface Area', 'Pore Volume', 'Adsorption']
 
@@ -284,7 +284,7 @@ def plot_violin_(feature_name, test_p, cut,
     if show_bar:
         plt.show()
 
-    if feature_name == 'Calcination Temperature':
+    if feature_name == 'Pyrolysis Temperature':
         df.drop(3, inplace=True)
         df['display_column'] = ['[25,550)', '[550,600)', '[600,700)', '[700,800)', '[800,900)']
 

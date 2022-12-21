@@ -219,10 +219,10 @@ model.evaluate(X_test, y_test, metrics=['r2', 'nse'])
 # %%
 if platform.system()=='Windows':
     
-    optimizer._plot_convergence(save=False, grid=True)
+    optimizer._plot_convergence(save=True, grid=True)
     plt.show()
 
-    optimizer.plot_importance(save=False)
+    optimizer.plot_importance(save=True)
     plt.tight_layout()
     plt.show()
 

@@ -40,8 +40,8 @@ evaluate_model(y_test, test_p)
 
 _ = model.prediction_analysis(
     x = pd.DataFrame(X_test, columns=dataset.input_features),
-    features = ['Adsorption Time (min)', 'Calcination (min)'],
-    feature_names = ['Adsorption Time (min)', 'Calcination (min)'],
+    features = ['Adsorption Time (min)', 'Pyrolysis Time (min)'],
+    feature_names = ['Adsorption Time (min)', 'Pyrolysis Time (min)'],
     grid_types=["percentile", "percentile"],
     num_grid_points=[6,6],
     annotate_kws={'annotate_fontsize':15,
@@ -103,7 +103,7 @@ _ = model.prediction_analysis(
 plot_violin_('Adsorption Time (min)', test_p, 0.4)
 
 # %%
-plot_violin_('Calcination Temperature', test_p, 0.4)
+plot_violin_('Pyrolysis Temperature', test_p, 0.4)
 
 # %%
 plot_violin_('Initial Concentration', test_p, 0.4)

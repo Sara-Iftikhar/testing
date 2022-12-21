@@ -21,9 +21,9 @@ from shap import Explanation
 from shap.plots import beeswarm, violin, heatmap, waterfall
 from sklearn.preprocessing import LabelEncoder
 from sklearn.manifold import TSNE
-from easy_mpl import imshow, bar_chart
+from easy_mpl import imshow, bar_chart, pie
 from umap import UMAP
-from easy_mpl.utils import create_subplots
+from easy_mpl.utils import create_subplots, make_cols_from_cmap
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
     box_violin, shap_interaction_all, shap_scatter
@@ -172,7 +172,7 @@ plt.show()
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'])
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-              feature_wrt = df['Calcination (min)'], cmap = 'RdBu')
+              feature_wrt = df['Pyrolysis Time (min)'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
               feature_wrt = df['Surface Area'], cmap = 'RdBu')
@@ -194,21 +194,21 @@ plt.show()
 # Calcination Temperature
 # --------------------------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'])
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Solution pH'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Adsorbent Loading'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -222,24 +222,24 @@ plt.show()
 # Calcination (min)
 # --------------------------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'])
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
               feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
               feature_wrt = df['Initial Concentration'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
               feature_wrt = df['Solution pH'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
-              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -286,7 +286,7 @@ shap_scatter(
 
 shap_scatter(
     shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-    feature_wrt = df_ads_t["Calcination (min)"], cmap = 'RdBu'
+    feature_wrt = df_ads_t['Pyrolysis Time (min)'], cmap = 'RdBu'
 )
 
 # %%
@@ -311,7 +311,7 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
               feature_wrt = df['Solution pH'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
@@ -333,7 +333,7 @@ plt.show()
 
 # %%
 # Pore Volume
-# ----------
+# -----------
 
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'])
 
@@ -349,7 +349,7 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
               feature_wrt = df['Dye'],
@@ -376,7 +376,7 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
               feature_wrt = df['Dye'],
@@ -398,6 +398,21 @@ ax.spines[['top', 'right']].set_visible(False)
 ax.set_xlabel(xlabel='mean(|SHAP value|)', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticklabels(), size=12, weight='bold')
+plt.tight_layout()
+plt.show()
+
+# %%
+
+sv_norm = sv_bar / np.sum(sv_bar)
+
+synthesis = np.sum(sv_norm[[2,1,10]])
+physical = np.sum(sv_norm[[8,9]])
+experimental = np.sum(sv_norm[[3,0,5,11,7,6,4]])
+
+labels = ["Synthesis \n Conditions", "Physical \n Properties", "Adsorption \n Experimental \n Conditions"]
+colors = make_cols_from_cmap("PuBu", 3, low=0.3, high=0.8)
+ax = pie([synthesis, physical, experimental], labels=labels, colors=colors,
+         textprops={"fontsize":14, "weight":"bold"}, show=False)
 plt.tight_layout()
 plt.show()
 
@@ -498,7 +513,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,1],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Calcination Temperature', rotation=270)
+cbar.ax.set_ylabel('Pyrolysis Temperature', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -508,7 +523,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,2],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Calcination (min)', rotation=270)
+cbar.ax.set_ylabel('Pyrolysis Time (min)', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
