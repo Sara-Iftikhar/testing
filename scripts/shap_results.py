@@ -21,7 +21,7 @@ from shap import Explanation
 from shap.plots import beeswarm, violin, heatmap, waterfall
 from sklearn.preprocessing import LabelEncoder
 from sklearn.manifold import TSNE
-from easy_mpl import imshow
+from easy_mpl import imshow, bar_chart
 from umap import UMAP
 from easy_mpl.utils import create_subplots
 
@@ -110,6 +110,7 @@ for ax, col in zip(axes.flat, sv_df.columns):
 plt.tight_layout()
 plt.show()
 
+
 # %%
 
 imshow(shap_values, aspect="auto", colorbar=True,
@@ -140,26 +141,26 @@ shap_values_dye_dec = Explanation(
     feature_names=feature_names
 )
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'])
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
-              feature_wrt = df['Adsorption_time (min)'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = df['Adsorption Time (min)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
-              feature_wrt = df['Pore volume'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
-              feature_wrt = df['adsorption_temperature'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = df['Adsorption Temperature'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface area'],
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
-             show=False
-              )
+             show=False)
 plt.tight_layout()
 plt.show()
 
@@ -168,18 +169,18 @@ plt.show()
 # Initial Concentration
 # -----------------------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'])
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
-              feature_wrt = df['calcination (min)'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = df['Calcination (min)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
-              feature_wrt = df['Surface area'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
-              feature_wrt = df['Pore volume'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'initial concentration'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -193,21 +194,21 @@ plt.show()
 # Calcination Temperature
 # --------------------------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'])
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
-              feature_wrt = df['Surface area'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
-              feature_wrt = df['solution pH'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
-              feature_wrt = df['adsorbent loading'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
+              feature_wrt = df['Adsorbent Loading'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination_temperature'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination Temperature'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -218,27 +219,27 @@ plt.show()
 
 
 # %%
-# calcination (min)
+# Calcination (min)
 # --------------------------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'])
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['Pore volume'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['Surface area'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['initial concentration'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+              feature_wrt = df['Initial Concentration'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['solution pH'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
-              feature_wrt = df['calcination_temperature'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
+              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'calcination (min)'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Calcination (min)'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -248,7 +249,7 @@ plt.tight_layout()
 plt.show()
 
 # %%
-# Adsorption_time (min)
+# Adsorption Time (min)
 # ---------------------
 
 df_sv = pd.DataFrame(shap_values, columns=feature_names)
@@ -257,7 +258,7 @@ df_sv = df_sv.loc[df_sv['adsorption_time_inp']<1399.0]
 shap_values_ads = df_sv.iloc[:, 0:-1]
 
 df_ads_t = pd.DataFrame(x_test_original, columns=feature_names)
-df_ads_t = df_ads_t.loc[df_ads_t['Adsorption_time (min)']< 1399.0]
+df_ads_t = df_ads_t.loc[df_ads_t['Adsorption Time (min)']< 1399.0]
 
 enc = LabelEncoder()
 df_ads_t['Adsorbent'] = enc.fit_transform(df_ads_t['Adsorbent'])
@@ -272,25 +273,25 @@ shap_values_exp_ads = Explanation(
     feature_names=feature_names
 )
 
-shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'])
+shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'])
 
 
 # %%
 
 shap_scatter(
-    shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'],
-    feature_wrt = df_ads_t["Pore volume"], cmap = 'RdBu'
+    shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+    feature_wrt = df_ads_t["Pore Volume"], cmap = 'RdBu'
 )
 # %%
 
 shap_scatter(
-    shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'],
-    feature_wrt = df_ads_t["calcination (min)"], cmap = 'RdBu'
+    shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+    feature_wrt = df_ads_t["Calcination (min)"], cmap = 'RdBu'
 )
 
 # %%
 shap_scatter(
-    shap_values=shap_values_exp_ads[:, 'Adsorption_time (min)'],
+    shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
     feature_wrt = df_ads_t['Dye'],
     feature_wrt_encoder = dye_enc_ads_t,
     is_categorical=True,
@@ -304,24 +305,24 @@ plt.show()
 # Adsorbent Loading
 # -------------------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'])
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
-              feature_wrt = df['solution pH'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
-              feature_wrt = df['calcination_temperature'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
-              feature_wrt = df['Surface area'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
-              feature_wrt = df['Pore volume'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'adsorbent loading'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -334,23 +335,23 @@ plt.show()
 # Pore Volume
 # ----------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'])
 
 # %%
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'],
-              feature_wrt = df['Surface area'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'],
-              feature_wrt = df['solution pH'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'],
-              feature_wrt = df['calcination_temperature'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore volume'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -363,21 +364,21 @@ plt.show()
 # Solution pH
 # ------------
 
-shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'])
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'])
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'],
-              feature_wrt = df['Surface area'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'],
-              feature_wrt = df['Pore volume'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'],
-              feature_wrt = df['calcination_temperature'], cmap = 'RdBu')
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = df['Calcination Temperature'], cmap = 'RdBu')
 # %%
-shap_scatter(shap_values=shap_values_dye_dec[:, 'solution pH'],
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
               feature_wrt = df['Dye'],
               is_categorical=True,
               feature_wrt_encoder=dye_enc,
@@ -388,7 +389,15 @@ plt.show()
 
 # %%
 
-shap.plots.bar(shap_values_exp, show=False)
+sv_bar = np.mean(np.abs(shap_values_exp.values), axis=0)
+
+ax = bar_chart(sv_bar, shap_values_exp.feature_names,
+          bar_labels=sv_bar, bar_label_kws={'label_type':'edge'},
+          show=False, sort=True, cmap='summer_r')
+ax.spines[['top', 'right']].set_visible(False)
+ax.set_xlabel(xlabel='mean(|SHAP value|)', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticklabels(), size=12, weight='bold')
 plt.tight_layout()
 plt.show()
 
@@ -479,7 +488,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,0],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Adsorption_time (min)', rotation=270)
+cbar.ax.set_ylabel('Adsorption Time (min)', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -489,7 +498,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,1],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('calcination_temperature', rotation=270)
+cbar.ax.set_ylabel('Calcination Temperature', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -499,7 +508,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,2],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('calcination (min)', rotation=270)
+cbar.ax.set_ylabel('Calcination (min)', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -509,7 +518,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,3],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('initial concentration', rotation=270)
+cbar.ax.set_ylabel('Initial Concentration', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -519,7 +528,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,4],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('solution pH', rotation=270)
+cbar.ax.set_ylabel('Solution pH', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 

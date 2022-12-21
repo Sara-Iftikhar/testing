@@ -18,19 +18,9 @@ from easy_mpl.utils import create_subplots
 
 from utils import data_before_encoding, box_violin
 
-
-COLUMNS = {
-    "Adsorption_time (min)": "Adsop. Time",
-    "calcination_temperature": "Calcin. Temp",
-    "calcination (min)": "Calcination ",
-    "initial concentration": "Ini. Conc.",
-    "adsorbent loading": "Adsorb. Load.",
-    "adsorption_temperature": "Adsorp. Temp.",
-}
+# %%
 
 ads_df = data_before_encoding()
-
-ads_df = ads_df.rename(COLUMNS, axis=1)
 
 # %%
 print(ads_df.shape)
@@ -91,7 +81,8 @@ for ax, col in zip(axes.flat, ads_df.columns):
                 color='lightpink',
                 orient='h',
                 )
-    ax.set_xlabel(col)
+    ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
 plt.show()
 
@@ -100,7 +91,8 @@ plt.show()
 fig, axes = create_subplots(ads_df.shape[1])
 for ax, col in zip(axes.flat, ads_df.columns):
     box_violin(ax=ax, data=ads_df[col], palette="Set2")
-    ax.set_xlabel(col)
+    ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
 plt.show()
 

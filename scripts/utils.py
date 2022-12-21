@@ -69,6 +69,13 @@ def data_before_encoding():
     whole_data = whole_data.reset_index()
     whole_data.pop('index')
 
+    whole_data.columns = ['Adsorption Time (min)', 'Adsorbent', 'Calcination Temperature',
+                    'Calcination (min)', 'Dye', 'Initial Concentration', 'Solution pH',
+                    'Adsorbent Loading', 'Volume (L)', 'Adsorption Temperature',
+                    'Surface Area', 'Pore Volume', 'Adsorption']
+
+    whole_data['Dye'] = whole_data['Dye'].str.replace('Fast Green FCF', 'FG FCF')
+
     return whole_data
 
 
@@ -83,8 +90,8 @@ def _make_data():
     whole_data_enc, _, dye_encoder = _ohe_encoder(whole_data_enc__, 'Dye')
     whole_data_enc = whole_data_enc.drop(columns='Dye')
 
-    df1 = whole_data_enc.pop('qe')
-    whole_data_enc['qe'] = df1
+    df1 = whole_data_enc.pop('Adsorption')
+    whole_data_enc['Adsorption'] = df1
 
     return whole_data_enc, adsorbent_enc, dye_encoder
 
@@ -277,11 +284,11 @@ def plot_violin_(feature_name, test_p, cut,
     if show_bar:
         plt.show()
 
-    if feature_name == 'calcination_temperature':
+    if feature_name == 'Calcination Temperature':
         df.drop(3, inplace=True)
         df['display_column'] = ['[25,550)', '[550,600)', '[600,700)', '[700,800)', '[800,900)']
 
-    elif feature_name == 'initial concentration':
+    elif feature_name == 'Initial Concentration':
         df.drop(0, inplace=True)
         df['display_column'] = ['[1.01,10)', '[10,50)', '[50,100)', '[100,200)', '[200,300)', '[300,400)', '[400,900)']
 
@@ -289,7 +296,7 @@ def plot_violin_(feature_name, test_p, cut,
         df.drop(1, inplace=True)
         df['display_column'] = ['[0.02,0.04)', '[0.04,0.05)', '[0.05,0.1)', '[0.1,0.25)', '[0.25,1)']
 
-    elif feature_name == 'adsorbent loading':
+    elif feature_name == 'Adsorbent Loading':
         df.drop(2, inplace=True)
         df['display_column'] = ['[0.0,0.01)', '[0.01,0.04)', '[0.04,0.1)', '[0.1,0.5)', '[0.5,2.47)', '[2.47,10)']
 
@@ -396,6 +403,9 @@ def shap_scatter(
                    shap_values.values,
                    c=c,
                    s=s,
+                   marker="o",
+                   linewidths=4,
+                   alpha=0.8,
                    **scatter_kws
                    )
 
@@ -413,7 +423,7 @@ def shap_scatter(
                       )
         else:
             cbar = plt.colorbar(pc, aspect=80)
-            cbar.ax.set_ylabel(feature_wrt_name, rotation=270, labelpad=14,
+            cbar.ax.set_ylabel(feature_wrt_name, rotation=90, labelpad=14,
                                fontsize=14, weight="bold")
 
             if 'volume' in feature_wrt_name.lower():

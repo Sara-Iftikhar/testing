@@ -40,8 +40,8 @@ evaluate_model(y_test, test_p)
 
 _ = model.prediction_analysis(
     x = pd.DataFrame(X_test, columns=dataset.input_features),
-    features = ['Adsorption_time (min)', 'calcination (min)'],
-    feature_names = ['Adsorption_time (min)', 'calcination (min)'],
+    features = ['Adsorption Time (min)', 'Calcination (min)'],
+    feature_names = ['Adsorption Time (min)', 'Calcination (min)'],
     grid_types=["percentile", "percentile"],
     num_grid_points=[6,6],
     annotate_kws={'annotate_fontsize':15,
@@ -55,8 +55,8 @@ _ = model.prediction_analysis(
 # %%
 _ = model.prediction_analysis(
     x = pd.DataFrame(X_test, columns=dataset.input_features),
-    features = ['Adsorption_time (min)', 'initial concentration'],
-    feature_names = ['Adsorption_time (min)', 'initial concentration'],
+    features = ['Adsorption Time (min)', 'Initial Concentration'],
+    feature_names = ['Adsorption Time (min)', 'Initial Concentration'],
     grid_types=["percentile", "percentile"],
     num_grid_points=[6, 6],
     annotate_kws={'annotate_fontsize': 15,
@@ -69,8 +69,8 @@ _ = model.prediction_analysis(
 # %%
 _ = model.prediction_analysis(
     x = pd.DataFrame(X_test, columns=dataset.input_features),
-    features = ['Adsorption_time (min)', 'solution pH'],
-    feature_names = ['Adsorption_time (min)', 'solution pH'],
+    features = ['Adsorption Time (min)', 'Solution pH'],
+    feature_names = ['Adsorption Time (min)', 'Solution pH'],
     grid_types=["percentile", "percentile"],
     num_grid_points=[6, 6],
     annotate_kws={'annotate_fontsize': 15,
@@ -84,8 +84,8 @@ _ = model.prediction_analysis(
 # %%
 _ = model.prediction_analysis(
     x = pd.DataFrame(X_test, columns=dataset.input_features),
-    features = ['Adsorption_time (min)', 'adsorbent loading'],
-    feature_names = ['Adsorption_time (min)', 'adsorbent loading'],
+    features = ['Adsorption Time (min)', 'Adsorbent Loading'],
+    feature_names = ['Adsorption Time (min)', 'Adsorbent Loading'],
     grid_types=["percentile", "percentile"],
     num_grid_points=[6, 6],
     annotate_kws={'annotate_fontsize': 15,
@@ -100,30 +100,30 @@ _ = model.prediction_analysis(
 # Prediction Distribution
 # ------------------------
 
-plot_violin_('Adsorption_time (min)', test_p, 0.4)
+plot_violin_('Adsorption Time (min)', test_p, 0.4)
 
 # %%
-plot_violin_('calcination_temperature', test_p, 0.4)
+plot_violin_('Calcination Temperature', test_p, 0.4)
 
 # %%
-plot_violin_('initial concentration', test_p, 0.4)
+plot_violin_('Initial Concentration', test_p, 0.4)
 
 # %%
-plot_violin_('solution pH', test_p, 0.4)
+plot_violin_('Solution pH', test_p, 0.4)
 
 # %%
-plot_violin_('adsorbent loading', test_p, 0.4)
+plot_violin_('Adsorbent Loading', test_p, 0.4)
 
 # %%
 plot_violin_('Volume (L)', test_p, 0.4)
 
 # %%
-plot_violin_('adsorption_temperature', test_p, 0.4)
+plot_violin_('Adsorption Temperature', test_p, 0.4)
 
 # %%
 grid = [2.75, 26.55, 81, 147.2, 495.5, 1085, 1509.11, 2430]
-plot_violin_('Surface area', test_p, 0.4, grid=grid)
+plot_violin_('Surface Area', test_p, 0.4, grid=grid)
 
 # %%
 grid = [0.0, 0.18, 0.38, 0.39, 0.72, 1.32]
-plot_violin_('Pore volume', test_p, 0.4, grid=grid)
+plot_violin_('Pore Volume', test_p, 0.4, grid=grid)
