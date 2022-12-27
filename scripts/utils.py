@@ -50,7 +50,7 @@ ADSORBENT_TYPES = {
     "MC600": "Activated Carbon",
     "MC0.75": "Activated Carbon",
     "MC0.659": "Activated Carbon",
-    "MC0.569": "Activated Carbon",  # todo
+    "MC0.569": "Activated Carbon",
     "MC0.478": "Activated Carbon",
     "MC20/1": "Activated Carbon",
     "MC25/1": "Activated Carbon",
@@ -69,6 +69,7 @@ ADSORBENT_TYPES = {
     "VAC": "Activated Carbon",
     "TRAC": "Activated Carbon",
     "BGBHAC": "Activated Carbon",
+    "GSAC-Ce-1": "Activated Carbon",
     "TWAC": "Activated Carbon",
     "WSAC": "Activated Carbon",
     "PSB": "Biochar",
@@ -85,7 +86,7 @@ DYE_TYPES = {
     'MO': 'Anionic', 'NR': 'Anionic',
     'AR': 'Anionic', 'RB5': 'Anionic', 'RD': 'Anionic',
     'AB25': 'Anionic',
-    'BV14': 'Anionic',  # todo
+    'BV14': 'Cationic',
     'MB': 'Cationic',
     'SYF': 'Cationic', 'MV': 'Cationic',
     'GR': 'Cationic',

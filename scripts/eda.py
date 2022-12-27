@@ -12,11 +12,13 @@ import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
 import seaborn as sns
+import pandas as pd
 
 from ai4water.eda import EDA
 from easy_mpl.utils import create_subplots
 
-from utils import data_before_encoding, box_violin
+from utils import data_before_encoding, box_violin, \
+    DYE_TYPES, ADSORBENT_TYPES
 
 # %%
 
@@ -44,79 +46,148 @@ ads_df['Dye'].unique()
 
 ads_df.pop("Adsorbent")
 ads_df.pop("Dye")
-
-eda = EDA(data = ads_df, save=False, show=False)
-
-eda.correlation()
-plt.tight_layout()
-plt.show()
+#
+# eda = EDA(data = ads_df, save=False, show=False)
+#
+# eda.correlation()
+# plt.tight_layout()
+# plt.show()
+#
+# # %%
+#
+# h_paras = ads_df.columns
+# fig, axes = create_subplots(ads_df.shape[1])
+# # fig, axes = plt.subplots(nrows=4, ncols=3,
+# #                             figsize=(12, 12),
+# #                         squeeze=False)
+#
+# if not isinstance(axes, np.ndarray):
+#     axes = np.array([axes])
+#
+# for ax, col, label  in zip(axes.flat, ads_df, h_paras):
+#
+#     sns.lineplot(ads_df[col], ax=ax,
+#                 palette = 'Spectral',
+#            #show=False,
+#          #title=label,
+#          )
+#     ax.legend(fontsize=10)
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
+#
+# # %%
+#
+# fig, axes = create_subplots(ads_df.shape[1])
+# for ax, col in zip(axes.flat, ads_df.columns):
+#     sns.boxplot(ads_df[col], ax=ax,
+#                 fliersize=0.6,
+#                 color='lightpink',
+#                 orient='h',
+#                 )
+#     ax.set_xlabel(xlabel=col, weight='bold')
+#     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
+# plt.tight_layout()
+# plt.show()
+#
+# # %%
+#
+# fig, axes = create_subplots(ads_df.shape[1])
+# for ax, col in zip(axes.flat, ads_df.columns):
+#     box_violin(ax=ax, data=ads_df[col], palette="Set2")
+#     ax.set_xlabel(xlabel=col, weight='bold')
+#     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
+# plt.tight_layout()
+# plt.show()
+#
+#
+# # %%
+#
+# h_paras = ads_df.columns
+# fig, axes = create_subplots(ads_df.shape[1])
+# # fig, axes = plt.subplots(nrows=4, ncols=3,
+# #                             figsize=(12, 12),
+# #                         squeeze=False)
+#
+# if not isinstance(axes, np.ndarray):
+#     axes = np.array([axes])
+#
+# for ax, col, label  in zip(axes.flat, ads_df, h_paras):
+#
+#     sns.histplot(ads_df[col], ax=ax,
+#            #show=False,
+#          #title=label,
+#          )
+#     ax.legend(fontsize=10)
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
 
 # %%
 
-h_paras = ads_df.columns
-fig, axes = create_subplots(ads_df.shape[1])
-# fig, axes = plt.subplots(nrows=4, ncols=3,
-#                             figsize=(12, 12),
-#                         squeeze=False)
+df = data_before_encoding()
+df.pop('Dye')
+feature = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
+feature = feature.map(d)
+df['Adsorbent'] = feature
 
-if not isinstance(axes, np.ndarray):
-    axes = np.array([axes])
-
-for ax, col, label  in zip(axes.flat, ads_df, h_paras):
-
-    sns.lineplot(ads_df[col], ax=ax,
-                palette = 'Spectral',
-           #show=False,
-         #title=label,
-         )
-    ax.legend(fontsize=10)
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-# %%
+df_gb = df.loc[df['Adsorbent']=="Graphene Based"]
+df_gb['code'] = "GB"
+df_ac = df.loc[df['Adsorbent']=="Activated Carbon"]
+df_ac['code'] = "AC"
+df_bio = df.loc[df['Adsorbent']=="Biochar"]
+df_bio['code'] = "Bio"
 
 fig, axes = create_subplots(ads_df.shape[1])
+
 for ax, col in zip(axes.flat, ads_df.columns):
-    sns.boxplot(ads_df[col], ax=ax,
+    df_ads_feat = pd.concat([df_gb[[col, 'code']],
+                             df_ac[[col, 'code']],
+                             df_bio[[col, 'code']]])
+
+    sns.boxplot(df_ads_feat, y='code', x=col,
+                ax=ax,
                 fliersize=0.6,
                 color='lightpink',
                 orient='h',
+                width=0.5,
                 )
     ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_ylabel('')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
 plt.show()
 
 # %%
 
+df = data_before_encoding()
+df.pop('Adsorbent')
+feature = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature.unique()}
+feature = feature.map(d)
+df['Dye'] = feature
+
+df_an = df.loc[df['Dye']=="Anionic"]
+df_an['code'] = "AN"
+df_cat = df.loc[df['Dye']=="Cationic"]
+df_cat['code'] = "CT"
+
 fig, axes = create_subplots(ads_df.shape[1])
+
 for ax, col in zip(axes.flat, ads_df.columns):
-    box_violin(ax=ax, data=ads_df[col], palette="Set2")
+    df_ads_feat = pd.concat([df_an[[col, 'code']],
+                             df_cat[[col, 'code']]])
+
+    sns.boxplot(df_ads_feat, y='code', x=col,
+                ax=ax,
+                fliersize=0.6,
+                color='lightpink',
+                orient='h',
+                width=0.5,
+                )
     ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_ylabel('')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
-plt.tight_layout()
-plt.show()
-
-
-# %%
-
-h_paras = ads_df.columns
-fig, axes = create_subplots(ads_df.shape[1])
-# fig, axes = plt.subplots(nrows=4, ncols=3,
-#                             figsize=(12, 12),
-#                         squeeze=False)
-
-if not isinstance(axes, np.ndarray):
-    axes = np.array([axes])
-
-for ax, col, label  in zip(axes.flat, ads_df, h_paras):
-
-    sns.histplot(ads_df[col], ax=ax,
-           #show=False,
-         #title=label,
-         )
-    ax.legend(fontsize=10)
-plt.legend()
 plt.tight_layout()
 plt.show()
