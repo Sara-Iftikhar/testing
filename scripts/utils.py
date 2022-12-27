@@ -26,6 +26,73 @@ from SeqMetrics import RegressionMetrics
 from easy_mpl import violin_plot
 
 
+ADSORBENT_TYPES = {
+    "GIC": "Graphene Based",
+    "Exfoliated GIC": "Graphene Based",
+    "PAC": "Activated Carbon",
+    "APAC": "Activated Carbon",
+    "CS": "Activated Carbon",
+    "AC600": "Activated Carbon",
+    "AC700": "Activated Carbon",
+    "AC800": "Activated Carbon",
+    "AC900": "Activated Carbon",
+    "CMCAC": "Activated Carbon",
+    "CS-AC-KOH": "Activated Carbon",
+    "CS-AC-NaOH": "Activated Carbon",
+    "CS-AC-H3PO4": "Activated Carbon",
+    "CS-AC-H4P2O7": "Activated Carbon",
+    "TSAC": "Activated Carbon",
+    "MC350": "Activated Carbon",
+    "MC400": "Activated Carbon",
+    "MC450": "Activated Carbon",
+    "MC500": "Activated Carbon",
+    "MC550": "Activated Carbon",
+    "MC600": "Activated Carbon",
+    "MC0.75": "Activated Carbon",
+    "MC0.659": "Activated Carbon",
+    "MC0.569": "Activated Carbon",  # todo
+    "MC0.478": "Activated Carbon",
+    "MC20/1": "Activated Carbon",
+    "MC25/1": "Activated Carbon",
+    "MC30/1": "Activated Carbon",
+    "MC35/1": "Activated Carbon",
+    "MCNaOH10": "Activated Carbon",
+    "MCNaOH30": "Activated Carbon",
+    "MCNaOH40": "Activated Carbon",
+    "MCNaOH50": "Activated Carbon",
+    "GSAC": "Activated Carbon",
+    "CAS": "Activated Carbon",
+    "SAC": "Activated Carbon",
+    "HAC": "Activated Carbon",
+    "CAC": "Activated Carbon",
+    "CBAC": "Activated Carbon",
+    "VAC": "Activated Carbon",
+    "TRAC": "Activated Carbon",
+    "BGBHAC": "Activated Carbon",
+    "TWAC": "Activated Carbon",
+    "WSAC": "Activated Carbon",
+    "PSB": "Biochar",
+    "PSB-LDHMgAl": "Biochar",
+    "RH Biochar": "Biochar",
+    "M-Biochar": "Biochar",
+    "MN-Biochar": "Biochar",
+    "MZ-Biochar": "Biochar",
+}
+
+DYE_TYPES = {
+    'CR': 'Anionic',
+    'FG FCF': 'Anionic',
+    'MO': 'Anionic', 'NR': 'Anionic',
+    'AR': 'Anionic', 'RB5': 'Anionic', 'RD': 'Anionic',
+    'AB25': 'Anionic',
+    'BV14': 'Anionic',  # todo
+    'MB': 'Cationic',
+    'SYF': 'Cationic', 'MV': 'Cationic',
+    'GR': 'Cationic',
+    'Rhd B': 'Cationic', 'YD': 'Cationic',
+    'AM': 'Cationic'
+}
+
 # function for OHE
 def _ohe_encoder(df:pd.DataFrame, col_name:str)->tuple:
     assert isinstance(col_name, str)
@@ -353,6 +420,7 @@ def box_violin(ax, data, palette=None):
 
     return
 
+
 def shap_interaction_all(shap_values_exp, feature, feature_names, CAT_FEATURES):
     inds = shap.utils.potential_interactions(shap_values_exp[:, feature], shap_values_exp)
 
@@ -375,14 +443,16 @@ def shap_interaction_all(shap_values_exp, feature, feature_names, CAT_FEATURES):
 
 
 def shap_scatter(
-        shap_values,
+        shap_values,  # SHAP values for a single feature
         feature_wrt:pd.Series = None,
-        feature_wrt_encoder=None,
         show_hist=True,
         show=True,
-        palette_name = "tab20",
-        s = 5,
         is_categorical=False,
+        palette_name = "tab10",
+        s = 70,
+        edgecolors='black',
+        linewidth=0.8,
+        alpha=0.8,
         ax = None,
         **scatter_kws
 ):
@@ -393,7 +463,11 @@ def shap_scatter(
         c = None
     else:
         if is_categorical:
-            rgb_values = sns.color_palette(palette_name, feature_wrt.unique().__len__())
+            if isinstance(palette_name, (tuple, list)):
+                assert len(palette_name) == len(feature_wrt.unique())
+                rgb_values = palette_name
+            else:
+                rgb_values = sns.color_palette(palette_name, feature_wrt.unique().__len__())
             color_map = dict(zip(feature_wrt.unique(), rgb_values))
             c= feature_wrt.map(color_map)
         else:
@@ -404,8 +478,9 @@ def shap_scatter(
                    c=c,
                    s=s,
                    marker="o",
-                   linewidths=4,
-                   alpha=0.8,
+                    edgecolors=edgecolors,
+                    linewidth=linewidth,
+                   alpha=alpha,
                    **scatter_kws
                    )
 
@@ -413,9 +488,8 @@ def shap_scatter(
         feature_wrt_name = ' '.join(feature_wrt.name.split('_'))
         if is_categorical:
             # add a legend
-            c_codes = feature_wrt_encoder.inverse_transform(np.array(list(color_map.keys())))
             handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=v,
-                              label=k, markersize=8) for k, v in zip(c_codes, color_map.values())]
+                              label=k, markersize=8) for k, v in color_map.items()]
 
             ax.legend(title=feature_wrt_name,
                   handles=handles, bbox_to_anchor=(1.05, 1), loc='upper left',

@@ -26,7 +26,7 @@ from umap import UMAP
 from easy_mpl.utils import create_subplots, make_cols_from_cmap
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
-    box_violin, shap_interaction_all, shap_scatter
+    box_violin, shap_interaction_all, shap_scatter, DYE_TYPES, ADSORBENT_TYPES
 
 # %%
 
@@ -132,8 +132,7 @@ shap_values_exp = Explanation(
 # Surface Area
 # ---------------
 df = pd.DataFrame(x_test_original, columns=feature_names)
-dye_enc = LabelEncoder()
-df['Dye'] = dye_enc.fit_transform(df['Dye'])
+
 
 shap_values_dye_dec = Explanation(
     shap_values,
@@ -155,15 +154,25 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Adsorption Temperature'], cmap = 'RdBu')
 # %%
-
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-              feature_wrt = df['Dye'],
+              feature_wrt = feature_wrt.map(d),
               is_categorical=True,
-              feature_wrt_encoder=dye_enc,
              show=False)
 plt.tight_layout()
 plt.show()
 
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
 
 # %%
 # Initial Concentration
@@ -180,12 +189,24 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-              feature_wrt = df['Dye'],
+              feature_wrt = feature_wrt.map(d),
               is_categorical=True,
-              feature_wrt_encoder=dye_enc,
              show=False
               )
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
 plt.tight_layout()
 plt.show()
 
@@ -208,12 +229,23 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-              feature_wrt = df['Dye'],
+              feature_wrt = feature_wrt.map(d),
               is_categorical=True,
-              feature_wrt_encoder=dye_enc,
              show=False
               )
+plt.tight_layout()
+plt.show()
+
+# %%
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
 plt.tight_layout()
 plt.show()
 
@@ -239,12 +271,24 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
               feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
 # %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-              feature_wrt = df['Dye'],
+              feature_wrt = feature_wrt.map(d),
               is_categorical=True,
-              feature_wrt_encoder=dye_enc,
              show=False
               )
+plt.tight_layout()
+plt.show()
+
+
+# %%
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
 plt.tight_layout()
 plt.show()
 
@@ -261,10 +305,10 @@ df_ads_t = pd.DataFrame(x_test_original, columns=feature_names)
 df_ads_t = df_ads_t.loc[df_ads_t['Adsorption Time (min)']< 1399.0]
 
 enc = LabelEncoder()
-df_ads_t['Adsorbent'] = enc.fit_transform(df_ads_t['Adsorbent'])
+#df_ads_t['Adsorbent'] = enc.fit_transform(df_ads_t['Adsorbent'])
 
 dye_enc_ads_t = LabelEncoder()
-df_ads_t['Dye'] = dye_enc_ads_t.fit_transform(df_ads_t['Dye'])
+#df_ads_t['Dye'] = dye_enc_ads_t.fit_transform(df_ads_t['Dye'])
 
 
 shap_values_exp_ads = Explanation(
@@ -290,13 +334,24 @@ shap_scatter(
 )
 
 # %%
+feature_wrt = df_ads_t['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(
     shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-    feature_wrt = df_ads_t['Dye'],
-    feature_wrt_encoder = dye_enc_ads_t,
+    feature_wrt = feature_wrt.map(d),
     is_categorical=True,
     show=False
 )
+plt.tight_layout()
+plt.show()
+
+# %%
+feature_wrt = df_ads_t['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
 plt.tight_layout()
 plt.show()
 
@@ -322,12 +377,24 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-              feature_wrt = df['Dye'],
+              feature_wrt = feature_wrt.map(d),
               is_categorical=True,
-              feature_wrt_encoder=dye_enc,
              show=False
               )
+plt.tight_layout()
+plt.show()
+
+
+# %%
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
 plt.tight_layout()
 plt.show()
 
@@ -351,12 +418,24 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
               feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
 # %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-              feature_wrt = df['Dye'],
+              feature_wrt = feature_wrt.map(d),
               is_categorical=True,
-              feature_wrt_encoder=dye_enc,
              show=False,
               )
+plt.tight_layout()
+plt.show()
+
+
+# %%
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
 plt.tight_layout()
 plt.show()
 
@@ -378,12 +457,24 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
               feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
 # %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-              feature_wrt = df['Dye'],
+              feature_wrt = feature_wrt.map(d),
               is_categorical=True,
-              feature_wrt_encoder=dye_enc,
              show=False,
               )
+plt.tight_layout()
+plt.show()
+
+
+# %%
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
 plt.tight_layout()
 plt.show()
 

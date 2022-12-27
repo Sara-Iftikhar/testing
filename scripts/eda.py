@@ -32,9 +32,11 @@ ads_df.head()
 ads_df.tail()
 
 # %%
+# The names of different adsorbents are
 
 ads_df['Adsorbent'].unique()
 # %%
+# The names of different dyes are
 
 ads_df['Dye'].unique()
 
