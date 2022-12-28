@@ -145,9 +145,9 @@ d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
 feature = feature.map(d)
 df['Adsorbent'] = feature
 
-df_gb = df.loc[df['Adsorbent']=="Graphene Based"]
+df_gb = df.loc[df['Adsorbent']=="GB"]
 df_gb['code'] = "GB"
-df_ac = df.loc[df['Adsorbent']=="Activated Carbon"]
+df_ac = df.loc[df['Adsorbent']=="AC"]
 df_ac['code'] = "AC"
 df_bio = df.loc[df['Adsorbent']=="Biochar"]
 df_bio['code'] = "Bio"
