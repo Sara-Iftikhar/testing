@@ -4,9 +4,6 @@ EDA
 ==============
 """
 
-import site
-site.addsitedir(r"E:\AA\AI4Water")
-
 import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
@@ -21,107 +18,123 @@ from utils import data_before_encoding, box_violin, \
     DYE_TYPES, ADSORBENT_TYPES
 
 # %%
+# Loading the original dataset
 
 ads_df = data_before_encoding()
 
 # %%
+# Here, we are printing the shape of original dataset.
+# The first value shows the number of samples/examples/datapoints
+#  and the second one shows the number of features.
+
 print(ads_df.shape)
 
 # %%
+# The first five samples are
+
 ads_df.head()
 
 # %%
+# The last five samples are
+
 ads_df.tail()
 
 # %%
 # The names of different adsorbents are
 
 ads_df['Adsorbent'].unique()
+
 # %%
 # The names of different dyes are
 
 ads_df['Dye'].unique()
 
 # %%
+# Removing the categorical features from our dataframe
 
 ads_df.pop("Adsorbent")
 ads_df.pop("Dye")
-#
-# eda = EDA(data = ads_df, save=False, show=False)
-#
-# eda.correlation()
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# h_paras = ads_df.columns
-# fig, axes = create_subplots(ads_df.shape[1])
-# # fig, axes = plt.subplots(nrows=4, ncols=3,
-# #                             figsize=(12, 12),
-# #                         squeeze=False)
-#
-# if not isinstance(axes, np.ndarray):
-#     axes = np.array([axes])
-#
-# for ax, col, label  in zip(axes.flat, ads_df, h_paras):
-#
-#     sns.lineplot(ads_df[col], ax=ax,
-#                 palette = 'Spectral',
-#            #show=False,
-#          #title=label,
-#          )
-#     ax.legend(fontsize=10)
-# plt.legend()
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# fig, axes = create_subplots(ads_df.shape[1])
-# for ax, col in zip(axes.flat, ads_df.columns):
-#     sns.boxplot(ads_df[col], ax=ax,
-#                 fliersize=0.6,
-#                 color='lightpink',
-#                 orient='h',
-#                 )
-#     ax.set_xlabel(xlabel=col, weight='bold')
-#     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# fig, axes = create_subplots(ads_df.shape[1])
-# for ax, col in zip(axes.flat, ads_df.columns):
-#     box_violin(ax=ax, data=ads_df[col], palette="Set2")
-#     ax.set_xlabel(xlabel=col, weight='bold')
-#     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
-# plt.tight_layout()
-# plt.show()
-#
-#
-# # %%
-#
-# h_paras = ads_df.columns
-# fig, axes = create_subplots(ads_df.shape[1])
-# # fig, axes = plt.subplots(nrows=4, ncols=3,
-# #                             figsize=(12, 12),
-# #                         squeeze=False)
-#
-# if not isinstance(axes, np.ndarray):
-#     axes = np.array([axes])
-#
-# for ax, col, label  in zip(axes.flat, ads_df, h_paras):
-#
-#     sns.histplot(ads_df[col], ax=ax,
-#            #show=False,
-#          #title=label,
-#          )
-#     ax.legend(fontsize=10)
-# plt.legend()
-# plt.tight_layout()
-# plt.show()
+
+# %%
+# initializing an instance of EDA class from AI4Water
+# in order to get some insights of the data
+
+eda = EDA(data = ads_df, save=False, show=False)
+
+# %%
+# plot correlation between numerical features
+
+eda.correlation()
+plt.tight_layout()
+plt.show()
+
+# %%
+# making a line plot for numerical features
+
+h_paras = ads_df.columns
+fig, axes = create_subplots(ads_df.shape[1])
+
+if not isinstance(axes, np.ndarray):
+    axes = np.array([axes])
+
+for ax, col, label  in zip(axes.flat, ads_df, h_paras):
+
+    sns.lineplot(ads_df[col], ax=ax,
+                palette = 'Spectral',
+           #show=False,
+         #title=label,
+         )
+    ax.legend(fontsize=10)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# %%
+
+fig, axes = create_subplots(ads_df.shape[1])
+for ax, col in zip(axes.flat, ads_df.columns):
+    sns.boxplot(ads_df[col], ax=ax,
+                fliersize=0.6,
+                color='lightpink',
+                orient='h',
+                )
+    ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
+plt.tight_layout()
+plt.show()
+
+# %%
+
+fig, axes = create_subplots(ads_df.shape[1])
+for ax, col in zip(axes.flat, ads_df.columns):
+    box_violin(ax=ax, data=ads_df[col], palette="Set2")
+    ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
+plt.tight_layout()
+plt.show()
+
+
+# %%
+
+h_paras = ads_df.columns
+fig, axes = create_subplots(ads_df.shape[1])
+# fig, axes = plt.subplots(nrows=4, ncols=3,
+#                             figsize=(12, 12),
+#                         squeeze=False)
+
+if not isinstance(axes, np.ndarray):
+    axes = np.array([axes])
+
+for ax, col, label  in zip(axes.flat, ads_df, h_paras):
+
+    sns.histplot(ads_df[col], ax=ax,
+           #show=False,
+         #title=label,
+         )
+    ax.legend(fontsize=10)
+plt.legend()
+plt.tight_layout()
+plt.show()
 
 # %%
 

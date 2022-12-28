@@ -3,8 +3,6 @@
 confidence intervals
 =====================
 """
-import site
-site.addsitedir(r"E:\AA\AI4Water")
 
 import os
 import matplotlib.pyplot as plt

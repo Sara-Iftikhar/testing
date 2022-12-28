@@ -4,9 +4,6 @@ MLP
 ====================
 """
 
-import site
-site.addsitedir(r"E:\AA\AI4Water")
-
 import os
 import numpy as np
 import pandas as pd

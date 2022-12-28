@@ -1,4 +1,4 @@
-git+https://github.com/AtrCheema/AI4Water.git@aff35b451db7c73c4207a8dca5df249a7ed4cb98
+git+https://github.com/AtrCheema/AI4Water.git@e7da7f49792b467f99186e6dd61b97486750ae3c
 git+https://github.com/Sara-Iftikhar/easy_mpl.git@5c7639f86d0be17332b5570ffa5940d5fca098b7
 numpy==1.19.5
 matplotlib==3.4.3

@@ -4,11 +4,7 @@ Hyperparameter Optimization
 ===========================
 """
 
-import site
-site.addsitedir(r"E:\AA\AI4Water")
-
 import os
-import platform
 import math
 import numpy as np
 from skopt.plots import plot_objective
@@ -36,6 +32,7 @@ ds ,  _, _ = get_dataset()
 # %%
 # Performance with default hyperparameters
 # ----------------------------------------
+# First, we will train the hyperparameters with default parameters
 
 model = Model(
                 model=MLP(),
@@ -78,10 +75,7 @@ ITER = 0
 # %%
 # Number of iterations will be 70 when running locally, it will be
 # 40 on cloud due to computational constraints.
-if platform.system()=='Windows':
-    num_iterations = 70
-else:
-    num_iterations = 40
+num_iterations = 70
 
 # %%
 
@@ -177,13 +171,25 @@ optimizer = HyperOpt(
     param_space=param_space,
     x0=x0,
     num_iterations=num_iterations,
-    process_results=False, # we can turn it False if we want post-processing of results
+    process_results=True, # we can turn it False if we want post-processing of results
     opt_path=f"results{SEP}{PREFIX}"
 )
 
 # %%
+# We have already optimized the hyperparameters using Bayesian with 100 iterations
+# Therefore, we are not running optimizer.fit online. We will, instead, load
+# the results of optimization and plot them. If you however want to optimize
+# the hyperparameters, you can set ``OPTIMIZE`` to True
 
-results = optimizer.fit()
+OPTIMIZE = False
+
+# path where hpo results are saved.
+path = os.path.join(os.getcwd(), 'results', 'hpo_mlp_20221228_132336', 'hpo_results.bin')
+
+if OPTIMIZE:
+    results = optimizer.fit()
+else:
+    optimizer.load_results(path)
 
 # %%
 
@@ -195,13 +201,15 @@ print(f"optimized parameters are \n{optimizer.best_paras()} at {best_iteration}"
 
 # %%
 
-for key in ['mse']:
-    print(key, np.nanmin(MONITOR[key]), np.nanargmin(MONITOR[key]))
+if OPTIMIZE:
+    for key in ['mse']:
+        print(key, np.nanmin(MONITOR[key]), np.nanargmin(MONITOR[key]))
 
 # %%
 
-for key in ['r2', 'r2_score']:
-    print(key, np.nanmax(MONITOR[key]), np.nanargmax(MONITOR[key]))
+if OPTIMIZE:
+    for key in ['r2', 'r2_score']:
+        print(key, np.nanmax(MONITOR[key]), np.nanargmax(MONITOR[key]))
 
 # %%
 
@@ -217,20 +225,31 @@ model = objective_fn(prefix=f"{PREFIX}{SEP}best",
 model.evaluate(X_test, y_test, metrics=['r2', 'nse'])
 
 # %%
-if platform.system()=='Windows':
     
-    optimizer._plot_convergence(save=True, grid=True)
-    plt.show()
+optimizer._plot_convergence(save=True, grid=True)
+plt.show()
 
-    optimizer.plot_importance(save=True)
-    plt.tight_layout()
-    plt.show()
+# %%
 
-    optimizer._plot_parallel_coords(figsize=(14, 8))
-    plt.tight_layout()
-    plt.show()
+optimizer._plot_evaluations()
+plt.tight_layout()
+plt.show()
 
-    _ = plot_objective(results)
+# %%
+
+optimizer.plot_importance(save=True)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+optimizer._plot_parallel_coords(figsize=(14, 8))
+plt.tight_layout()
+plt.show()
+
+# %%
+
+_ = plot_objective(optimizer.gpmin_results)
 
 
 

@@ -3,8 +3,6 @@
 ML Experiments
 ================
 """
-import site
-site.addsitedir(r"E:\AA\AI4Water")
 
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"

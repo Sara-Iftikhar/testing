@@ -3,8 +3,6 @@
 shap
 ====================
 """
-import site
-site.addsitedir(r"E:\AA\AI4Water")
 
 import tensorflow as tf
 tf.compat.v1.disable_v2_behavior()
