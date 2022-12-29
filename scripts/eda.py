@@ -25,7 +25,7 @@ ads_df = data_before_encoding()
 # %%
 # Here, we are printing the shape of original dataset.
 # The first value shows the number of samples/examples/datapoints
-#  and the second one shows the number of features.
+# and the second one shows the number of features.
 
 print(ads_df.shape)
 
@@ -81,10 +81,7 @@ for ax, col, label  in zip(axes.flat, ads_df, h_paras):
 
     sns.lineplot(ads_df[col], ax=ax,
                 palette = 'Spectral',
-           #show=False,
-         #title=label,
          )
-    ax.legend(fontsize=10)
 plt.legend()
 plt.tight_layout()
 plt.show()
@@ -118,20 +115,13 @@ plt.show()
 
 h_paras = ads_df.columns
 fig, axes = create_subplots(ads_df.shape[1])
-# fig, axes = plt.subplots(nrows=4, ncols=3,
-#                             figsize=(12, 12),
-#                         squeeze=False)
 
 if not isinstance(axes, np.ndarray):
     axes = np.array([axes])
 
 for ax, col, label  in zip(axes.flat, ads_df, h_paras):
 
-    sns.histplot(ads_df[col], ax=ax,
-           #show=False,
-         #title=label,
-         )
-    ax.legend(fontsize=10)
+    sns.histplot(ads_df[col], ax=ax)
 plt.legend()
 plt.tight_layout()
 plt.show()

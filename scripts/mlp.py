@@ -34,7 +34,7 @@ original_data = data_before_encoding()
 
 # %%
 # There are total 12 input features used in this study, which are listed below.
-# Two of them are categorical features i.e. 'Adsorbent' and 'Dye'. Categorical
+# Two of them are categorical features i.e. ``Adsorbent`` and ``Dye``. Categorical
 # features have encoded using One-Hot encoder.
 
 # %%
