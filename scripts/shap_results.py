@@ -100,22 +100,21 @@ print(shap_values.shape)
 
 # %%
 
-# sv_df = pd.DataFrame(shap_values, columns=feature_names)
-# fig, axes = create_subplots(shap_values.shape[1])
-# for ax, col in zip(axes.flat, sv_df.columns):
-#     box_violin(ax=ax, data=sv_df[col], palette="Set2")
-#     ax.set_xlabel(col)
-# plt.tight_layout()
-# plt.show()
-#
-#
-# # %%
-#
-# imshow(shap_values, aspect="auto", colorbar=True,
-#        xticklabels=feature_names, show=False)
-# plt.tight_layout()
-# plt.show()
+sv_df = pd.DataFrame(shap_values, columns=feature_names)
+fig, axes = create_subplots(shap_values.shape[1])
+for ax, col in zip(axes.flat, sv_df.columns):
+    box_violin(ax=ax, data=sv_df[col], palette="Set2")
+    ax.set_xlabel(col)
+plt.tight_layout()
+plt.show()
 
+
+# %%
+
+imshow(shap_values, aspect="auto", colorbar=True,
+       xticklabels=feature_names, show=False)
+plt.tight_layout()
+plt.show()
 
 # %%
 
