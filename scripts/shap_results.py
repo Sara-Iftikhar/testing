@@ -185,6 +185,8 @@ plt.show()
 # Initial Concentration
 # -----------------------
 
+# It is the initial concentration of pollutant (aka adsorbate)
+
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'])
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
@@ -229,7 +231,7 @@ plt.show()
 
 
 # %%
-# Calcination Temperature
+# Pyrolysis Temperature
 # --------------------------
 
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'])
@@ -245,6 +247,9 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
 feature_wrt = df['Dye']
 d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
@@ -279,7 +284,7 @@ plt.show()
 
 
 # %%
-# Calcination (min)
+# Pyrolysis Time (min)
 # --------------------------
 
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'])
@@ -403,6 +408,7 @@ plt.show()
 # %%
 # Adsorbent Loading
 # -------------------
+# It represents the amount of material (adsorbent) in the system
 
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'])
 # %%
@@ -613,6 +619,14 @@ plt.tight_layout()
 plt.show()
 
 # %%
+# This figure shows the learning of our model for one sample
+# having maximum test prediction. ``E[f(X)]`` is average prediction
+# for the training data. ``f(X)`` is the actual prediction for this sample.
+# The figure tells us the negative or positive role of the input
+# features in predicting the target equal to ``f(X)`` starting from
+# ``E[f(X)]``.
+
+# %%
 
 index = test_p.argmax()
 e = Explanation(
@@ -622,12 +636,15 @@ e = Explanation(
     feature_names=feature_names
 )
 
-waterfall(e, show=False)
+waterfall(e, show=False, max_display=20)
 plt.tight_layout()
 plt.show()
 
 # %%
+# This is same figure as above but for a different sample i.e.,
+# the minimum value of prediction.
 
+# %%
 index = test_p.argmin()
 e = Explanation(
     shap_values[index],
@@ -636,7 +653,7 @@ e = Explanation(
     feature_names=feature_names
 )
 
-waterfall(e, show=False)
+waterfall(e, show=False, max_display=20)
 plt.tight_layout()
 plt.show()
 

@@ -140,7 +140,7 @@ df_gb['code'] = "GB"
 df_ac = df.loc[df['Adsorbent']=="AC"]
 df_ac['code'] = "AC"
 df_bio = df.loc[df['Adsorbent']=="Biochar"]
-df_bio['code'] = "Bio"
+df_bio['code'] = "BC"
 
 fig, axes = create_subplots(ads_df.shape[1])
 
@@ -179,6 +179,41 @@ df_cat['code'] = "CT"
 fig, axes = create_subplots(ads_df.shape[1])
 
 for ax, col in zip(axes.flat, ads_df.columns):
+    df_ads_feat = pd.concat([df_an[[col, 'code']],
+                             df_cat[[col, 'code']]])
+
+    sns.boxplot(df_ads_feat, y='code', x=col,
+                ax=ax,
+                fliersize=0.6,
+                color='lightpink',
+                orient='h',
+                width=0.5,
+                )
+    ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_ylabel('')
+    ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
+plt.tight_layout()
+plt.show()
+
+# %%
+
+df = data_before_encoding()
+df.pop('Adsorbent')
+feature = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature.unique()}
+feature = feature.map(d)
+df['Dye'] = feature
+
+df_an = df.loc[df['Dye']=="Anionic"]
+df_an['code'] = "AN"
+df_cat = df.loc[df['Dye']=="Cationic"]
+df_cat['code'] = "CT"
+
+COLUMNS = ['Pyrolysis Temperature', 'Pyrolysis Time (min)', 'Surface Area', 'Pore Volume']
+
+fig, axes = create_subplots(len(COLUMNS))
+
+for ax, col in zip(axes.flat, COLUMNS):
     df_ads_feat = pd.concat([df_an[[col, 'code']],
                              df_cat[[col, 'code']]])
 

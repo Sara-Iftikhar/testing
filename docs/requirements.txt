@@ -7,7 +7,7 @@ keras==2.6.0
 h5py==3.1.0
 scikit-learn==1.0.2
 scikit-optimize==0.9.0
-seaborn
+seaborn==0.12.1
 
 sphinx
 sphinx-prompt
@@ -15,9 +15,9 @@ sphinx_rtd_theme
 sphinx_issues
 sphinx-gallery
 
-openpyxl
+openpyxl==3.0.10
 
 shap==0.41.0
-umap-learn
+umap-learn==0.5.3
 protobuf==3.19.1
-xgboost
+xgboost==1.6.2
