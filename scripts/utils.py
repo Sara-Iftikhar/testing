@@ -323,7 +323,7 @@ def plot_ci(df, alpha):
 
 def evaluate_model(true, predicted):
     metrics = RegressionMetrics(true, predicted)
-    for i in ['mse', 'rmse', 'r2', 'r2_score', 'mape']:
+    for i in ['mse', 'rmse', 'r2', 'r2_score', 'mape', 'mae']:
         print(i, getattr(metrics, i)())
     return
 

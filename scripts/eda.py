@@ -238,3 +238,65 @@ for ax, col in zip(axes.flat, COLUMNS):
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
 plt.show()
+
+# %%
+
+df = data_before_encoding()
+feature = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
+feature = feature.map(d)
+df['Adsorbent'] = feature
+
+df_ac = df.loc[df['Adsorbent']=="AC"]
+df_ac['code'] = "AC"
+df_bc = df.loc[df['Adsorbent']=="Biochar"]
+df_bc['code'] = "BC"
+df_gb = df.loc[df['Adsorbent']=="GB"]
+df_gb['code'] = "GB"
+
+
+df_ac.describe()
+
+# %%
+
+df_ac.median()
+
+# %%
+
+df_bc.describe()
+
+# %%
+
+df_bc.median()
+
+# %%
+
+df_gb.describe()
+
+# %%
+
+df_gb.median()
+
+#%%
+
+COLUMNS = ['Pyrolysis Temperature', 'Pyrolysis Time (min)', 'Surface Area', 'Pore Volume']
+
+fig, axes = create_subplots(len(COLUMNS))
+
+for ax, col in zip(axes.flat, COLUMNS):
+    df_ads_feat = pd.concat([df_ac[[col, 'code']],
+                             df_bc[[col, 'code']],
+                             df_gb[[col, 'code']]])
+
+    sns.boxplot(df_ads_feat, y='code', x=col,
+                ax=ax,
+                fliersize=0.6,
+                color='lightpink',
+                orient='h',
+                width=0.5,
+                )
+    ax.set_xlabel(xlabel=col, weight='bold')
+    ax.set_ylabel('')
+    ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
+plt.tight_layout()
+plt.show()
