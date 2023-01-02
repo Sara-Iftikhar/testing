@@ -141,658 +141,658 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'])
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-#               feature_wrt = df['Adsorption Time (min)'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-#               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-#               feature_wrt = df['Adsorption Temperature'], cmap = 'RdBu')
-# # %%
-# feature_wrt = df['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = df['Adsorption Time (min)'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = df['Adsorption Temperature'], cmap = 'RdBu')
+# %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
 
-# # %%
-# # Initial Concentration
-# # -----------------------
-#
-# # It is the initial concentration of pollutant (aka adsorbate)
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'])
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-#               feature_wrt = df['Pyrolysis Time (min)'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-#               feature_wrt = df['Surface Area'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-#               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
-# # %%
-# feature_wrt = df['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False
-#               )
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-#
-# # %%
-# # Pyrolysis Temperature
-# # --------------------------
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'])
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = df['Surface Area'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = df['Solution pH'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = df['Adsorbent Loading'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
-# # %%
-# feature_wrt = df['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False
-#               )
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-#
-# # %%
-# # Pyrolysis Time (min)
-# # --------------------------
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'])
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = df['Surface Area'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = df['Initial Concentration'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = df['Solution pH'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
-# # %%
-# feature_wrt = df['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False
-#               )
-# plt.tight_layout()
-# plt.show()
-#
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-# # Adsorption Time (min)
-# # ---------------------
-#
-# df_sv = pd.DataFrame(shap_values, columns=feature_names)
-# df_sv['adsorption_time_inp'] = x_test_original[:, 0]
-# df_sv = df_sv.loc[df_sv['adsorption_time_inp']<1399.0]
-# shap_values_ads = df_sv.iloc[:, 0:-1]
-#
-# df_ads_t = pd.DataFrame(x_test_original, columns=feature_names)
-# df_ads_t = df_ads_t.loc[df_ads_t['Adsorption Time (min)']< 1399.0]
-#
-#
-# shap_values_exp_ads = Explanation(
-#     shap_values_ads.values.copy(),
-#     data=df_ads_t.values,
-#     feature_names=feature_names
-# )
-#
-# shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'])
-#
-#
-# # %%
-#
-# shap_scatter(
-#     shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-#     feature_wrt = df_ads_t["Pore Volume"], cmap = 'RdBu'
-# )
-# # %%
-#
-# shap_scatter(
-#     shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-#     feature_wrt = df_ads_t['Pyrolysis Time (min)'], cmap = 'RdBu'
-# )
-#
-# # %%
-# feature_wrt = df_ads_t['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(
-#     shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-#     feature_wrt = feature_wrt.map(d),
-#     is_categorical=True,
-#     show=False
-# )
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df_ads_t['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-#
-# # %%
-# # Adsorbent Loading
-# # -------------------
-# # It represents the amount of material (adsorbent) in the system
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'])
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = df['Solution pH'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = df['Surface Area'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
-# # %%
-# feature_wrt = df['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False
-#               )
-# plt.tight_layout()
-# plt.show()
-#
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-# # Pore Volume
-# # -----------
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'])
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-#               feature_wrt = df['Surface Area'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-#               feature_wrt = df['Solution pH'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-#               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-#               feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
-# # %%
-# feature_wrt = df['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False,
-#               )
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-# # Solution pH
-# # ------------
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'])
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-#               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-#               feature_wrt = df['Surface Area'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-#               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
-# # %%
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-#               feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
-# # %%
-# feature_wrt = df['Dye']
-# d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False,
-#               )
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-#               feature_wrt = feature_wrt,
-#               is_categorical=True,
-#              palette_name="tab20",
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# feature_wrt = df['Adsorbent']
-# d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
-# shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
-#               feature_wrt = feature_wrt.map(d),
-#               is_categorical=True,
-#              show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# sv_bar = np.mean(np.abs(shap_values_exp.values), axis=0)
-#
-# ax = bar_chart(sv_bar, shap_values_exp.feature_names,
-#           bar_labels=sv_bar, bar_label_kws={'label_type':'edge'},
-#           show=False, sort=True, cmap='summer_r')
-# ax.spines[['top', 'right']].set_visible(False)
-# ax.set_xlabel(xlabel='mean(|SHAP value|)', fontsize=14, weight='bold')
-# ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
-# ax.set_yticklabels(ax.get_yticklabels(), size=12, weight='bold')
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# sv_norm = sv_bar / np.sum(sv_bar)
-#
-# synthesis = np.sum(sv_norm[[2,1,10]])
-# physical = np.sum(sv_norm[[8,9]])
-# experimental = np.sum(sv_norm[[3,0,5,11,7,6,4]])
-#
-# labels = ["Synthesis \n Conditions", "Physical \n Properties", "Adsorption \n Experimental \n Conditions"]
-# colors = make_cols_from_cmap("PuBu", 3, low=0.3, high=0.8)
-# ax = pie([synthesis, physical, experimental], labels=labels, colors=colors,
-#          textprops={"fontsize":14, "weight":"bold"}, show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# heatmap(shap_values_exp, show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# heatmap(shap_values_exp, feature_values=shap_values_exp.abs.max(0), show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# heatmap(shap_values_exp, instance_order=shap_values_exp.sum(1), show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# beeswarm(shap_values_exp, show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# violin(shap_values, feature_names=feature_names, show=False)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-# # This figure shows the learning of our model for one sample
-# # having maximum test prediction. ``E[f(X)]`` is average prediction
-# # for the training data. ``f(X)`` is the actual prediction for this sample.
-# # The figure tells us the negative or positive role of the input
-# # features in predicting the target equal to ``f(X)`` starting from
-# # ``E[f(X)]``.
-#
-# # %%
-#
-# index = test_p.argmax()
-# e = Explanation(
-#     shap_values[index],
-#     base_values=exp.expected_value[0],
-#     data=x_test_original[index],
-#     feature_names=feature_names
-# )
-#
-# waterfall(e, show=False, max_display=20)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-# # This is same figure as above but for a different sample i.e.,
-# # the minimum value of prediction.
-#
-# # %%
-# index = test_p.argmin()
-# e = Explanation(
-#     shap_values[index],
-#     base_values=exp.expected_value[0],
-#     data=x_test_original[index],
-#     feature_names=feature_names
-# )
-#
-# waterfall(e, show=False, max_display=20)
-# plt.tight_layout()
-# plt.show()
-#
-# # %%
-#
-# tsne = TSNE(n_components=2)
-# sv_2D = tsne.fit_transform(shap_values)
-#
-# s = plt.scatter(sv_2D[:, 0], sv_2D[:, 1], c=y_test.reshape(-1,), cmap="Spectral",
-#             s=5)
-# plt.gca().set_aspect('equal', 'datalim')
-# plt.colorbar(s)
-# plt.title('TSNE projection of shap values', fontsize=18)
-# plt.show()
-#
-# # %%
-#
-# sv_umap = UMAP(n_components=2).fit_transform(shap_values)
-# s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=y_test.reshape(-1,),
-#             s=5, cmap="Spectral")
-# plt.gca().set_aspect('equal', 'datalim')
-# cbar = plt.colorbar(s)
-# cbar.ax.set_ylabel('Predicted Adsorption Capacity', rotation=270)
-# plt.title('UMAP projection of shap values', fontsize=18)
-# plt.show()
-#
-# # %%
-#
-# s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,0],
-#             s=5, cmap="Spectral")
-# plt.gca().set_aspect('equal', 'datalim')
-# cbar = plt.colorbar(s)
-# cbar.ax.set_ylabel('Adsorption Time (min)', rotation=270)
-# plt.title('UMAP projection of shap values', fontsize=18)
-# plt.show()
-#
-# # %%
-#
-# s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,1],
-#             s=5, cmap="Spectral")
-# plt.gca().set_aspect('equal', 'datalim')
-# cbar = plt.colorbar(s)
-# cbar.ax.set_ylabel('Pyrolysis Temperature', rotation=270)
-# plt.title('UMAP projection of shap values', fontsize=18)
-# plt.show()
-#
-# # %%
-#
-# s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,2],
-#             s=5, cmap="Spectral")
-# plt.gca().set_aspect('equal', 'datalim')
-# cbar = plt.colorbar(s)
-# cbar.ax.set_ylabel('Pyrolysis Time (min)', rotation=270)
-# plt.title('UMAP projection of shap values', fontsize=18)
-# plt.show()
-#
-# # %%
-#
-# s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,3],
-#             s=5, cmap="Spectral")
-# plt.gca().set_aspect('equal', 'datalim')
-# cbar = plt.colorbar(s)
-# cbar.ax.set_ylabel('Initial Concentration', rotation=270)
-# plt.title('UMAP projection of shap values', fontsize=18)
-# plt.show()
-#
-# # %%
-#
-# s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,4],
-#             s=5, cmap="Spectral")
-# plt.gca().set_aspect('equal', 'datalim')
-# cbar = plt.colorbar(s)
-# cbar.ax.set_ylabel('Solution pH', rotation=270)
-# plt.title('UMAP projection of shap values', fontsize=18)
-# plt.show()
-#
-# # %%
-# # Kernel Explainer
-# # =================
-#
-# if platform.system()=='Windows':
-#
-#     X_train_summary = shap.kmeans(X_train, 10)
-#
-#     exp = KernelExplainer(model.predict, X_train_summary)
-#
-#     sv = exp.shap_values(X_test)[0]
-#
-#     dye_sv = sv[:, 58:].sum(axis=1)
-#
-#     adsorbent_sv = sv[:, 10:58].sum(axis=1)
-#
-#     shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
-#
-#     print(shap_values.shape)
-#
-#     # %%
-#
-#     shap_values_exp = Explanation(
-#         shap_values,
-#         data=x_test_original,
-#         feature_names=feature_names
-#     )
-#
-#     # %%
-#
-#     beeswarm(shap_values_exp, show=False)
-#     plt.tight_layout()
-#     plt.show()
-#
-# # %%
-# # Gradient Explainer
-# # ===================
-#
-# exp = GradientExplainer(model._model, data=[X_train])
-#
-# sv = exp.shap_values(X_test)[0]
-#
-# dye_sv = sv[:, 58:].sum(axis=1)
-#
-# adsorbent_sv = sv[:, 10:58].sum(axis=1)
-#
-# shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
-#
-# print(shap_values.shape)
-#
-# # %%
-#
-# shap_values_exp = Explanation(
-#     shap_values,
-#     data=x_test_original,
-#     feature_names=feature_names
-# )
-#
-# # %%
-#
-# beeswarm(shap_values_exp, show=False)
-# plt.tight_layout()
-# plt.show()
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+# Initial Concentration
+# -----------------------
+
+# It is the initial concentration of pollutant (aka adsorbate)
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'])
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = df['Pyrolysis Time (min)'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+# %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False
+              )
+plt.tight_layout()
+plt.show()
+
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+
+# %%
+# Pyrolysis Temperature
+# --------------------------
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'])
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = df['Adsorbent Loading'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = df['Volume (L)'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+# %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False
+              )
+plt.tight_layout()
+plt.show()
+
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+
+# %%
+# Pyrolysis Time (min)
+# --------------------------
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'])
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = df['Initial Concentration'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
+# %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False
+              )
+plt.tight_layout()
+plt.show()
+
+
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+# Adsorption Time (min)
+# ---------------------
+
+df_sv = pd.DataFrame(shap_values, columns=feature_names)
+df_sv['adsorption_time_inp'] = x_test_original[:, 0]
+df_sv = df_sv.loc[df_sv['adsorption_time_inp']<1399.0]
+shap_values_ads = df_sv.iloc[:, 0:-1]
+
+df_ads_t = pd.DataFrame(x_test_original, columns=feature_names)
+df_ads_t = df_ads_t.loc[df_ads_t['Adsorption Time (min)']< 1399.0]
+
+
+shap_values_exp_ads = Explanation(
+    shap_values_ads.values.copy(),
+    data=df_ads_t.values,
+    feature_names=feature_names
+)
+
+shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'])
+
+
+# %%
+
+shap_scatter(
+    shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+    feature_wrt = df_ads_t["Pore Volume"], cmap = 'RdBu'
+)
+# %%
+
+shap_scatter(
+    shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+    feature_wrt = df_ads_t['Pyrolysis Time (min)'], cmap = 'RdBu'
+)
+
+# %%
+feature_wrt = df_ads_t['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(
+    shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+    feature_wrt = feature_wrt.map(d),
+    is_categorical=True,
+    show=False
+)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df_ads_t['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+
+# %%
+# Adsorbent Loading
+# -------------------
+# It represents the amount of material (adsorbent) in the system
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'])
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Volume (L)'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+# %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False
+              )
+plt.tight_layout()
+plt.show()
+
+
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+# Pore Volume
+# -----------
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'])
+
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = df['Solution pH'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = df['Volume (L)'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
+# %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False,
+              )
+plt.tight_layout()
+plt.show()
+
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pore Volume'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+# Solution pH
+# ------------
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'])
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = df['Volume (L)'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = df['Surface Area'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+# %%
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = df['Pyrolysis Temperature'], cmap = 'RdBu')
+# %%
+feature_wrt = df['Dye']
+d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False,
+              )
+plt.tight_layout()
+plt.show()
+
+# %%
+
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = feature_wrt,
+              is_categorical=True,
+             palette_name="tab20",
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+feature_wrt = df['Adsorbent']
+d = {k:ADSORBENT_TYPES[k] for k in feature_wrt.unique()}
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
+              feature_wrt = feature_wrt.map(d),
+              is_categorical=True,
+             show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+sv_bar = np.mean(np.abs(shap_values_exp.values), axis=0)
+
+ax = bar_chart(sv_bar, shap_values_exp.feature_names,
+          bar_labels=sv_bar, bar_label_kws={'label_type':'edge'},
+          show=False, sort=True, cmap='summer_r')
+ax.spines[['top', 'right']].set_visible(False)
+ax.set_xlabel(xlabel='mean(|SHAP value|)', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticklabels(), size=12, weight='bold')
+plt.tight_layout()
+plt.show()
+
+# %%
+
+sv_norm = sv_bar / np.sum(sv_bar)
+
+synthesis = np.sum(sv_norm[[2,1,10]])
+physical = np.sum(sv_norm[[8,9]])
+experimental = np.sum(sv_norm[[3,0,5,11,7,6,4]])
+
+labels = ["Synthesis \n Conditions", "Physical \n Properties", "Adsorption \n Experimental \n Conditions"]
+colors = make_cols_from_cmap("PuBu", 3, low=0.3, high=0.8)
+ax = pie([synthesis, physical, experimental], labels=labels, colors=colors,
+         textprops={"fontsize":14, "weight":"bold"}, show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+heatmap(shap_values_exp, show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+heatmap(shap_values_exp, feature_values=shap_values_exp.abs.max(0), show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+heatmap(shap_values_exp, instance_order=shap_values_exp.sum(1), show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+beeswarm(shap_values_exp, show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+violin(shap_values, feature_names=feature_names, show=False)
+plt.tight_layout()
+plt.show()
+
+# %%
+# This figure shows the learning of our model for one sample
+# having maximum test prediction. ``E[f(X)]`` is average prediction
+# for the training data. ``f(X)`` is the actual prediction for this sample.
+# The figure tells us the negative or positive role of the input
+# features in predicting the target equal to ``f(X)`` starting from
+# ``E[f(X)]``.
+
+# %%
+
+index = test_p.argmax()
+e = Explanation(
+    shap_values[index],
+    base_values=exp.expected_value[0],
+    data=x_test_original[index],
+    feature_names=feature_names
+)
+
+waterfall(e, show=False, max_display=20)
+plt.tight_layout()
+plt.show()
+
+# %%
+# This is same figure as above but for a different sample i.e.,
+# the minimum value of prediction.
+
+# %%
+index = test_p.argmin()
+e = Explanation(
+    shap_values[index],
+    base_values=exp.expected_value[0],
+    data=x_test_original[index],
+    feature_names=feature_names
+)
+
+waterfall(e, show=False, max_display=20)
+plt.tight_layout()
+plt.show()
+
+# %%
+
+tsne = TSNE(n_components=2)
+sv_2D = tsne.fit_transform(shap_values)
+
+s = plt.scatter(sv_2D[:, 0], sv_2D[:, 1], c=y_test.reshape(-1,), cmap="Spectral",
+            s=5)
+plt.gca().set_aspect('equal', 'datalim')
+plt.colorbar(s)
+plt.title('TSNE projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+sv_umap = UMAP(n_components=2).fit_transform(shap_values)
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=y_test.reshape(-1,),
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Predicted Adsorption Capacity', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,0],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Adsorption Time (min)', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,1],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Pyrolysis Temperature', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,2],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Pyrolysis Time (min)', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,3],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Initial Concentration', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+
+s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,4],
+            s=5, cmap="Spectral")
+plt.gca().set_aspect('equal', 'datalim')
+cbar = plt.colorbar(s)
+cbar.ax.set_ylabel('Solution pH', rotation=270)
+plt.title('UMAP projection of shap values', fontsize=18)
+plt.show()
+
+# %%
+# Kernel Explainer
+# =================
+
+if platform.system()=='Windows':
+
+    X_train_summary = shap.kmeans(X_train, 10)
+
+    exp = KernelExplainer(model.predict, X_train_summary)
+
+    sv = exp.shap_values(X_test)[0]
+
+    dye_sv = sv[:, 58:].sum(axis=1)
+
+    adsorbent_sv = sv[:, 10:58].sum(axis=1)
+
+    shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
+
+    print(shap_values.shape)
+
+    # %%
+
+    shap_values_exp = Explanation(
+        shap_values,
+        data=x_test_original,
+        feature_names=feature_names
+    )
+
+    # %%
+
+    beeswarm(shap_values_exp, show=False)
+    plt.tight_layout()
+    plt.show()
+
+# %%
+# Gradient Explainer
+# ===================
+
+exp = GradientExplainer(model._model, data=[X_train])
+
+sv = exp.shap_values(X_test)[0]
+
+dye_sv = sv[:, 58:].sum(axis=1)
+
+adsorbent_sv = sv[:, 10:58].sum(axis=1)
+
+shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
+
+print(shap_values.shape)
+
+# %%
+
+shap_values_exp = Explanation(
+    shap_values,
+    data=x_test_original,
+    feature_names=feature_names
+)
+
+# %%
+
+beeswarm(shap_values_exp, show=False)
+plt.tight_layout()
+plt.show()
 
 
 
