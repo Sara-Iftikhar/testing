@@ -56,6 +56,13 @@ ads_df.pop("Adsorbent")
 ads_df.pop("Dye")
 
 # %%
+# get statistical summary of data
+
+pd.set_option('display.max_columns', None)
+
+print(ads_df.describe())
+
+# %%
 # initializing an instance of EDA class from AI4Water
 # in order to get some insights of the data
 
@@ -216,6 +223,8 @@ fig, axes = create_subplots(len(COLUMNS))
 for ax, col in zip(axes.flat, COLUMNS):
     df_ads_feat = pd.concat([df_an[[col, 'code']],
                              df_cat[[col, 'code']]])
+
+    print(col, df_ads_feat.describe())
 
     sns.boxplot(df_ads_feat, y='code', x=col,
                 ax=ax,

@@ -511,6 +511,7 @@ def shap_scatter(
 
     ax.set_xlabel(feature_name, fontsize=14, weight="bold")
     ax.set_ylabel(f"SHAP value for {feature_name}", fontsize=14, weight="bold")
+    ax.axhline(0, color='grey', linewidth=1.3, alpha=0.3, linestyle='--')
 
     if 'volume' in feature_name.lower():
         ticks = np.round(ax.get_xticks(), 2)
