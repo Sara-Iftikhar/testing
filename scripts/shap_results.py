@@ -564,7 +564,35 @@ plt.show()
 sv_bar = np.mean(np.abs(shap_values_exp.values), axis=0)
 
 ax = bar_chart(sv_bar, shap_values_exp.feature_names,
-          bar_labels=sv_bar, bar_label_kws={'label_type':'edge'},
+          bar_labels=sv_bar, bar_label_kws={'label_type':'edge',
+                                            'fontsize': 10,
+                                            'weight': 'bold'},
+          show=False, sort=True, cmap='summer_r')
+ax.spines[['top', 'right']].set_visible(False)
+ax.set_xlabel(xlabel='mean(|SHAP value|)', fontsize=14, weight='bold')
+ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
+ax.set_yticklabels(ax.get_yticklabels(), size=12, weight='bold')
+plt.tight_layout()
+plt.show()
+
+# %%
+# Bar chart of shap values for three classes i.e., 'Physical properties',
+# 'Synthesis Conditions' and 'Adsorption Experimental Conditions
+
+sv_bar = np.mean(np.abs(shap_values_exp.values), axis=0)
+
+synthesis = np.sum(sv_bar[[2,1,10]])
+physical = np.sum(sv_bar[[8,9]])
+experimental = np.sum(sv_bar[[3,0,5,11,7,6,4]])
+
+sv_categories_lst = [synthesis, physical, experimental]
+labels = ['Synthesis \n Conditions', 'Physical \n Properties',
+          'Adsorption \n Experimental \n Conditions']
+
+ax = bar_chart(sv_categories_lst, labels,
+          bar_labels=sv_categories_lst, bar_label_kws={'label_type':'edge',
+                                                       'fontsize': 10,
+                                                       'weight': 'bold'},
           show=False, sort=True, cmap='summer_r')
 ax.spines[['top', 'right']].set_visible(False)
 ax.set_xlabel(xlabel='mean(|SHAP value|)', fontsize=14, weight='bold')
