@@ -71,8 +71,11 @@ eda = EDA(data = ads_df, save=False, show=False)
 # %%
 # plot correlation between numerical features
 
-eda.correlation()
+ax = eda.correlation(figsize=(9,9))
+ax.set_xticklabels(ax.get_xticklabels(), fontsize=12, weight='bold')
+ax.set_yticklabels(ax.get_yticklabels(), fontsize=12, weight='bold')
 plt.tight_layout()
+plt.savefig(f'paper\\figures\\figS1.png', dpi=400)
 plt.show()
 
 # %%
@@ -293,10 +296,11 @@ for ax, col in zip(axes.flat, COLUMNS):
                 fliersize=0.6,
                 color='lightpink',
                 orient='h',
-                width=0.5,
+                width=0.5,  medianprops={"color": "black"}
                 )
     ax.set_xlabel(xlabel=col, weight='bold')
     ax.set_ylabel('')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
+plt.savefig(f'paper\\figures\\fig2.png', dpi=400)
 plt.show()

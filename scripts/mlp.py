@@ -8,11 +8,8 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-plt.rcParams["font.family"] = "serif"
-plt.rcParams["font.serif"] = ["Times New Roman"]
+plt.rcParams["font.family"] = "Times New Roman"
 import seaborn as sns
-sns.set(font="Times New Roman")
-sns.set_style({'font.family': 'Times New Roman'})
 from ai4water.functional import Model
 from ai4water.models import MLP
 from ai4water.utils.utils import get_version_info
@@ -192,14 +189,16 @@ ax.set_xlabel(xlabel='Epochs', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
+plt.tight_layout()
+plt.savefig(f'paper\\figures\\fig3a.png', dpi=400)
 plt.show()
 
 # %%
 # scatter plot of prediction and errors with KDE
-# %%
+
 train_er = pd.DataFrame((y_train - train_p), columns=['Error'])
 train_er['prediction'] = train_p
-train_er['hue'] = 'Train'
+train_er['hue'] = 'Training'
 test_er = pd.DataFrame((y_test - test_p), columns=['Error'])
 test_er['prediction'] = test_p
 test_er['hue'] = 'Test'
@@ -214,11 +213,13 @@ g = sns.jointplot(data=df_er, x="prediction",
               hue='hue', palette='husl')
 ax = g.ax_joint
 ax.axhline(0.0)
-ax.set_ylabel(ylabel= 'Residual', fontsize=14, weight='bold')
+ax.set_ylabel(ylabel= 'Residuals', fontsize=14, weight='bold')
 ax.set_xlabel(xlabel='Prediction', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
+plt.tight_layout()
+plt.savefig(f'paper\\figures\\fig3d.png', dpi=400)
 plt.show()
 
 # %%
@@ -244,6 +245,7 @@ ax.set_yticklabels(ax.get_yticks().round(2), size=12, weight='bold')
 ax.legend(prop=legend_properties)
 plt.title("Empirical Distribution Function Plot",fontweight="bold")
 plt.tight_layout()
+plt.savefig(f'paper\\figures\\fig3c.png', dpi=400)
 plt.show()
 
 # %%
@@ -279,11 +281,12 @@ regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         show=False,
         ax=ax
         )
-ax.set_ylabel(ylabel= 'Loss', fontsize=14, weight='bold')
-ax.set_xlabel(xlabel='Epochs', fontsize=14, weight='bold')
+ax.set_ylabel(ylabel= 'Predicted adsorption capacity (mg/g))', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Experimental adsorption capacity (mg/g)', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
+plt.tight_layout()
 plt.show()
 
 # %%
@@ -302,9 +305,9 @@ ax = ridge([train_p.reshape(-1,), test_p.reshape(-1,)],
            ax=axes,
            cut=0.15
            )
-ax[0].set_ylabel('Prediction distribution', fontsize=14, weight='bold')
+ax[0].set_ylabel('Prediction Distribution', fontsize=14, weight='bold')
 #ax[0].tick_params(axis='y', labelsize=15)
-ax[0].set_xlabel('Observed', fontsize=14, weight='bold')
+ax[0].set_xlabel('Experimental Adsorption Capacity (mg/g)', fontsize=14, weight='bold')
 #ax[0].tick_params(axis='x', labelsize=15)
 ax[0].set_xticklabels(ax[0].get_xticks().astype(int), size=12, weight='bold')
 ax[0].set_yticklabels(ax[0].get_yticks(), size=12, weight='bold')
@@ -341,19 +344,22 @@ ax2 = regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         show=False,
         ax=ax2
         )
-ax2.set_ylabel('Predicted', fontsize=14, weight='bold')
+ax2.set_ylabel('Predicted Adsorption Capacity (mg/g))', fontsize=14, weight='bold')
 ax2.set_yticklabels(ax2.get_yticks().astype(int), size=12, weight='bold')
 ax2.legend(prop=legend_properties, loc = 'upper center')
 plt.tight_layout()
+plt.savefig(f'paper\\figures\\fig.png', dpi=400)
 plt.show()
 
 
-# scatter plot of true and predicted with train and test KDE
+
 # %%
+# scatter plot of true and predicted with train and test KDE
+
 train_df = pd.DataFrame(np.column_stack([y_train, train_p]),
                         columns=['true', 'predicted'])
 
-train_df['hue'] = 'Train'
+train_df['hue'] = 'Training'
 
 test_df = pd.DataFrame(np.column_stack([y_test, test_p]),
                         columns=['true', 'predicted'])
@@ -371,9 +377,11 @@ g = sns.jointplot(data=df, x="true",
 
 ax = g.ax_joint
 
-ax.set_ylabel(ylabel= 'Predicted', fontsize=14, weight='bold')
-ax.set_xlabel(xlabel='True', fontsize=14, weight='bold')
+ax.set_ylabel(ylabel= 'Predicted adsorption capacity (mg/g)', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Experimental adsorption capacity (mg/g)', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
+plt.tight_layout()
+plt.savefig(f'paper\\figures\\fig3b.png', dpi=400)
 plt.show()
