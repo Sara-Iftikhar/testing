@@ -281,8 +281,8 @@ regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         show=False,
         ax=ax
         )
-ax.set_ylabel(ylabel= 'Predicted adsorption capacity (mg/g))', fontsize=14, weight='bold')
-ax.set_xlabel(xlabel='Experimental adsorption capacity (mg/g)', fontsize=14, weight='bold')
+ax.set_ylabel(ylabel= 'Predicted Adsorption Capacity (mg/g)', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Experimental Adsorption Capacity (mg/g)', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
@@ -344,7 +344,7 @@ ax2 = regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         show=False,
         ax=ax2
         )
-ax2.set_ylabel('Predicted Adsorption Capacity (mg/g))', fontsize=14, weight='bold')
+ax2.set_ylabel('Predicted Adsorption Capacity (mg/g)', fontsize=14, weight='bold')
 ax2.set_yticklabels(ax2.get_yticks().astype(int), size=12, weight='bold')
 ax2.legend(prop=legend_properties, loc = 'upper center')
 plt.tight_layout()
@@ -377,8 +377,8 @@ g = sns.jointplot(data=df, x="true",
 
 ax = g.ax_joint
 
-ax.set_ylabel(ylabel= 'Predicted adsorption capacity (mg/g)', fontsize=14, weight='bold')
-ax.set_xlabel(xlabel='Experimental adsorption capacity (mg/g)', fontsize=14, weight='bold')
+ax.set_ylabel(ylabel= 'Predicted Adsorption Capacity (mg/g)', fontsize=14, weight='bold')
+ax.set_xlabel(xlabel='Experimental Adsorption Capacity (mg/g)', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
