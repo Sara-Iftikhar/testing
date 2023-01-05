@@ -226,7 +226,7 @@ model.evaluate(X_test, y_test, metrics=['r2', 'nse'])
 
 # %%
     
-optimizer._plot_convergence(save=True, grid=True)
+optimizer._plot_convergence()
 plt.show()
 
 # %%
@@ -237,7 +237,7 @@ plt.show()
 
 # %%
 
-optimizer.plot_importance(save=True)
+optimizer.plot_importance()
 plt.tight_layout()
 plt.show()
 

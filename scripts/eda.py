@@ -75,7 +75,6 @@ ax = eda.correlation(figsize=(9,9))
 ax.set_xticklabels(ax.get_xticklabels(), fontsize=12, weight='bold')
 ax.set_yticklabels(ax.get_yticklabels(), fontsize=12, weight='bold')
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\figS1.png', dpi=400)
 plt.show()
 
 # %%
@@ -302,5 +301,4 @@ for ax, col in zip(axes.flat, COLUMNS):
     ax.set_ylabel('')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig2.png', dpi=400)
 plt.show()

@@ -11,6 +11,7 @@ import shap
 import numpy as np
 import pandas as pd
 import platform
+import matplotlib
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
@@ -19,12 +20,13 @@ from shap import Explanation
 from shap.plots import beeswarm, violin, heatmap, waterfall
 from sklearn.preprocessing import LabelEncoder
 from sklearn.manifold import TSNE
-from easy_mpl import imshow, bar_chart, pie
+from easy_mpl import imshow, pie
 from umap import UMAP
 from easy_mpl.utils import create_subplots, make_cols_from_cmap
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
-    box_violin, shap_interaction_all, shap_scatter, DYE_TYPES, ADSORBENT_TYPES
+    box_violin, shap_interaction_all, shap_scatter, DYE_TYPES, \
+    ADSORBENT_TYPES, bar_chart
 
 # %%
 
@@ -145,10 +147,9 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Adsorption Time (min)'], cmap = 'RdBu')
 # %%
-ax = shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
-              feature_wrt = df['Pore Volume'], cmap = 'RdBu', show=False)
-plt.savefig(f'paper\\figures\\fig6a.png', dpi=400)
-plt.show()
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Adsorption Temperature'], cmap = 'RdBu')
@@ -197,10 +198,8 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
               feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-ax = shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
-              feature_wrt = df['Pore Volume'], cmap = 'RdBu', show=False)
-plt.savefig(f'paper\\figures\\fig6b.png', dpi=400)
-plt.show()
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 
 # %%
 feature_wrt = df['Dye']
@@ -211,7 +210,6 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
              show=False
               )
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\figS5a.png', dpi=400)
 plt.show()
 
 # %%
@@ -222,7 +220,6 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Initial Concentration'],
              palette_name="tab20",
              show=False)
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\figS5b.png', dpi=400)
 plt.show()
 
 # %%
@@ -255,10 +252,8 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
-ax = shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
-              feature_wrt = df['Pore Volume'], cmap = 'RdBu', show=False)
-plt.savefig(f'paper\\figures\\fig6c.png', dpi=400)
-plt.show()
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Temperature'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
 feature_wrt = df['Dye']
 d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
@@ -299,10 +294,8 @@ plt.show()
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'])
 # %%
 
-ax = shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
-              feature_wrt = df['Pore Volume'], cmap = 'RdBu', show=False)
-plt.savefig(f'paper\\figures\\fig6d.png', dpi=400)
-plt.show()
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 # %%
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Pyrolysis Time (min)'],
               feature_wrt = df['Surface Area'], cmap = 'RdBu')
@@ -372,11 +365,10 @@ shap_scatter(shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'])
 
 # %%
 
-ax = shap_scatter(
+shap_scatter(
     shap_values=shap_values_exp_ads[:, 'Adsorption Time (min)'],
-    feature_wrt = df_ads_t["Pore Volume"], cmap = 'RdBu', show=False)
-plt.savefig(f'paper\\figures\\fig6e.png', dpi=400)
-plt.show()
+    feature_wrt = df_ads_t["Pore Volume"], cmap = 'RdBu')
+
 # %%
 
 shap_scatter(
@@ -437,10 +429,9 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
               feature_wrt = df['Surface Area'], cmap = 'RdBu')
 # %%
-ax = shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
-              feature_wrt = df['Pore Volume'], cmap = 'RdBu', show=False)
-plt.savefig(f'paper\\figures\\fig6f.png', dpi=400)
-plt.show()
+shap_scatter(shap_values=shap_values_dye_dec[:, 'Adsorbent Loading'],
+              feature_wrt = df['Pore Volume'], cmap = 'RdBu')
+
 # %%
 feature_wrt = df['Dye']
 d = {k:DYE_TYPES[k] for k in feature_wrt.unique()}
@@ -574,19 +565,6 @@ shap_scatter(shap_values=shap_values_dye_dec[:, 'Solution pH'],
 plt.tight_layout()
 plt.show()
 
-# %%
-
-sv_bar = np.mean(np.abs(shap_values_exp.values), axis=0)
-
-ax = bar_chart(sv_bar, shap_values_exp.feature_names,
-          bar_labels=sv_bar, bar_label_kws={'label_type':'edge'},
-          show=False, sort=True, cmap='summer_r')
-ax.spines[['top', 'right']].set_visible(False)
-ax.set_xlabel(xlabel='mean(|SHAP value|)', fontsize=14, weight='bold')
-ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
-ax.set_yticklabels(ax.get_yticklabels(), size=12, weight='bold')
-plt.tight_layout()
-plt.show()
 
 # %%
 # Bar chart of shap values for three classes i.e., ‘Physical properties’,
@@ -625,7 +603,6 @@ handles = [plt.Rectangle((0,0),1,1, color=colors[l]) for l in labels]
 plt.legend(handles, labels, loc='lower right')
 
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig4a.png', dpi=400)
 plt.show()
 
 # %%
@@ -640,7 +617,6 @@ ax = pie(fractions=[experimental, physical, synthesis], labels=['','',''],
             colors=colors.values(),
          textprops={"fontsize":18, "weight":"bold"}, show=False,)
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig4b.png', dpi=400)
 plt.show()
 
 # %%
@@ -683,6 +659,13 @@ plt.show()
 
 # %%
 
+# Default SHAP colors
+default_pos_color = "#ff0051"
+default_neg_color = "#008bfb"
+# Custom colors
+positive_color = "#ca0020"
+negative_color = "#92c5de"
+
 index = test_p.argmax()
 e = Explanation(
     shap_values[index],
@@ -692,8 +675,22 @@ e = Explanation(
 )
 
 waterfall(e, show=False, max_display=20)
+# Change the colormap of the artists
+for fc in plt.gcf().get_children():
+    for fcc in fc.get_children():
+        if isinstance(fcc, matplotlib.patches.FancyArrow):
+            if matplotlib.colors.to_hex(fcc.get_facecolor()) == default_pos_color:
+                fcc.set_facecolor(positive_color)
+            elif matplotlib.colors.to_hex(fcc.get_facecolor()) == default_neg_color:
+                fcc.set_color(negative_color)
+        elif isinstance(fcc, plt.Text):
+            if matplotlib.colors.to_hex(fcc.get_color()) == default_pos_color:
+                fcc.set_color(positive_color)
+            elif matplotlib.colors.to_hex(fcc.get_color()) == default_neg_color:
+                fcc.set_color(negative_color)
+axes = plt.gca()
+axes.figure.set_size_inches((8,6))
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig5.png', dpi=400)
 plt.show()
 
 # %%
@@ -701,6 +698,7 @@ plt.show()
 # the minimum value of prediction.
 
 # %%
+
 index = test_p.argmin()
 e = Explanation(
     shap_values[index],
@@ -710,6 +708,21 @@ e = Explanation(
 )
 
 waterfall(e, show=False, max_display=20)
+# Change the colormap of the artists
+for fc in plt.gcf().get_children():
+    for fcc in fc.get_children():
+        if isinstance(fcc, matplotlib.patches.FancyArrow):
+            if matplotlib.colors.to_hex(fcc.get_facecolor()) == default_pos_color:
+                fcc.set_facecolor(positive_color)
+            elif matplotlib.colors.to_hex(fcc.get_facecolor()) == default_neg_color:
+                fcc.set_color(negative_color)
+        elif isinstance(fcc, plt.Text):
+            if matplotlib.colors.to_hex(fcc.get_color()) == default_pos_color:
+                fcc.set_color(positive_color)
+            elif matplotlib.colors.to_hex(fcc.get_color()) == default_neg_color:
+                fcc.set_color(negative_color)
+axes = plt.gca()
+axes.figure.set_size_inches((8,6))
 plt.tight_layout()
 plt.show()
 
@@ -786,69 +799,69 @@ cbar.ax.set_ylabel('Solution pH', rotation=270)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
-# # %%
-# # Kernel Explainer
-# # =================
-#
-# if platform.system()=='Windows':
-#
-#     X_train_summary = shap.kmeans(X_train, 10)
-#
-#     exp = KernelExplainer(model.predict, X_train_summary)
-#
-#     sv = exp.shap_values(X_test)[0]
-#
-#     dye_sv = sv[:, 58:].sum(axis=1)
-#
-#     adsorbent_sv = sv[:, 10:58].sum(axis=1)
-#
-#     shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
-#
-#     print(shap_values.shape)
-#
-#     # %%
-#
-#     shap_values_exp = Explanation(
-#         shap_values,
-#         data=x_test_original,
-#         feature_names=feature_names
-#     )
-#
-#     # %%
-#
-#     beeswarm(shap_values_exp, show=False)
-#     plt.tight_layout()
-#     plt.show()
-#
-# # %%
-# # Gradient Explainer
-# # ===================
-#
-# exp = GradientExplainer(model._model, data=[X_train])
-#
-# sv = exp.shap_values(X_test)[0]
-#
-# dye_sv = sv[:, 58:].sum(axis=1)
-#
-# adsorbent_sv = sv[:, 10:58].sum(axis=1)
-#
-# shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
-#
-# print(shap_values.shape)
-#
-# # %%
-#
-# shap_values_exp = Explanation(
-#     shap_values,
-#     data=x_test_original,
-#     feature_names=feature_names
-# )
-#
-# # %%
-#
-# beeswarm(shap_values_exp, show=False)
-# plt.tight_layout()
-# plt.show()
+# %%
+# Kernel Explainer
+# =================
+
+if platform.system()=='Windows':
+
+    X_train_summary = shap.kmeans(X_train, 10)
+
+    exp = KernelExplainer(model.predict, X_train_summary)
+
+    sv = exp.shap_values(X_test)[0]
+
+    dye_sv = sv[:, 58:].sum(axis=1)
+
+    adsorbent_sv = sv[:, 10:58].sum(axis=1)
+
+    shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
+
+    print(shap_values.shape)
+
+    # %%
+
+    shap_values_exp = Explanation(
+        shap_values,
+        data=x_test_original,
+        feature_names=feature_names
+    )
+
+    # %%
+
+    beeswarm(shap_values_exp, show=False)
+    plt.tight_layout()
+    plt.show()
+
+# %%
+# Gradient Explainer
+# ===================
+
+exp = GradientExplainer(model._model, data=[X_train])
+
+sv = exp.shap_values(X_test)[0]
+
+dye_sv = sv[:, 58:].sum(axis=1)
+
+adsorbent_sv = sv[:, 10:58].sum(axis=1)
+
+shap_values = np.column_stack((sv[:, 0:10], dye_sv, adsorbent_sv))
+
+print(shap_values.shape)
+
+# %%
+
+shap_values_exp = Explanation(
+    shap_values,
+    data=x_test_original,
+    feature_names=feature_names
+)
+
+# %%
+
+beeswarm(shap_values_exp, show=False)
+plt.tight_layout()
+plt.show()
 
 
 

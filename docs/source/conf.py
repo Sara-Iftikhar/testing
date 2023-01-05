@@ -14,9 +14,6 @@ import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-import site
-site.addsitedir(r"E:\AA\AI4Water")
-
 # -- Project information -----------------------------------------------------
 
 project = 'adsorption_ai'

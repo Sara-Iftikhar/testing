@@ -105,7 +105,7 @@ plt.show()
 
 # %%
 
-regplot(pd.DataFrame(y_train), pd.DataFrame(train_p), 'Training',
+regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
         annotation_key='$R^2$',
         annotation_val=RegressionMetrics(y_train,train_p).r2(),
         marker_size=60,
@@ -155,7 +155,7 @@ plt.show()
 
 # %%
 
-regplot(pd.DataFrame(y_test), pd.DataFrame(test_p), 'Test',
+regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         annotation_key='$R^2$',
         annotation_val=RegressionMetrics(y_test,test_p).r2(),
         marker_size=60,
@@ -179,10 +179,10 @@ legend_properties = {'weight':'bold',
                      'size': 14}
 
 ax = plot(h.history['loss'], show=False, label='Training'
-                    , xlabel='Epochs', ylabel='Loss'
+                    , ax_kws=dict(xlabel='Epochs', ylabel='Loss')
                     )
 ax = plot(h.history['val_loss'], ax=ax, label='Test',
-                xlabel='Epochs', ylabel='Loss', show=False)
+                show=False)
 
 ax.set_ylabel(ylabel= 'Loss', fontsize=14, weight='bold')
 ax.set_xlabel(xlabel='Epochs', fontsize=14, weight='bold')
@@ -190,7 +190,6 @@ ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig3a.png', dpi=400)
 plt.show()
 
 # %%
@@ -219,7 +218,6 @@ ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig3d.png', dpi=400)
 plt.show()
 
 # %%
@@ -234,10 +232,10 @@ edf_plot(np.abs(y_train-train_p), label='Training',
          #c=np.array([234, 106, 41])/255,
          linewidth=2.5,
          show=False, ax=ax,)
-edf_plot(np.abs(y_test-test_p), xlabel='Absolute error',
+edf_plot(np.abs(y_test-test_p),
          c=np.array([68, 178, 205])/255, linewidth=2.5,
          label='Test', ax=ax, show=False,
-         grid=True)
+         ax_kws=dict(grid=True, xlabel='Absolute error'))
 ax.set_ylabel(ylabel= 'Commulative Probabilty', fontsize=14, weight='bold')
 ax.set_xlabel(xlabel='Absolute Error', fontsize=14, weight='bold')
 ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
@@ -245,7 +243,6 @@ ax.set_yticklabels(ax.get_yticks().round(2), size=12, weight='bold')
 ax.legend(prop=legend_properties)
 plt.title("Empirical Distribution Function Plot",fontweight="bold")
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig3c.png', dpi=400)
 plt.show()
 
 # %%
@@ -348,7 +345,6 @@ ax2.set_ylabel('Predicted Adsorption Capacity (mg/g)', fontsize=14, weight='bold
 ax2.set_yticklabels(ax2.get_yticks().astype(int), size=12, weight='bold')
 ax2.legend(prop=legend_properties, loc = 'upper center')
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig.png', dpi=400)
 plt.show()
 
 
@@ -383,5 +379,4 @@ ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
 ax.legend(prop=legend_properties)
 plt.tight_layout()
-plt.savefig(f'paper\\figures\\fig3b.png', dpi=400)
 plt.show()

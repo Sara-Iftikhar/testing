@@ -1,5 +1,5 @@
-git+https://github.com/AtrCheema/AI4Water.git@e7da7f49792b467f99186e6dd61b97486750ae3c
-git+https://github.com/Sara-Iftikhar/easy_mpl.git@b4629329fa387a292b33ef7ba087e4cf4ba363f0
+git+https://github.com/AtrCheema/AI4Water.git@0aa14382e19e7ef03f6d189dd2f11c813a2591e0
+easy_mpl==0.21.2
 numpy==1.19.5
 matplotlib==3.4.3
 tensorflow==2.6.0
