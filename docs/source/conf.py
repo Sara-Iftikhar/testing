@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+from sphinx_gallery.sorting import ExampleTitleSortKey, FileNameSortKey
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -70,7 +71,8 @@ sphinx_gallery_conf = {
     # each code block
     'capture_repr': ('_repr_html_', '__repr__'),
     'matplotlib_animations': True,
-    'image_srcset': ["2x"]
+    'image_srcset': ["2x"],
+    'within_subsection_order': ExampleTitleSortKey,
 }
 
 # -- Options for HTML output -------------------------------------------------
