@@ -23,7 +23,7 @@ from ai4water.preprocessing import DataSet
 
 # %%
 from SeqMetrics import RegressionMetrics
-from scripts.utils import get_data, evaluate_model, get_dataset, data_before_encoding
+from utils import get_dataset
 
 # %%
 
