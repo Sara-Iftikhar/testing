@@ -15,14 +15,10 @@ os.environ['PYTHONHASHSEED'] = str(1575)
 tf.random.set_seed(1575)
 
 from tabnet.tabnet import TabNetRegressor
+
 from ai4water.postprocessing import LossCurve
-# from pytorch_tabnet.tab_model import TabNetRegressor
-# from pytorch_tabnet.augmentations import RegressionSMOTE
-
-from ai4water.preprocessing import DataSet
-
-# %%
 from SeqMetrics import RegressionMetrics
+
 from utils import get_dataset
 
 # %%
