@@ -1,7 +1,7 @@
 git+https://github.com/AtrCheema/AI4Water.git@0aa14382e19e7ef03f6d189dd2f11c813a2591e0
 tabnet
 easy_mpl==0.21.2
-numpy==1.21.5
+numpy==1.20.0
 matplotlib
 tensorflow==2.6.0
 keras==2.6.0
