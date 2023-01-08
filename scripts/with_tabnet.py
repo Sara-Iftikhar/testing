@@ -36,14 +36,14 @@ X_test, y_test = ads_df_enc.test_data()
 train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
 train_dataset = train_dataset.shuffle(buffer_size=1000, seed=1575,
                                       reshuffle_each_iteration=True)
-train_dataset = train_dataset.batch(32).prefetch(tf.data.experimental.AUTOTUNE)
+train_dataset = train_dataset.batch(64).prefetch(tf.data.experimental.AUTOTUNE)
 
 # %%
 
 valid_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test))
 valid_dataset = valid_dataset.shuffle(buffer_size=1000, seed=1575,
                                       reshuffle_each_iteration=True)
-valid_dataset = valid_dataset.batch(32).prefetch(tf.data.experimental.AUTOTUNE)
+valid_dataset = valid_dataset.batch(64).prefetch(tf.data.experimental.AUTOTUNE)
 
 # %%
 
@@ -60,7 +60,10 @@ clf = TabNetRegressor( feature_columns=None, num_features=74,
 
 # %%
 
-lr = tf.keras.optimizers.schedules.ExponentialDecay(0.01, decay_steps=100, decay_rate=0.9, staircase=False)
+lr = tf.keras.optimizers.schedules.ExponentialDecay(0.01,
+                                                    decay_steps=100,
+                                                    decay_rate=0.9,
+                                                    staircase=False)
 
 # %%
 
@@ -73,7 +76,7 @@ clf.compile(optimizer, loss='mse', #metrics=['nse']
 
 # %%
 
-h = clf.fit(train_dataset, epochs=500, batch_size=64,
+h = clf.fit(train_dataset, epochs=500,
             validation_data=valid_dataset,
         verbose=2)
 
