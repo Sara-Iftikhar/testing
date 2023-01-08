@@ -3,7 +3,7 @@ tabnet
 easy_mpl==0.21.2
 numpy==1.20.0
 matplotlib
-tensorflow==2.6.0
+tensorflow==2.7.0
 keras==2.6.0
 h5py==3.1.0
 scikit-learn==1.0.2
