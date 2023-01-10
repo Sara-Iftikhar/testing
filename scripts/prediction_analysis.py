@@ -9,12 +9,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
-from utils import get_dataset, get_data, get_fitted_model, evaluate_model, plot_violin_
+from utils import get_dataset, get_fitted_model, evaluate_model, plot_violin_
 
 
 # %%
 
-X_train, y_train, X_test, y_test = get_data()
+dataset ,  _, _ = get_dataset()
+X_train, y_train = dataset.training_data()
+X_test, y_test = dataset.test_data()
 
 # %%
 

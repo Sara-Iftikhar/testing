@@ -19,15 +19,16 @@ from ai4water.utils import edf_plot
 from easy_mpl import plot, regplot, ridge, circular_bar_plot
 from SeqMetrics import RegressionMetrics
 
-from utils import get_data, evaluate_model, get_dataset, data_before_encoding
+from utils import evaluate_model, get_dataset, make_data
 
 get_version_info()
 
 # %%
 
-X_train, y_train, X_test, y_test = get_data()
-ds ,  _, _ = get_dataset()
-original_data = data_before_encoding()
+dataset ,  _, _ = get_dataset()
+X_train, y_train = dataset.training_data()
+X_test, y_test = dataset.test_data()
+original_data, _, _ = make_data(encode=False)
 
 # %%
 # There are total 12 input features used in this study, which are listed below.
@@ -54,8 +55,8 @@ model = Model(
     model=MLP(units=99, num_layers=4,
               activation='relu'),
     lr=0.006440897421063212,
-    input_features=ds.input_features,
-    output_features=ds.output_features,
+    input_features=dataset.input_features,
+    output_features=dataset.output_features,
     epochs=600, batch_size=48,
     verbosity=0,
     prefix=path,
@@ -149,7 +150,7 @@ for k,v in errors.items():
     if 0.<v<5.0:
         n_errors[k] = v
 
-ax = circular_bar_plot(n_errors, sort=True, show=False, figsize=(8,9))
+_ = circular_bar_plot(n_errors, sort=True, show=False, figsize=(8,9))
 plt.tight_layout()
 plt.show()
 

@@ -1,16 +1,20 @@
 
 import os
+import random
+from typing import Union, List, Tuple, Any
+from collections.abc import KeysView, ValuesView
+
+import shap
+from shap.plots import scatter
 
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
-import random
-from typing import Union, List
-from sklearn.preprocessing import OneHotEncoder
+
 from sklearn.model_selection import KFold
-import shap
-from shap.plots import scatter
+from sklearn.preprocessing import OneHotEncoder
+
+import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 from ai4water.functional import Model as f_model
@@ -22,14 +26,13 @@ from ai4water.preprocessing import DataSet
 from ai4water.utils.utils import dateandtime_now
 
 from SeqMetrics import RegressionMetrics
+
 from easy_mpl import violin_plot
 from easy_mpl.utils import is_rgb
 from easy_mpl.utils import BAR_CMAPS
 from easy_mpl.utils import process_axes
 from easy_mpl.utils import create_subplots
 from easy_mpl.utils import to_1d_array, make_cols_from_cmap
-
-from collections.abc import KeysView, ValuesView
 
 
 ADSORBENT_TYPES = {
@@ -101,7 +104,7 @@ DYE_TYPES = {
 }
 
 # function for OHE
-def _ohe_encoder(df:pd.DataFrame, col_name:str)->tuple:
+def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
     assert isinstance(col_name, str)
 
     encoder = OneHotEncoder(sparse=False)
@@ -110,9 +113,12 @@ def _ohe_encoder(df:pd.DataFrame, col_name:str)->tuple:
 
     df[cols_added] = ohe_cat
 
+    df.pop(col_name)
+
     return df, cols_added, encoder
 
-def data_before_encoding():
+
+def _load_data(input_features):
 
     # read excel
     ads_df = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
@@ -137,41 +143,82 @@ def data_before_encoding():
     # merging data
     data = [ads_df, dye_df]
 
-    whole_data = pd.concat(data)
-    whole_data = whole_data.dropna()
+    data = pd.concat(data)
+    data = data.dropna()
 
-    whole_data = whole_data.reset_index()
-    whole_data.pop('index')
+    data = data.reset_index(drop=True)
 
-    whole_data.columns = ['Adsorption Time (min)', 'Adsorbent', 'Pyrolysis Temperature',
+    data.columns = ['Adsorption Time (min)', 'Adsorbent', 'Pyrolysis Temperature',
                     'Pyrolysis Time (min)', 'Dye', 'Initial Concentration', 'Solution pH',
                     'Adsorbent Loading', 'Volume (L)', 'Adsorption Temperature',
                     'Surface Area', 'Pore Volume', 'Adsorption']
 
-    whole_data['Dye'] = whole_data['Dye'].str.replace('Fast Green FCF', 'FG FCF')
+    data['Dye'] = data['Dye'].str.replace('Fast Green FCF', 'FG FCF')
 
-    return whole_data
+    target = ['Adsorption']
+    if input_features is None:
+        input_features = data.columns.tolist()[0:-1]
+    else:
+        assert isinstance(input_features, list)
+        assert all([feature in data.columns for feature in input_features])
+
+    return data[input_features + target]
 
 
-def _make_data():
+def make_data(
+        input_features:list = None,
+        encode:bool = True)->Tuple[pd.DataFrame, Any, Any]:
+    """
+    prepares data for adsorption capacity prediction.
 
-    whole_data = data_before_encoding()
+    Parameters
+    ----------
+    input_features : list
+        names of variables to use as input
+    encode : bool (default=True)
+        whether to one hot encode the categorical variables or not
 
-    #applying OHE
-    whole_data_enc_, _, adsorbent_enc = _ohe_encoder(whole_data, 'Adsorbent')
-    whole_data_enc__ = whole_data_enc_.drop(columns='Adsorbent')
+    Returns
+    -------
+    data : pd.DataFrame
+        a pandas dataframe whose first 10 columns are numerical features
+        and next columns contain categorical features. The last column is
+        the target feature.
 
-    whole_data_enc, _, dye_encoder = _ohe_encoder(whole_data_enc__, 'Dye')
-    whole_data_enc = whole_data_enc.drop(columns='Dye')
+    Examples
+    --------
+    >>> data, ae, de = make_data()
+    >>> data.shape
+    (1514, 75)
+    >>> len(ae.categories_[0])
+    48
+    to get the original adsorbent values we can do as below
+    >>> ae.inverse_transform(data.iloc[:, 10:58].values)
+    >>> len(de.categories_[0])
+    16
+    >>> de.inverse_transform(data.iloc[:, 58:-1].values)
+    >>> data, _, _ = make_data(encode=False)
+    >>> data.shape
+    (1514, 13)
+    """
+    data = _load_data(input_features)
 
-    df1 = whole_data_enc.pop('Adsorption')
-    whole_data_enc['Adsorption'] = df1
+    adsorbent_encoder, dye_encoder = None, None
+    if encode:
+        # applying OHE
+        data, _, adsorbent_encoder = _ohe_column(data, 'Adsorbent')
 
-    return whole_data_enc, adsorbent_enc, dye_encoder
+        data, _, dye_encoder = _ohe_column(data, 'Dye')
+
+    # moving target to last
+    target = data.pop('Adsorption')
+    data['Adsorption'] = target
+
+    return data, adsorbent_encoder, dye_encoder
 
 
 def get_dataset():
-    whole_data_enc, adsorbent_encoder, dye_encoder = _make_data()
+    whole_data_enc, adsorbent_encoder, dye_encoder = make_data()
 
     dataset = DataSet(data=whole_data_enc,
                       seed=1575,
@@ -181,16 +228,6 @@ def get_dataset():
                       output_features=whole_data_enc.columns.tolist()[-1:],
                       )
     return dataset, adsorbent_encoder, dye_encoder
-
-
-def get_data():
-
-    dataset, _, _ = get_dataset()
-
-    X_train, y_train = dataset.training_data()
-
-    X_test, y_test = dataset.test_data()
-    return X_train, y_train, X_test, y_test
 
 
 def make_path():
@@ -203,8 +240,9 @@ def get_fitted_model(return_path=False,
                      model_type=None,
                      from_config=True):
 
-    X_train, y_train, X_test, y_test = get_data()
-    ds, _, _ = get_dataset()
+    dataset, _, _ = get_dataset()
+
+    X_train, y_train = dataset.training_data()
 
     if from_config:
         path = os.path.join(os.getcwd(), 'results', 'mlp_20221217_213202')
@@ -229,8 +267,8 @@ def get_fitted_model(return_path=False,
                 model=MLP(units=99, num_layers=4,
                           activation='relu'),
                 lr=0.006440897421063212,
-                input_features=ds.input_features,
-                output_features=ds.output_features,
+                input_features=dataset.input_features,
+                output_features=dataset.output_features,
                 epochs=400, batch_size=48,
                 verbosity=0
             )
@@ -239,8 +277,8 @@ def get_fitted_model(return_path=False,
                 model=MLP(units=99, num_layers=4,
                           activation='relu'),
                 lr=0.006440897421063212,
-                input_features=ds.input_features,
-                output_features=ds.output_features,
+                input_features=dataset.input_features,
+                output_features=dataset.output_features,
                 epochs=400, batch_size=48,
                 verbosity=0
             )
@@ -342,8 +380,9 @@ def plot_violin_(feature_name, test_p, cut,
                  show_bar=False,
                  show_violin=True):
 
-    _, _, X_test, _ = get_data()
     dataset, _, _ = get_dataset()
+
+    X_test, _ = dataset.test_data()
 
     ax, df = prediction_distribution_plot(
         mode='regression',

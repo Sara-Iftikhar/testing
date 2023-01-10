@@ -22,12 +22,13 @@ from ai4water.hyperopt import Categorical, Real, Integer, HyperOpt
 
 from SeqMetrics import RegressionMetrics
 
-from utils import _make_data, get_data, evaluate_model, get_dataset
+from utils import get_dataset, evaluate_model
 
 # %%
 
-X_train, y_train, X_test, y_test = get_data()
-ds ,  _, _ = get_dataset()
+dataset ,  _, _ = get_dataset()
+X_train, y_train = dataset.training_data()
+X_test, y_test = dataset.test_data()
 
 # %%
 # Performance with default hyperparameters
@@ -35,10 +36,10 @@ ds ,  _, _ = get_dataset()
 # First, we will train the hyperparameters with default parameters
 
 model = Model(
-                model=MLP(),
+    model=MLP(),
                 epochs=400,
-                input_features=ds.input_features,
-                output_features=ds.output_features
+                input_features=dataset.input_features,
+                output_features=dataset.output_features
              )
 
 # %%
@@ -111,8 +112,8 @@ def objective_fn(
         split_random=True,
         seed=seed,
         epochs=epochs,
-        input_features=ds.input_features,
-        output_features=ds.output_features,
+        input_features=dataset.input_features,
+        output_features=dataset.output_features,
         verbosity=0)
 
     # train model

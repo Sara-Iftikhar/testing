@@ -14,13 +14,13 @@ import pandas as pd
 from ai4water.eda import EDA
 from easy_mpl.utils import create_subplots
 
-from utils import data_before_encoding, box_violin, \
+from utils import make_data, box_violin, \
     DYE_TYPES, ADSORBENT_TYPES
 
 # %%
 # Loading the original dataset
 
-ads_df = data_before_encoding()
+ads_df, _, _ = make_data(encode=False)
 
 # %%
 # Here, we are printing the shape of original dataset.
@@ -137,7 +137,7 @@ plt.show()
 
 # %%
 
-df = data_before_encoding()
+df, _, _ = make_data(encode=False)
 df.pop('Dye')
 feature = df['Adsorbent']
 d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
@@ -173,7 +173,7 @@ plt.show()
 
 # %%
 
-df = data_before_encoding()
+df, _, _ = make_data()
 df.pop('Adsorbent')
 feature = df['Dye']
 d = {k:DYE_TYPES[k] for k in feature.unique()}
@@ -206,7 +206,7 @@ plt.show()
 
 # %%
 
-df = data_before_encoding()
+df, _, _ = make_data()
 feature = df['Adsorbent']
 d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
 feature = feature.map(d)

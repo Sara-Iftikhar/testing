@@ -15,18 +15,20 @@ import matplotlib
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
-from shap import DeepExplainer, GradientExplainer, KernelExplainer
 from shap import Explanation
+from shap import DeepExplainer, GradientExplainer, KernelExplainer
 from shap.plots import beeswarm, violin, heatmap, waterfall
-from sklearn.preprocessing import LabelEncoder
+
 from sklearn.manifold import TSNE
-from easy_mpl import imshow, pie
+
 from umap import UMAP
-from easy_mpl.utils import create_subplots, make_cols_from_cmap
+
+from easy_mpl import imshow, pie, bar_chart
+from easy_mpl.utils import create_subplots
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
-    box_violin, shap_interaction_all, shap_scatter, DYE_TYPES, \
-    ADSORBENT_TYPES, bar_chart
+    box_violin, shap_scatter, DYE_TYPES, \
+    ADSORBENT_TYPES
 
 # %%
 

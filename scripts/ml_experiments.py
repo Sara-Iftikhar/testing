@@ -1,27 +1,27 @@
 """
-================
+==================
 2. ML Experiments
-================
+==================
 """
 
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 # %%
 
-from utils import _make_data
+from utils import make_data
 from ai4water.experiments import MLRegressionExperiments
 
 # %%
 
-ads_df_enc, _, _ = _make_data()
+data, _, _ = make_data()
 
-ads_df_enc.head()
+data.head()
 
 # %%
 
 comparisons = MLRegressionExperiments(
-    input_features=ads_df_enc.columns.tolist()[0:-1],
-    output_features=ads_df_enc.columns.tolist()[-1:],
+    input_features=data.columns.tolist()[0:-1],
+    output_features=data.columns.tolist()[-1:],
     split_random=True,
     seed=1575,
     verbosity=0,
@@ -30,7 +30,7 @@ comparisons = MLRegressionExperiments(
 
 # %%
 
-comparisons.fit(data=ads_df_enc, run_type="dry_run",
+comparisons.fit(data=data, run_type="dry_run",
                 include=['XGBRegressor',
                           'AdaBoostRegressor', 'LinearSVR',
                          'BaggingRegressor', 'DecisionTreeRegressor',
@@ -41,14 +41,14 @@ comparisons.fit(data=ads_df_enc, run_type="dry_run",
 
 # %%
 
-_ = comparisons.compare_errors('r2', data=ads_df_enc)
+_ = comparisons.compare_errors('r2', data=data)
 plt.tight_layout()
 plt.show()
 
 
 # %%
 
-_ = comparisons.compare_errors('mse', data=ads_df_enc,
+_ = comparisons.compare_errors('mse', data=data,
                                cutoff_val=1e7, cutoff_type="less")
 plt.tight_layout()
 plt.show()
@@ -57,27 +57,27 @@ plt.show()
 
 _ = best_models = comparisons.compare_errors('r2_score',
                                          cutoff_type='greater',
-                                         cutoff_val=0.01, data=ads_df_enc)
+                                         cutoff_val=0.01, data=data)
 plt.tight_layout()
 plt.show()
 
 # %%
 
-comparisons.taylor_plot(data=ads_df_enc)
+comparisons.taylor_plot(data=data)
 
 # %%
 
-comparisons.compare_edf_plots(data=ads_df_enc,
+comparisons.compare_edf_plots(data=data,
                               exclude=["SGDRegressor", "KernelRidge", "PoissonRegressor"])
 plt.tight_layout()
 plt.show()
 
 # %%
 
-_ = comparisons.compare_regression_plots(data=ads_df_enc, figsize=(12, 14))
+_ = comparisons.compare_regression_plots(data=data, figsize=(12, 14))
 
 # %%
 
-_ = comparisons.compare_residual_plots(data=ads_df_enc, figsize=(12, 14))
+_ = comparisons.compare_residual_plots(data=data, figsize=(12, 14))
 
 
