@@ -12,7 +12,7 @@ import seaborn as sns
 import pandas as pd
 
 from ai4water.eda import EDA
-from easy_mpl import plot
+from easy_mpl import plot, boxplot, hist
 from easy_mpl.utils import create_subplots
 
 from utils import make_data, box_violin, \
@@ -81,12 +81,12 @@ plt.show()
 # %%
 # making a line plot for numerical features
 
-h_paras = ads_df.columns
 fig, axes = create_subplots(ads_df.shape[1])
 
-for ax, col, label  in zip(axes.flat, ads_df, h_paras):
+for ax, col, label  in zip(axes.flat, ads_df, ads_df.columns):
 
     plot(ads_df[col].values, ax=ax, ax_kws=dict(ylabel=col),
+         lw=0.9,
          color='darkcyan', show=False)
 plt.tight_layout()
 plt.show()
@@ -95,17 +95,15 @@ plt.show()
 
 fig, axes = create_subplots(ads_df.shape[1])
 for ax, col in zip(axes.flat, ads_df.columns):
-    sns.boxplot(ads_df[col], ax=ax,
-                fliersize=0.6,
-                color='lightpink',
-                orient='h',
-                )
-    ax.set_xlabel(xlabel=col, weight='bold')
-    ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
+    boxplot(ads_df[col].values, ax=ax, vert=False, fill_color='lightpink',
+            flierprops={"ms": 1.0}, show=False, patch_artist=True,
+            widths=0.6, medianprops={"color": "gray"},
+            ax_kws=dict(xlabel=col, xlabel_kws={'weight': "bold"}))
 plt.tight_layout()
 plt.show()
 
 # %%
+# show the box and (half) violin plots together
 
 fig, axes = create_subplots(ads_df.shape[1])
 for ax, col in zip(axes.flat, ads_df.columns):
@@ -118,16 +116,13 @@ plt.show()
 
 # %%
 
-h_paras = ads_df.columns
 fig, axes = create_subplots(ads_df.shape[1])
 
-if not isinstance(axes, np.ndarray):
-    axes = np.array([axes])
+for ax, col, label  in zip(axes.flat, ads_df, ads_df.columns):
 
-for ax, col, label  in zip(axes.flat, ads_df, h_paras):
-
-    sns.histplot(ads_df[col], ax=ax)
-plt.legend()
+    hist(ads_df[col].values, ax=ax, bins=10,  show=False,
+         grid=False,linewidth=0.5, edgecolor="k", color="khaki",
+         ax_kws=dict(ylabel="Counts", xlabel=col))
 plt.tight_layout()
 plt.show()
 
@@ -141,28 +136,25 @@ feature = feature.map(d)
 df['Adsorbent'] = feature
 
 df_gb = df.loc[df['Adsorbent']=="GB"]
-df_gb['code'] = "GB"
 df_ac = df.loc[df['Adsorbent']=="AC"]
-df_ac['code'] = "AC"
 df_bio = df.loc[df['Adsorbent']=="Biochar"]
-df_bio['code'] = "BC"
 
 fig, axes = create_subplots(ads_df.shape[1])
 
 for ax, col in zip(axes.flat, ads_df.columns):
-    df_ads_feat = pd.concat([df_gb[[col, 'code']],
-                             df_ac[[col, 'code']],
-                             df_bio[[col, 'code']]])
 
-    sns.boxplot(df_ads_feat, y='code', x=col,
+    boxplot([df_gb[col], df_ac[col], df_bio[col]],
+            labels=["GB", "AC", "BC"],
                 ax=ax,
-                fliersize=0.6,
-                color='lightpink',
-                orient='h',
-                width=0.5,
+                flierprops={"ms": 0.6},
+                fill_color='lightpink',
+                patch_artist=True,
+                widths=0.5,
+            medianprops={"color": "gray"},
+            vert=False,
+            show=False,
+            ax_kws=dict(xlabel=col, xlabel_kws={'weight': 'bold'})
                 )
-    ax.set_xlabel(xlabel=col, weight='bold')
-    ax.set_ylabel('')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
 plt.show()
@@ -177,25 +169,24 @@ feature = feature.map(d)
 df['Dye'] = feature
 
 df_an = df.loc[df['Dye']=="Anionic"]
-df_an['code'] = "AN"
 df_cat = df.loc[df['Dye']=="Cationic"]
-df_cat['code'] = "CT"
 
 fig, axes = create_subplots(ads_df.shape[1])
 
 for ax, col in zip(axes.flat, ads_df.columns):
-    df_ads_feat = pd.concat([df_an[[col, 'code']],
-                             df_cat[[col, 'code']]])
 
-    sns.boxplot(df_ads_feat, y='code', x=col,
+    boxplot([df_an[col], df[col]],
+            labels=["AN", "CT"],
                 ax=ax,
-                fliersize=0.6,
-                color='lightpink',
-                orient='h',
-                width=0.5,
+                flierprops={"ms": 0.6},
+            medianprops={"color": "gray"},
+                fill_color='lightpink',
+            patch_artist=True,
+                vert=False,
+                widths=0.5,
+            show=False,
+            ax_kws=dict(xlabel=col, xlabel_kws={"weight": "bold"})
                 )
-    ax.set_xlabel(xlabel=col, weight='bold')
-    ax.set_ylabel('')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
 plt.show()
@@ -249,15 +240,18 @@ for ax, col in zip(axes.flat, COLUMNS):
                              df_bc[[col, 'code']],
                              df_gb[[col, 'code']]])
 
-    sns.boxplot(df_ads_feat, y='code', x=col,
-                ax=ax,
-                fliersize=0.6,
-                color='lightpink',
-                orient='h',
-                width=0.5,  medianprops={"color": "black"}
+    boxplot([df_ac[col], df_bc[col], df_gb[col]],
+            labels=["AC", "BC", "GB"],
+            ax=ax,
+            flierprops={"ms": 0.6},
+            medianprops={"color": "black"},
+            fill_color='lightpink',
+            patch_artist=True,
+            vert=False,
+            widths=0.5,
+            show=False,
+            ax_kws=dict(xlabel=col, xlabel_kws={"weight": "bold"})
                 )
-    ax.set_xlabel(xlabel=col, weight='bold')
-    ax.set_ylabel('')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
 plt.show()
