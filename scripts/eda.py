@@ -173,7 +173,7 @@ plt.show()
 
 # %%
 
-df, _, _ = make_data()
+df, _, _ = make_data(encode=False)
 df.pop('Adsorbent')
 feature = df['Dye']
 d = {k:DYE_TYPES[k] for k in feature.unique()}
@@ -206,7 +206,7 @@ plt.show()
 
 # %%
 
-df, _, _ = make_data()
+df, _, _ = make_data(encode=False)
 feature = df['Adsorbent']
 d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
 feature = feature.map(d)
