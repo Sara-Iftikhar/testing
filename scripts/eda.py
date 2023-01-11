@@ -12,6 +12,7 @@ import seaborn as sns
 import pandas as pd
 
 from ai4water.eda import EDA
+from easy_mpl import plot
 from easy_mpl.utils import create_subplots
 
 from utils import make_data, box_violin, \
@@ -83,15 +84,10 @@ plt.show()
 h_paras = ads_df.columns
 fig, axes = create_subplots(ads_df.shape[1])
 
-if not isinstance(axes, np.ndarray):
-    axes = np.array([axes])
-
 for ax, col, label  in zip(axes.flat, ads_df, h_paras):
 
-    sns.lineplot(ads_df[col], ax=ax,
-                palette = 'Spectral',
-         )
-plt.legend()
+    plot(ads_df[col].values, ax=ax, ax_kws=dict(ylabel=col),
+         color='darkcyan', show=False)
 plt.tight_layout()
 plt.show()
 
