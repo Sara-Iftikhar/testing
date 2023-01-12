@@ -21,53 +21,53 @@ from utils import make_data, box_violin, \
 # %%
 # Loading the original dataset
 
-ads_df, _, _ = make_data(encode=False)
+data, _, _ = make_data(encode=False)
 
 # %%
 # Here, we are printing the shape of original dataset.
 # The first value shows the number of samples/examples/datapoints
 # and the second one shows the number of features.
 
-print(ads_df.shape)
+print(data.shape)
 
 # %%
 # The first five samples are
 
-ads_df.head()
+data.head()
 
 # %%
 # The last five samples are
 
-ads_df.tail()
+data.tail()
 
 # %%
 # The names of different adsorbents are
 
-ads_df['Adsorbent'].unique()
+data['Adsorbent'].unique()
 
 # %%
 # The names of different dyes are
 
-ads_df['Dye'].unique()
+data['Dye'].unique()
 
 # %%
 # Removing the categorical features from our dataframe
 
-ads_df.pop("Adsorbent")
-ads_df.pop("Dye")
+data.pop("Adsorbent")
+data.pop("Dye")
 
 # %%
 # get statistical summary of data
 
 pd.set_option('display.max_columns', None)
 
-print(ads_df.describe())
+print(data.describe())
 
 # %%
 # initializing an instance of EDA class from AI4Water
 # in order to get some insights of the data
 
-eda = EDA(data = ads_df, save=False, show=False)
+eda = EDA(data = data, save=False, show=False)
 
 # %%
 # plot correlation between numerical features
@@ -81,11 +81,11 @@ plt.show()
 # %%
 # making a line plot for numerical features
 
-fig, axes = create_subplots(ads_df.shape[1])
+fig, axes = create_subplots(data.shape[1])
 
-for ax, col, label  in zip(axes.flat, ads_df, ads_df.columns):
+for ax, col, label  in zip(axes.flat, data, data.columns):
 
-    plot(ads_df[col].values, ax=ax, ax_kws=dict(ylabel=col),
+    plot(data[col].values, ax=ax, ax_kws=dict(ylabel=col),
          lw=0.9,
          color='darkcyan', show=False)
 plt.tight_layout()
@@ -93,9 +93,9 @@ plt.show()
 
 # %%
 
-fig, axes = create_subplots(ads_df.shape[1])
-for ax, col in zip(axes.flat, ads_df.columns):
-    boxplot(ads_df[col].values, ax=ax, vert=False, fill_color='lightpink',
+fig, axes = create_subplots(data.shape[1])
+for ax, col in zip(axes.flat, data.columns):
+    boxplot(data[col].values, ax=ax, vert=False, fill_color='lightpink',
             flierprops={"ms": 1.0}, show=False, patch_artist=True,
             widths=0.6, medianprops={"color": "gray"},
             ax_kws=dict(xlabel=col, xlabel_kws={'weight': "bold"}))
@@ -105,9 +105,9 @@ plt.show()
 # %%
 # show the box and (half) violin plots together
 
-fig, axes = create_subplots(ads_df.shape[1])
-for ax, col in zip(axes.flat, ads_df.columns):
-    box_violin(ax=ax, data=ads_df[col], palette="Set2")
+fig, axes = create_subplots(data.shape[1])
+for ax, col in zip(axes.flat, data.columns):
+    box_violin(ax=ax, data=data[col], palette="Set2")
     ax.set_xlabel(xlabel=col, weight='bold')
     ax.set_yticklabels(ax.get_yticklabels(), weight='bold')
 plt.tight_layout()
@@ -116,11 +116,11 @@ plt.show()
 
 # %%
 
-fig, axes = create_subplots(ads_df.shape[1])
+fig, axes = create_subplots(data.shape[1])
 
-for ax, col, label  in zip(axes.flat, ads_df, ads_df.columns):
+for ax, col, label  in zip(axes.flat, data, data.columns):
 
-    hist(ads_df[col].values, ax=ax, bins=10,  show=False,
+    hist(data[col].values, ax=ax, bins=10,  show=False,
          grid=False,linewidth=0.5, edgecolor="k", color="khaki",
          ax_kws=dict(ylabel="Counts", xlabel=col))
 plt.tight_layout()
@@ -139,9 +139,9 @@ df_gb = df.loc[df['Adsorbent']=="GB"]
 df_ac = df.loc[df['Adsorbent']=="AC"]
 df_bio = df.loc[df['Adsorbent']=="Biochar"]
 
-fig, axes = create_subplots(ads_df.shape[1])
+fig, axes = create_subplots(data.shape[1])  # todo why data?
 
-for ax, col in zip(axes.flat, ads_df.columns):
+for ax, col in zip(axes.flat, data.columns):
 
     boxplot([df_gb[col], df_ac[col], df_bio[col]],
             labels=["GB", "AC", "BC"],
@@ -171,9 +171,9 @@ df['Dye'] = feature
 df_an = df.loc[df['Dye']=="Anionic"]
 df_cat = df.loc[df['Dye']=="Cationic"]
 
-fig, axes = create_subplots(ads_df.shape[1])
+fig, axes = create_subplots(data.shape[1])  #todo why data why not df?
 
-for ax, col in zip(axes.flat, ads_df.columns):
+for ax, col in zip(axes.flat, data.columns):
 
     boxplot([df_an[col], df[col]],
             labels=["AN", "CT"],
@@ -193,17 +193,17 @@ plt.show()
 
 # %%
 
-df, _, _ = make_data(encode=False)
-feature = df['Adsorbent']
+data, _, _ = make_data(encode=False)
+feature = data['Adsorbent']
 d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
 feature = feature.map(d)
-df['Adsorbent'] = feature
+data['Adsorbent'] = feature
 
-df_ac = df.loc[df['Adsorbent']=="AC"]
+df_ac = data.loc[data['Adsorbent']=="AC"]
 df_ac['code'] = "AC"
-df_bc = df.loc[df['Adsorbent']=="Biochar"]
+df_bc = data.loc[data['Adsorbent']=="Biochar"]
 df_bc['code'] = "BC"
-df_gb = df.loc[df['Adsorbent']=="GB"]
+df_gb = data.loc[data['Adsorbent']=="GB"]
 df_gb['code'] = "GB"
 
 

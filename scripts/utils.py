@@ -5,7 +5,7 @@ from typing import Union, List, Tuple, Any
 from collections.abc import KeysView, ValuesView
 
 import shap
-from shap.plots import scatter
+from shap.plots import scatter as sh_scatter
 
 import numpy as np
 import pandas as pd
@@ -27,7 +27,7 @@ from ai4water.utils.utils import dateandtime_now
 
 from SeqMetrics import RegressionMetrics
 
-from easy_mpl import violin_plot
+from easy_mpl import violin_plot, scatter
 from easy_mpl.utils import is_rgb
 from easy_mpl.utils import BAR_CMAPS
 from easy_mpl.utils import process_axes
@@ -103,10 +103,11 @@ DYE_TYPES = {
     'AM': 'Cationic'
 }
 
-# function for OHE
 def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
+    # function for OHE
     assert isinstance(col_name, str)
 
+    # todo, why sparse False
     encoder = OneHotEncoder(sparse=False)
     ohe_cat = encoder.fit_transform(df[col_name].values.reshape(-1, 1))
     cols_added = [f"{col_name}_{i}" for i in range(ohe_cat.shape[-1])]
@@ -118,14 +119,15 @@ def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
     return df, cols_added, encoder
 
 
-def _load_data(input_features):
+def _load_data(input_features:list=None)->pd.DataFrame:
 
     # read excel
-    ads_df = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
-    dye_df = pd.read_excel('Dyes data.xlsx', sheet_name=0)
+    # todo, why specify sheet name?
+    ads_data = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
+    dye_data = pd.read_excel('Dyes data.xlsx', sheet_name=0)
 
     # dropping unnecessary columns
-    ads_df = ads_df.drop(columns=['final concentation', 'Volume (mL)',
+    ads_data = ads_data.drop(columns=['final concentation', 'Volume (mL)',
                                   'Unnamed: 16', 'Unnamed: 17',
                                   'Unnamed: 18', 'Unnamed: 19',
                                   'Unnamed: 20', 'Unnamed: 21',
@@ -133,7 +135,7 @@ def _load_data(input_features):
                                   'Particle size'
                                   ])
 
-    dye_df = dye_df.drop(columns=['C', 'H', 'O', 'N', 'Ash', 'H/C', 'O/C',
+    dye_data = dye_data.drop(columns=['C', 'H', 'O', 'N', 'Ash', 'H/C', 'O/C',
                                   'N/C', 'Average pore size',
                                   'rpm', 'g/L', 'Ion Concentration (M)',
                                   'Humic acid', 'wastewater type',
@@ -141,11 +143,10 @@ def _load_data(input_features):
                                   ])
 
     # merging data
-    data = [ads_df, dye_df]
-
-    data = pd.concat(data)
+    data = pd.concat([ads_data, dye_data])
     data = data.dropna()
 
+    # todo
     data = data.reset_index(drop=True)
 
     data.columns = ['Adsorption Time (min)', 'Adsorbent', 'Pyrolysis Temperature',
@@ -153,6 +154,7 @@ def _load_data(input_features):
                     'Adsorbent Loading', 'Volume (L)', 'Adsorption Temperature',
                     'Surface Area', 'Pore Volume', 'Adsorption']
 
+    # todo
     data['Dye'] = data['Dye'].str.replace('Fast Green FCF', 'FG FCF')
 
     target = ['Adsorption']
@@ -174,7 +176,21 @@ def make_data(
     Parameters
     ----------
     input_features : list
-        names of variables to use as input
+        names of variables to use as input. By default the following features
+        are used as input features
+            - Adsorption Time (min)
+            - Adsorbent
+            - Pyrolysis Temperature
+            - Pyrolysis Time (min)
+            - Dye
+            - Initial Concentration
+            - Solution pH
+            - Adsorbent Loading
+            - Volume (L)
+            - Adsorption Temperature
+            - Surface Area
+            - Pore Volume
+
     encode : bool (default=True)
         whether to one hot encode the categorical variables or not
 
@@ -183,7 +199,10 @@ def make_data(
     data : pd.DataFrame
         a pandas dataframe whose first 10 columns are numerical features
         and next columns contain categorical features. The last column is
-        the target feature.
+        the target feature. If encode is True (default case) the returned
+        dataframe has 75 columns. 0-10 numerical features, 11-58 adsorbents
+        59-74: dyes 75th: target. If encode is False, then the returned
+        dataframe will have 13 columns.
 
     Examples
     --------
@@ -196,7 +215,9 @@ def make_data(
     >>> ae.inverse_transform(data.iloc[:, 10:58].values)
     >>> len(de.categories_[0])
     16
+    We can also convert the one hot encoded dye columns into original/string form as
     >>> de.inverse_transform(data.iloc[:, 58:-1].values)
+    If we don't want to encode categorical features, we can set encode to False
     >>> data, _, _ = make_data(encode=False)
     >>> data.shape
     (1514, 13)
@@ -218,14 +239,14 @@ def make_data(
 
 
 def get_dataset():
-    whole_data_enc, adsorbent_encoder, dye_encoder = make_data()
+    data, adsorbent_encoder, dye_encoder = make_data()
 
-    dataset = DataSet(data=whole_data_enc,
+    dataset = DataSet(data=data,
                       seed=1575,
                       val_fraction=0.0,
                       split_random=True,
-                      input_features=whole_data_enc.columns.tolist()[0:-1],
-                      output_features=whole_data_enc.columns.tolist()[-1:],
+                      input_features=data.columns.tolist()[0:-1],
+                      output_features=data.columns.tolist()[-1:],
                       )
     return dataset, adsorbent_encoder, dye_encoder
 
@@ -458,7 +479,7 @@ def box_violin(ax, data, palette=None):
     sns.boxplot(orient='h', data=data, saturation=1, showfliers=False,
                 width=0.3, boxprops={'zorder': 3, 'facecolor': 'none'}, ax=ax)
     old_len_collections = len(ax.collections)
-    #sns.stripplot(orient='h', data=data, color='dodgerblue', ax=ax)
+
     for dots in ax.collections[old_len_collections:]:
         dots.set_offsets(dots.get_offsets() + np.array([0, 0.12]))
     ax.set_xlim(xlim)
@@ -474,7 +495,7 @@ def shap_interaction_all(shap_values_exp, feature, feature_names, CAT_FEATURES):
     n, n_plots = 0, 0
     while n <= len(feature_names):
         if shap_values_exp.feature_names[inds[n]] not in CAT_FEATURES:
-            scatter(shap_values_exp[:, feature], show=False,
+            sh_scatter(shap_values_exp[:, feature], show=False,
                     color=shap_values_exp[:, inds[n]],
                     )
             plt.tight_layout()
@@ -519,16 +540,19 @@ def shap_scatter(
         else:
             c= feature_wrt.values.reshape(-1,)
 
-    pc = ax.scatter(shap_values.data,
-                   shap_values.values,
-                   c=c,
-                   s=s,
-                   marker="o",
-                    edgecolors=edgecolors,
-                    linewidth=linewidth,
-                   alpha=alpha,
-                   **scatter_kws
-                   )
+    _, pc = scatter(
+        shap_values.data,
+        shap_values.values,
+        c=c,
+        s=s,
+        marker="o",
+        edgecolors=edgecolors,
+        linewidth=linewidth,
+        alpha=alpha,
+        ax=ax,
+        show=False,
+        **scatter_kws
+    )
 
     if feature_wrt is not None:
         feature_wrt_name = ' '.join(feature_wrt.name.split('_'))

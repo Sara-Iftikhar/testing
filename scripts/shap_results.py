@@ -1,34 +1,34 @@
 """
 ====================
-7. shap
+7. Interpretation
 ====================
 """
 
 import tensorflow as tf
 tf.compat.v1.disable_v2_behavior()
 
-import shap
-import numpy as np
-import pandas as pd
-import platform
 import matplotlib
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
-from shap import Explanation
-from shap import DeepExplainer, GradientExplainer, KernelExplainer
-from shap.plots import beeswarm, violin, heatmap, waterfall
+import platform
 
-from sklearn.manifold import TSNE
+import numpy as np
+import pandas as pd
+
+import shap
+from shap import Explanation
+from shap.plots import beeswarm, violin, heatmap, waterfall
+from shap import DeepExplainer, GradientExplainer, KernelExplainer
 
 from umap import UMAP
+from sklearn.manifold import TSNE
 
 from easy_mpl import imshow, pie, bar_chart
 from easy_mpl.utils import create_subplots
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
-    box_violin, shap_scatter, DYE_TYPES, \
-    ADSORBENT_TYPES
+    box_violin, shap_scatter, DYE_TYPES, ADSORBENT_TYPES
 
 # %%
 
@@ -39,7 +39,6 @@ print(shap.__version__)
 # %%
 
 dataset, adsorbent_enc, dye_enc = get_dataset()
-
 
 X_train, y_train = dataset.training_data()
 
@@ -142,13 +141,17 @@ shap_values_dye_dec = Explanation(
 )
 
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'])
+
 # %%
+
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Volume (L)'], cmap = 'RdBu')
 # %%
+
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Adsorption Time (min)'], cmap = 'RdBu')
 # %%
+
 shap_scatter(shap_values=shap_values_dye_dec[:, 'Surface Area'],
               feature_wrt = df['Pore Volume'], cmap = 'RdBu')
 
@@ -866,6 +869,22 @@ plt.tight_layout()
 plt.show()
 
 
+# %%
+# partial dependence plots
+# ============================
 
+
+
+# %%
+# Accumulated Local Effects
+# ===========================
+
+# %%
+# Permutation importance
+# =======================
+
+# %%
+# Sensitivity Analysis
+# =======================
 
 

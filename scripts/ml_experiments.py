@@ -15,9 +15,14 @@ from ai4water.experiments import MLRegressionExperiments
 
 data, _, _ = make_data()
 
+print(data.shape)
+
+# %%
+
 data.head()
 
 # %%
+# Initialize the experiment
 
 comparisons = MLRegressionExperiments(
     input_features=data.columns.tolist()[0:-1],
@@ -29,35 +34,49 @@ comparisons = MLRegressionExperiments(
 )
 
 # %%
+# fit/train all the models
 
-comparisons.fit(data=data, run_type="dry_run",
-                include=['XGBRegressor',
-                          'AdaBoostRegressor', 'LinearSVR',
-                         'BaggingRegressor', 'DecisionTreeRegressor',
-                         'HistGradientBoostingRegressor',
-                         'ExtraTreesRegressor', 'ExtraTreeRegressor',
-                         'LinearRegression', 'KNeighborsRegressor']
-                )
+comparisons.fit(
+    data=data,
+    run_type="dry_run",
+    include=['XGBRegressor',
+             'AdaBoostRegressor', 'LinearSVR',
+             'BaggingRegressor', 'DecisionTreeRegressor',
+             'HistGradientBoostingRegressor',
+             'ExtraTreesRegressor', 'ExtraTreeRegressor',
+             'LinearRegression', 'KNeighborsRegressor']
+)
 
 # %%
+# Compare R2
 
-_ = comparisons.compare_errors('r2', data=data)
+_ = comparisons.compare_errors(
+    'r2',
+    data=data)
 plt.tight_layout()
 plt.show()
 
 
 # %%
+# Compare MSE
 
-_ = comparisons.compare_errors('mse', data=data,
-                               cutoff_val=1e7, cutoff_type="less")
+_ = comparisons.compare_errors(
+    'mse',
+    data=data,
+    cutoff_val=1e7,
+    cutoff_type="less"
+)
 plt.tight_layout()
 plt.show()
 
 # %%
 
-_ = best_models = comparisons.compare_errors('r2_score',
-                                         cutoff_type='greater',
-                                         cutoff_val=0.01, data=data)
+_ = best_models = comparisons.compare_errors(
+    'r2_score',
+    cutoff_type='greater',
+    cutoff_val=0.01,
+    data=data
+)
 plt.tight_layout()
 plt.show()
 
@@ -67,8 +86,10 @@ comparisons.taylor_plot(data=data)
 
 # %%
 
-comparisons.compare_edf_plots(data=data,
-                              exclude=["SGDRegressor", "KernelRidge", "PoissonRegressor"])
+comparisons.compare_edf_plots(
+    data=data,
+    exclude=["SGDRegressor", "KernelRidge", "PoissonRegressor"])
+
 plt.tight_layout()
 plt.show()
 
