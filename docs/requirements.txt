@@ -1,5 +1,6 @@
 git+https://github.com/AtrCheema/AI4Water.git@e9aae253d6a6d33d0e9e413c951800267a440ac2
 git+https://github.com/Sara-Iftikhar/easy_mpl.git@a76336b44c46980544d23e59093941c6572638a9
+git+https://github.com/MaximeJumelle/ALEPython.git@dev#egg=alepython
 matplotlib
 tensorflow==2.6.0
 keras==2.6.0

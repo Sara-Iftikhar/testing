@@ -941,6 +941,7 @@ plt.show()
 ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train,
                         'Surface area', ice=False,
                         pdp_line_kws={'color': 'darkcyan'})
+plt.tight_layout()
 plt.show()
 
 
@@ -953,6 +954,7 @@ pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
 # %%
 pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
                    pdp_line_kws={'color': 'darkcyan'})
+plt.tight_layout()
 plt.show()
 
 # %%
@@ -971,6 +973,7 @@ pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
 # %%
 pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
                    pdp_line_kws={'color': 'darkcyan'})
+plt.tight_layout()
 plt.show()
 
 # %%
@@ -984,6 +987,36 @@ plt.show()
 # Accumulated Local Effects
 # ===========================
 
+from alepython import ale_plot
+
+class Model:
+    def predict(self, X):
+        return model.predict(X).reshape(-1,)
+
+ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
+             model=Model(),
+                  features=["Surface area"]
+             )
+
+# %%
+ae_eff = ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
+             model=Model(),
+                  features=['calcination_temperature']
+             )
+
+# %%
+ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
+             model=Model(),
+                  features=['initial concentration']
+             )
+
+# %%
+
+ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
+             model=Model(),
+                  features=["Surface area", 'Pore volume']
+             )
+
 # %%
 # Permutation importance
 # =======================
@@ -991,5 +1024,3 @@ plt.show()
 # %%
 # Sensitivity Analysis
 # =======================
-
-
