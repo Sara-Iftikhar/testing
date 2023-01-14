@@ -128,18 +128,19 @@ plt.show()
 
 # %%
 
-df, _, _ = make_data(encode=False)
-df.pop('Dye')
-feature = df['Adsorbent']
+data, _, _ = make_data(encode=False)
+data.pop('Dye')
+feature = data['Adsorbent']
 d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
 feature = feature.map(d)
-df['Adsorbent'] = feature
+data['Adsorbent'] = feature
 
-df_gb = df.loc[df['Adsorbent']=="GB"]
-df_ac = df.loc[df['Adsorbent']=="AC"]
-df_bio = df.loc[df['Adsorbent']=="Biochar"]
+df_gb = data.loc[data['Adsorbent']=="GB"]
+df_ac = data.loc[data['Adsorbent']=="AC"]
+df_bio = data.loc[data['Adsorbent']=="Biochar"]
+data.pop('Adsorbent')
 
-fig, axes = create_subplots(data.shape[1])  # todo why data?
+fig, axes = create_subplots(data.shape[1])
 
 for ax, col in zip(axes.flat, data.columns):
 
@@ -161,21 +162,22 @@ plt.show()
 
 # %%
 
-df, _, _ = make_data(encode=False)
-df.pop('Adsorbent')
-feature = df['Dye']
+data, _, _ = make_data(encode=False)
+data.pop('Adsorbent')
+feature = data['Dye']
 d = {k:DYE_TYPES[k] for k in feature.unique()}
 feature = feature.map(d)
-df['Dye'] = feature
+data['Dye'] = feature
 
-df_an = df.loc[df['Dye']=="Anionic"]
-df_cat = df.loc[df['Dye']=="Cationic"]
+df_an = data.loc[data['Dye']=="Anionic"]
+df_cat = data.loc[data['Dye']=="Cationic"]
+data.pop('Dye')
 
-fig, axes = create_subplots(data.shape[1])  #todo why data why not df?
+fig, axes = create_subplots(data.shape[1])
 
 for ax, col in zip(axes.flat, data.columns):
 
-    boxplot([df_an[col], df[col]],
+    boxplot([df_an[col], df_cat[col]],
             labels=["AN", "CT"],
                 ax=ax,
                 flierprops={"ms": 0.6},

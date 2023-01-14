@@ -107,7 +107,8 @@ def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
     # function for OHE
     assert isinstance(col_name, str)
 
-    # todo, why sparse False
+    # setting sparse to True will return a scipy.sparse.csr.csr_matrix
+    # not a numpy array
     encoder = OneHotEncoder(sparse=False)
     ohe_cat = encoder.fit_transform(df[col_name].values.reshape(-1, 1))
     cols_added = [f"{col_name}_{i}" for i in range(ohe_cat.shape[-1])]
@@ -122,9 +123,9 @@ def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
 def _load_data(input_features:list=None)->pd.DataFrame:
 
     # read excel
-    # todo, why specify sheet name?
-    ads_data = pd.read_excel('Adsorption and regeneration data_1007c.xlsx', sheet_name=0)
-    dye_data = pd.read_excel('Dyes data.xlsx', sheet_name=0)
+    # our data is on the first sheet of both files
+    ads_data = pd.read_excel('Adsorption and regeneration data_1007c.xlsx')
+    dye_data = pd.read_excel('Dyes data.xlsx')
 
     # dropping unnecessary columns
     ads_data = ads_data.drop(columns=['final concentation', 'Volume (mL)',
@@ -146,7 +147,7 @@ def _load_data(input_features:list=None)->pd.DataFrame:
     data = pd.concat([ads_data, dye_data])
     data = data.dropna()
 
-    # todo
+    #removing original index of both dataframes and assigning a new index
     data = data.reset_index(drop=True)
 
     data.columns = ['Adsorption Time (min)', 'Adsorbent', 'Pyrolysis Temperature',
@@ -154,7 +155,8 @@ def _load_data(input_features:list=None)->pd.DataFrame:
                     'Adsorbent Loading', 'Volume (L)', 'Adsorption Temperature',
                     'Surface Area', 'Pore Volume', 'Adsorption']
 
-    # todo
+    # replacing a string 'Fast Green FCF' in features Dye with 'FG FCF' because it will
+    # cause the scatter plot in SHAP to elongate.
     data['Dye'] = data['Dye'].str.replace('Fast Green FCF', 'FG FCF')
 
     target = ['Adsorption']
