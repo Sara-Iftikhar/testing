@@ -1,4 +1,4 @@
-git+https://github.com/AtrCheema/AI4Water.git@0aa14382e19e7ef03f6d189dd2f11c813a2591e0
+git+https://github.com/AtrCheema/AI4Water.git@e9aae253d6a6d33d0e9e413c951800267a440ac2
 git+https://github.com/Sara-Iftikhar/easy_mpl.git@a76336b44c46980544d23e59093941c6572638a9
 matplotlib
 tensorflow==2.6.0

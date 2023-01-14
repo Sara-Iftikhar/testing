@@ -26,6 +26,7 @@ from sklearn.manifold import TSNE
 
 from easy_mpl import imshow, pie, bar_chart
 from easy_mpl.utils import create_subplots
+from ai4water.postprocessing import PartialDependencePlot
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
     box_violin, shap_scatter, DYE_TYPES, ADSORBENT_TYPES
@@ -872,8 +873,112 @@ plt.show()
 # %%
 # partial dependence plots
 # ============================
+# Now we will calculate partial dependence plot (PDP) and Individual Component
+# Elements (ICE) curves using ``PartialDependencePlot`` class of ai4water.
 
 
+pdp = PartialDependencePlot(
+    model.predict,
+    X_train,
+    num_points=20,
+    feature_names=model.input_features,
+    show=False,
+    save=False
+)
+
+# %%
+# We calculate pdp plots only once and then plot them with
+# different options
+feature = [f for f in model.input_features if f.startswith("Dye")]
+pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
+
+# %%
+
+ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
+                        pdp_line_kws={'color': 'darkcyan'})
+ax.set_xticklabels(dye_enc.categories_[0])
+ax.set_xlabel("Dye")
+plt.show()
+
+# %%
+ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature, ice=False,
+                        pdp_line_kws={'color': 'darkcyan'})
+ax.set_xticklabels(dye_enc.categories_[0])
+ax.set_xlabel("Dye")
+plt.show()
+
+# %%
+# Calculate pdp and ice for Adsorbent
+
+feature = [f for f in model.input_features if f.startswith("Adsorbent")]
+pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
+
+# %%
+
+ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
+                        pdp_line_kws={'color': 'darkcyan'})
+ax.set_xticklabels(adsorbent_enc.categories_[0])
+ax.set_xlabel("Adsorbent")
+plt.show()
+
+# %%
+ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
+                        ice=False, pdp_line_kws={'color': 'darkcyan'})
+ax.set_xticklabels(adsorbent_enc.categories_[0])
+ax.set_xlabel("Adsorbent")
+plt.show()
+
+# %%
+# pdp and ice for Surface Area
+pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, 'Surface area')
+
+# %%
+pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, 'Surface area',
+                   pdp_line_kws={'color': 'darkcyan'})
+plt.show()
+
+# %%
+ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train,
+                        'Surface area', ice=False,
+                        pdp_line_kws={'color': 'darkcyan'})
+plt.show()
+
+
+# %%
+# pdp and ice for Initial Concentration
+feature = 'initial concentration'
+pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
+
+
+# %%
+pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
+                   pdp_line_kws={'color': 'darkcyan'})
+plt.show()
+
+# %%
+pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train,
+                        feature, ice=False,
+                        pdp_line_kws={'color': 'darkcyan'})
+plt.tight_layout()
+plt.show()
+
+# %%
+# pdp and ice for Pyrolysis Temperature
+feature = 'calcination_temperature'
+pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
+
+
+# %%
+pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
+                   pdp_line_kws={'color': 'darkcyan'})
+plt.show()
+
+# %%
+pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train,
+                        feature, ice=False,
+                        pdp_line_kws={'color': 'darkcyan'})
+plt.tight_layout()
+plt.show()
 
 # %%
 # Accumulated Local Effects
