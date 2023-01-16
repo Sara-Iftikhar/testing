@@ -4,15 +4,15 @@ import random
 from typing import Union, List, Tuple, Any
 from collections.abc import KeysView, ValuesView
 
-import shap
-from shap.plots import scatter as sh_scatter
+#import shap
+#from shap.plots import scatter as sh_scatter
 
 import numpy as np
 import pandas as pd
 import seaborn as sns
 
 from sklearn.model_selection import KFold
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -124,8 +124,9 @@ def _load_data(input_features:list=None)->pd.DataFrame:
 
     # read excel
     # our data is on the first sheet of both files
-    ads_data = pd.read_excel('Adsorption and regeneration data_1007c.xlsx')
-    dye_data = pd.read_excel('Dyes data.xlsx')
+    dirname = os.path.dirname(__file__)
+    ads_data = pd.read_excel(os.path.join(dirname, 'Adsorption and regeneration data_1007c.xlsx'))
+    dye_data = pd.read_excel(os.path.join(dirname, 'Dyes data.xlsx'))
 
     # dropping unnecessary columns
     ads_data = ads_data.drop(columns=['final concentation', 'Volume (mL)',
@@ -171,7 +172,8 @@ def _load_data(input_features:list=None)->pd.DataFrame:
 
 def make_data(
         input_features:list = None,
-        encode:bool = True)->Tuple[pd.DataFrame, Any, Any]:
+        encoding:str = None
+)->Tuple[pd.DataFrame, Any, Any]:
     """
     prepares data for adsorption capacity prediction.
 
@@ -193,7 +195,7 @@ def make_data(
             - Surface Area
             - Pore Volume
 
-    encode : bool (default=True)
+    encoding : str (default=None)
         whether to one hot encode the categorical variables or not
 
     Returns
@@ -201,14 +203,14 @@ def make_data(
     data : pd.DataFrame
         a pandas dataframe whose first 10 columns are numerical features
         and next columns contain categorical features. The last column is
-        the target feature. If encode is True (default case) the returned
+        the target feature. If encoding is 'ohe' the returned
         dataframe has 75 columns. 0-10 numerical features, 11-58 adsorbents
         59-74: dyes 75th: target. If encode is False, then the returned
         dataframe will have 13 columns.
 
     Examples
     --------
-    >>> data, ae, de = make_data()
+    >>> data, ae, de = make_data(encoding="ohe")
     >>> data.shape
     (1514, 75)
     >>> len(ae.categories_[0])
@@ -220,18 +222,21 @@ def make_data(
     We can also convert the one hot encoded dye columns into original/string form as
     >>> de.inverse_transform(data.iloc[:, 58:-1].values)
     If we don't want to encode categorical features, we can set encode to False
-    >>> data, _, _ = make_data(encode=False)
+    >>> data, _, _ = make_data()
     >>> data.shape
     (1514, 13)
     """
     data = _load_data(input_features)
 
     adsorbent_encoder, dye_encoder = None, None
-    if encode:
-        # applying OHE
+    if encoding=="ohe":
+        # applying One Hot Encoding
         data, _, adsorbent_encoder = _ohe_column(data, 'Adsorbent')
-
         data, _, dye_encoder = _ohe_column(data, 'Dye')
+    elif encoding == "le":
+        # applying Label Encoding
+        data, adsorbent_encoder = le_column(data, 'Adsorbent')
+        data, dye_encoder = le_column(data, 'Dye')
 
     # moving target to last
     target = data.pop('Adsorption')
@@ -240,8 +245,15 @@ def make_data(
     return data, adsorbent_encoder, dye_encoder
 
 
-def get_dataset():
-    data, adsorbent_encoder, dye_encoder = make_data()
+def le_column(df:pd.DataFrame, col_name)->tuple:
+    """label encode a column in dataframe"""
+    encoder = LabelEncoder()
+    df[col_name] = encoder.fit_transform(df[col_name])
+    return df, encoder
+
+
+def get_dataset(encoding="ohe"):
+    data, adsorbent_encoder, dye_encoder = make_data(encoding=encoding)
 
     dataset = DataSet(data=data,
                       seed=1575,

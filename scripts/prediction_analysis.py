@@ -14,13 +14,9 @@ from utils import get_dataset, get_fitted_model, evaluate_model, plot_violin_
 
 # %%
 
-dataset ,  _, _ = get_dataset()
+dataset ,  _, _ = get_dataset(encoding="ohe")
 X_train, y_train = dataset.training_data()
 X_test, y_test = dataset.test_data()
-
-# %%
-
-dataset, _, _ = get_dataset()
 
 # %%
 

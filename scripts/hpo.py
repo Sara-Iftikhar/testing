@@ -26,7 +26,7 @@ from utils import get_dataset, evaluate_model
 
 # %%
 
-dataset ,  _, _ = get_dataset()
+dataset ,  _, _ = get_dataset(encoding="ohe")
 X_train, y_train = dataset.training_data()
 X_test, y_test = dataset.test_data()
 

@@ -25,10 +25,10 @@ get_version_info()
 
 # %%
 
-dataset ,  _, _ = get_dataset()
+dataset ,  _, _ = get_dataset(encoding="ohe")
 X_train, y_train = dataset.training_data()
 X_test, y_test = dataset.test_data()
-original_data, _, _ = make_data(encode=False)
+original_data, _, _ = make_data()
 
 # %%
 # There are total 12 input features used in this study, which are listed below.

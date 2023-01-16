@@ -13,7 +13,7 @@ from utils import get_dataset, get_fitted_model, \
 
 # %%
 
-dataset, adsorbent_enc, dye_enc = get_dataset()
+dataset, adsorbent_enc, dye_enc = get_dataset(encoding="ohe")
 
 
 X_train, y_train = dataset.training_data()

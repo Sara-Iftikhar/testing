@@ -4,11 +4,9 @@
 ==============
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
-import seaborn as sns
 import pandas as pd
 
 from ai4water.eda import EDA
@@ -21,7 +19,7 @@ from utils import make_data, box_violin, \
 # %%
 # Loading the original dataset
 
-data, _, _ = make_data(encode=False)
+data, _, _ = make_data()
 
 # %%
 # Here, we are printing the shape of original dataset.
@@ -128,7 +126,7 @@ plt.show()
 
 # %%
 
-data, _, _ = make_data(encode=False)
+data, _, _ = make_data()
 data.pop('Dye')
 feature = data['Adsorbent']
 d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
@@ -162,7 +160,7 @@ plt.show()
 
 # %%
 
-data, _, _ = make_data(encode=False)
+data, _, _ = make_data()
 data.pop('Adsorbent')
 feature = data['Dye']
 d = {k:DYE_TYPES[k] for k in feature.unique()}
@@ -195,7 +193,7 @@ plt.show()
 
 # %%
 
-data, _, _ = make_data(encode=False)
+data, _, _ = make_data()
 feature = data['Adsorbent']
 d = {k:ADSORBENT_TYPES[k] for k in feature.unique()}
 feature = feature.map(d)

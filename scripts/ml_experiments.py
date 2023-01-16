@@ -13,7 +13,7 @@ from ai4water.experiments import MLRegressionExperiments
 
 # %%
 
-data, _, _ = make_data()
+data, _, _ = make_data(encoding="ohe")
 
 print(data.shape)
 
