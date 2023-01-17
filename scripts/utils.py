@@ -182,18 +182,18 @@ def make_data(
     input_features : list
         names of variables to use as input. By default the following features
         are used as input features
-            - Adsorption Time (min)
-            - Adsorbent
-            - Pyrolysis Temperature
-            - Pyrolysis Time (min)
-            - Dye
-            - Initial Concentration
-            - Solution pH
-            - Adsorbent Loading
-            - Volume (L)
-            - Adsorption Temperature
-            - Surface Area
-            - Pore Volume
+            - `Adsorption Time (min)`
+            - `Adsorbent`
+            - `Pyrolysis Temperature`
+            - `Pyrolysis Time (min)`
+            - `Dye`
+            - `Initial Concentration`
+            - `Solution pH`
+            - `Adsorbent Loading`
+            - `Volume (L)`
+            - `Adsorption Temperature`
+            - `Surface Area`
+            - `Pore Volume`
 
     encoding : str (default=None)
         whether to one hot encode the categorical variables or not
@@ -280,7 +280,7 @@ def get_fitted_model(return_path=False,
     X_train, y_train = dataset.training_data()
 
     if from_config:
-        path = os.path.join(os.getcwd(), 'results', 'mlp_20221217_213202')
+        path = os.path.join(os.path.dirname(__file__), 'results', 'mlp_20221217_213202')
         cpath = os.path.join(path, 'config.json')
         if model_type == 'functional':
             model = f_model.from_config_file(config_path=cpath)

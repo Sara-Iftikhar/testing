@@ -4,6 +4,9 @@
 ====================
 """
 
+import site
+site.addsitedir("D:\\mytools\\AI4Water")
+
 import tensorflow as tf
 tf.compat.v1.disable_v2_behavior()
 
@@ -26,6 +29,7 @@ from sklearn.manifold import TSNE
 
 from easy_mpl import imshow, pie, bar_chart
 from easy_mpl.utils import create_subplots
+from ai4water.postprocessing import PermutationImportance
 from ai4water.postprocessing import PartialDependencePlot
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
@@ -1020,6 +1024,30 @@ ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
 # %%
 # Permutation importance
 # =======================
+# Permutation importance quantifies reduction in model performance when
+# we corrupt one feature column intentionally. The corruption in one feature
+# column is carried out by randomly permuting its values ``n`` number of
+# times. Then the average reduction in model performance is recorded
+# as permutation feature importance for the feature.
+
+cat_map = {'Catalyst': list(range(10, 58)), 'Anions': list(range(58, 74))}
+
+pimp = PermutationImportance(
+    model.predict, X_train, y_train,
+    show=False,
+    save=False,
+    cat_map=cat_map,
+    feature_names = model.input_features,
+    n_repeats=20)
+
+pimp.plot_1d_pimp()
+plt.tight_layout()
+plt.show()
+
+# %%
+pimp.plot_1d_pimp("barchart")
+plt.tight_layout()
+plt.show()
 
 # %%
 # Sensitivity Analysis
