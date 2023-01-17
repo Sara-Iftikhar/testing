@@ -4,6 +4,7 @@
 ====================
 """
 
+import platform
 import site
 site.addsitedir("D:\\mytools\\AI4Water")
 
@@ -13,8 +14,6 @@ tf.compat.v1.disable_v2_behavior()
 import matplotlib
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
-
-import platform
 
 import numpy as np
 import pandas as pd
@@ -26,6 +25,12 @@ from shap import DeepExplainer, GradientExplainer, KernelExplainer
 
 from umap import UMAP
 from sklearn.manifold import TSNE
+from sklearn.preprocessing import OneHotEncoder
+
+from alibi.explainers import IntegratedGradients
+from alibi.utils import gen_category_map
+from alibi.explainers import plot_pd_variance
+from alibi.explainers import PartialDependenceVariance
 
 from easy_mpl import imshow, pie, bar_chart
 from easy_mpl.utils import create_subplots
@@ -33,7 +38,7 @@ from ai4water.postprocessing import PermutationImportance
 from ai4water.postprocessing import PartialDependencePlot
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
-    box_violin, shap_scatter, DYE_TYPES, ADSORBENT_TYPES
+    box_violin, shap_scatter, DYE_TYPES, ADSORBENT_TYPES, make_data
 
 # %%
 
@@ -1050,5 +1055,117 @@ plt.tight_layout()
 plt.show()
 
 # %%
-# Sensitivity Analysis
+# Integrated Gradients
 # =======================
+
+ig  = IntegratedGradients(model._model,
+                          layer=None,
+                          method="gausslegendre",
+                          n_steps=50,
+                          internal_batch_size=100)
+
+# %%
+# Training data
+explanation = ig.explain(X_train,
+                         baselines=None,
+                         target=None)
+
+attributions = explanation.attributions[0]
+
+con = attributions[:, 0:10]
+ads = attributions[:, 10:58]
+dye = attributions[:, 58:]
+attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
+
+imshow(attr, aspect="auto", colorbar=True,
+       xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
+       show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
+plt.tight_layout()
+plt.show()
+
+# %%
+# Test data
+explanation = ig.explain(X_test,
+                         baselines=None,
+                         target=None)
+
+attributions = explanation.attributions[0]
+
+con = attributions[:, 0:10]
+ads = attributions[:, 10:58]
+dye = attributions[:, 58:]
+attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
+
+imshow(attr, aspect="auto", colorbar=True,
+       xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
+       show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
+plt.tight_layout()
+plt.show()
+
+# %%
+# Partial Dependence Variance
+# ============================
+# We give the data to ``PartialDependenceVariance`` class label-encoded
+# data. When is then one-hot-encoded inside the ``predictor_fn``. Then
+# the data is given to model to make a prediction
+
+# first get data without any encoding
+data, _, _ = make_data()
+ads_ohe_encoder = OneHotEncoder(sparse=False)
+ads_ohe_encoder.fit(data.loc[:, 'Adsorbent'].values.reshape(-1,1))
+
+dye_ohe_encoder = OneHotEncoder(sparse=False)
+dye_ohe_encoder.fit(data.loc[:, 'Dye'].values.reshape(-1,1))
+
+# now get the label-encoded data. This will be passed to ``PartialDependenceVariance``
+# class.
+data_le, ads_le_encoder, dye_le_encoder = make_data(encoding="le")
+
+def predictor_fn(X):
+
+    # The X is given/suggested by ``PartialDependenceVariance`` which
+    # means it is label-encoded. First inverse transform
+    # to get the string columns
+    ads_encoded = X[:, -2]
+    ads_decoded = ads_le_encoder.inverse_transform(ads_encoded.astype(np.int16))
+    ads_ohe_encoded = ads_ohe_encoder.transform(ads_decoded.reshape(-1,1))
+    ads_cols = [f'Adsorbent_{i}' for i in range(ads_ohe_encoded.shape[1])]
+
+    dye_encoded = X[:, -1]
+    dye_decoded = dye_le_encoder.inverse_transform(dye_encoded.astype(np.int16))
+    dye_ohe_encoded = dye_ohe_encoder.transform(dye_decoded.reshape(-1,1))
+    dye_cols = [f'Dye_{i}' for i in range(dye_ohe_encoded.shape[1])]
+
+    X = pd.DataFrame(X, columns=data.columns.tolist()[0:-1])
+    X.pop('Adsorbent')
+    X.pop('Dye')
+
+    X[ads_cols] = ads_ohe_encoded
+    X[dye_cols] = dye_ohe_encoded
+
+    return model.predict(X.values).reshape(-1,)
+
+
+category_map = gen_category_map(data)
+
+pd_variance = PartialDependenceVariance(predictor=predictor_fn,
+                                        feature_names=data.columns.tolist()[0:-1],
+                                        categorical_names=category_map,
+                                        target_names=["Adsorption"])
+
+exp_importance = pd_variance.explain(X=data_le.values[:, 0:-1], method='importance')
+
+# %%
+
+bar_chart(
+    exp_importance.feature_importance.reshape(-1,),
+    sort=True,
+    labels=data.columns.tolist()[0:-1],
+    ax_kws=dict(tight_layout=True)
+)
+
+# %%
+f, ax = plt.subplots(3,4, figsize=(10,10))
+plot_pd_variance(exp=exp_importance, summarise=False, ax=ax)
+plt.subplots_adjust(hspace=0.1)
+plt.show()

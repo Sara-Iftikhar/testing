@@ -1,11 +1,14 @@
 
+import site
+site.addsitedir("D:\\mytools\\AI4Water")
+
 import os
 import random
 from typing import Union, List, Tuple, Any
 from collections.abc import KeysView, ValuesView
 
-#import shap
-#from shap.plots import scatter as sh_scatter
+import shap
+from shap.plots import scatter as sh_scatter
 
 import numpy as np
 import pandas as pd
@@ -156,9 +159,14 @@ def _load_data(input_features:list=None)->pd.DataFrame:
                     'Adsorbent Loading', 'Volume (L)', 'Adsorption Temperature',
                     'Surface Area', 'Pore Volume', 'Adsorption']
 
+    data['Adsorbent'] = data.pop('Adsorbent')
+
     # replacing a string 'Fast Green FCF' in features Dye with 'FG FCF' because it will
     # cause the scatter plot in SHAP to elongate.
-    data['Dye'] = data['Dye'].str.replace('Fast Green FCF', 'FG FCF')
+    dye = data.pop('Dye')
+    data['Dye'] = dye.str.replace('Fast Green FCF', 'FG FCF')
+
+    data['Adsorption'] = data.pop('Adsorption')
 
     target = ['Adsorption']
     if input_features is None:
