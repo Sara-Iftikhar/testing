@@ -27,7 +27,6 @@ from umap import UMAP
 from sklearn.manifold import TSNE
 from sklearn.preprocessing import OneHotEncoder
 
-from alibi.explainers import IntegratedGradients
 from alibi.utils import gen_category_map
 from alibi.explainers import plot_pd_variance
 from alibi.explainers import PartialDependenceVariance
@@ -1051,54 +1050,6 @@ plt.show()
 
 # %%
 pimp.plot_1d_pimp("barchart")
-plt.tight_layout()
-plt.show()
-
-# %%
-# Integrated Gradients
-# =======================
-
-ig  = IntegratedGradients(model._model,
-                          layer=None,
-                          method="gausslegendre",
-                          n_steps=50,
-                          internal_batch_size=100)
-
-# %%
-# Training data
-explanation = ig.explain(X_train,
-                         baselines=None,
-                         target=None)
-
-attributions = explanation.attributions[0]
-
-con = attributions[:, 0:10]
-ads = attributions[:, 10:58]
-dye = attributions[:, 58:]
-attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
-
-imshow(attr, aspect="auto", colorbar=True,
-       xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
-       show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
-plt.tight_layout()
-plt.show()
-
-# %%
-# Test data
-explanation = ig.explain(X_test,
-                         baselines=None,
-                         target=None)
-
-attributions = explanation.attributions[0]
-
-con = attributions[:, 0:10]
-ads = attributions[:, 10:58]
-dye = attributions[:, 58:]
-attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
-
-imshow(attr, aspect="auto", colorbar=True,
-       xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
-       show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
 plt.tight_layout()
 plt.show()
 
