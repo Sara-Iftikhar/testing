@@ -50,7 +50,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['utils.py', 'with_tabnet.py']
+exclude_patterns = ['with_tabnet.py']
 
 
 sphinx_gallery_conf = {
@@ -63,7 +63,7 @@ sphinx_gallery_conf = {
     'gallery_dirs': 'auto_examples',
     'compress_images': ('images', 'thumbnails'),
     'filename_pattern': '',
-    'ignore_pattern': 'utils.py',
+    #'ignore_pattern': 'utils.py',
 
     #'show_memory': True,
     #'junit': os.path.join('sphinx-gallery', 'junit-results.xml'),
