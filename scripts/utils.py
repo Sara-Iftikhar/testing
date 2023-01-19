@@ -1,4 +1,8 @@
-
+"""
+================
+utils
+================
+"""
 import site
 site.addsitedir("D:\\mytools\\AI4Water")
 
@@ -37,6 +41,7 @@ from easy_mpl.utils import process_axes
 from easy_mpl.utils import create_subplots
 from easy_mpl.utils import to_1d_array, make_cols_from_cmap
 
+# %%
 
 ADSORBENT_TYPES = {
     "GIC": "GB",
@@ -105,6 +110,8 @@ DYE_TYPES = {
     'Rhd B': 'Cationic', 'YD': 'Cationic',
     'AM': 'Cationic'
 }
+
+# %%
 
 def _ohe_column(df:pd.DataFrame, col_name:str)->tuple:
     # function for OHE
@@ -177,6 +184,7 @@ def _load_data(input_features:list=None)->pd.DataFrame:
 
     return data[input_features + target]
 
+# %%
 
 def make_data(
         input_features:list = None,
@@ -252,6 +260,7 @@ def make_data(
 
     return data, adsorbent_encoder, dye_encoder
 
+# %%
 
 def le_column(df:pd.DataFrame, col_name)->tuple:
     """label encode a column in dataframe"""
@@ -259,6 +268,7 @@ def le_column(df:pd.DataFrame, col_name)->tuple:
     df[col_name] = encoder.fit_transform(df[col_name])
     return df, encoder
 
+# %%
 
 def get_dataset(encoding="ohe"):
     data, adsorbent_encoder, dye_encoder = make_data(encoding=encoding)
@@ -278,6 +288,7 @@ def make_path():
     os.makedirs(path)
     return path
 
+# %%
 
 def get_fitted_model(return_path=False,
                      model_type=None,
@@ -332,6 +343,7 @@ def get_fitted_model(return_path=False,
         return model, path, h
     return model, h
 
+# %%
 
 def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,
                     n_splits=5):
@@ -394,6 +406,7 @@ def confidenc_interval(model, X_train, y_train, X_test, y_test, alpha,
 
     return df
 
+# %%
 
 def plot_ci(df, alpha):
     # plots the confidence interval
@@ -410,6 +423,7 @@ def plot_ci(df, alpha):
 
     return ax
 
+# %%
 
 def evaluate_model(true, predicted):
     metrics = RegressionMetrics(true, predicted)
@@ -417,6 +431,7 @@ def evaluate_model(true, predicted):
         print(i, getattr(metrics, i)())
     return
 
+# %%
 
 def plot_violin_(feature_name, test_p, cut,
                  grid=None,
@@ -482,6 +497,7 @@ def plot_violin_(feature_name, test_p, cut,
         plt.show()
     return ax
 
+# %%
 
 def box_violin(ax, data, palette=None):
     if palette is None:
@@ -509,6 +525,7 @@ def box_violin(ax, data, palette=None):
 
     return
 
+# %%
 
 def shap_interaction_all(shap_values_exp, feature, feature_names, CAT_FEATURES):
     inds = shap.utils.potential_interactions(shap_values_exp[:, feature], shap_values_exp)
@@ -530,6 +547,7 @@ def shap_interaction_all(shap_values_exp, feature, feature_names, CAT_FEATURES):
 
     return
 
+# %%
 
 def shap_scatter(
         shap_values,  # SHAP values for a single feature
@@ -642,6 +660,7 @@ def shap_scatter(
 
     return ax
 
+# %%
 
 def _jitter_data(data, x_jitter, seed=None):
 
@@ -662,6 +681,7 @@ def _jitter_data(data, x_jitter, seed=None):
 
     return data
 
+# %%
 
 def bar_chart(
         values,
@@ -767,6 +787,7 @@ def bar_chart(
 
     return ax
 
+# %%
 
 def maybe_create_axes(ax, naxes:int, figsize=None)->List[plt.Axes]:
     if ax is None:
@@ -788,6 +809,7 @@ def maybe_create_axes(ax, naxes:int, figsize=None)->List[plt.Axes]:
 
     return ax
 
+# %%
 
 def handle_sort(sort, values, labels, bar_labels, color):
     if sort:
@@ -806,6 +828,7 @@ def handle_sort(sort, values, labels, bar_labels, color):
 
     return values, labels, bar_labels, color
 
+# %%
 
 def handle_maxbars(max_bars, values, labels):
     if max_bars:
@@ -817,6 +840,7 @@ def handle_maxbars(max_bars, values, labels):
         labels = np.append(f"Rest of {n}", labels)
     return values, labels
 
+# %%
 
 def preprocess(values, labels, bar_labels, sort, max_bars, colors):
     if labels is None:
@@ -828,6 +852,7 @@ def preprocess(values, labels, bar_labels, sort, max_bars, colors):
 
     return values, labels, bar_labels, colors
 
+# %%
 
 def bar_on_axes(ax, orient, ax_kws, *args, **kwargs):
     if orient in ['h', 'horizontal']:
@@ -840,6 +865,7 @@ def bar_on_axes(ax, orient, ax_kws, *args, **kwargs):
 
     return
 
+# %%
 
 def horizontal_bar(ax, ind, values, width, ticks, labels, color, bar_labels,
                    rotation, errors, bar_label_kws, kwargs):
@@ -858,6 +884,7 @@ def horizontal_bar(ax, ind, values, width, ticks, labels, color, bar_labels,
         ax.legend()
     return
 
+# %%
 
 def vertical_bar(ax, ind, values, width, ticks, labels, color, bar_labels,
                  rotation, errors, bar_label_kws, kwargs):
@@ -870,6 +897,7 @@ def vertical_bar(ax, ind, values, width, ticks, labels, color, bar_labels,
                    ind, values)
     return
 
+# %%
 
 def set_bar_labels(bar, ax, bar_labels, bar_label_kws, errors,
                    values, ind):
@@ -885,6 +913,7 @@ def set_bar_labels(bar, ax, bar_labels, bar_label_kws, errors,
                     color="black")
     return
 
+# %%
 
 def is_1d(array):
     if isinstance(array, (KeysView, ValuesView)):
@@ -895,6 +924,7 @@ def is_1d(array):
         return True
     return False
 
+# %%
 
 def get_color(cmap, color, ncharts, n_bars)->list:
     if not isinstance(cmap, list):

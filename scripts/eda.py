@@ -39,14 +39,14 @@ data.head()
 data.tail()
 
 # %%
-# The names of different adsorbents are
+# The names of different adsorbents and their counts
 
-data['Adsorbent'].unique()
+data['Adsorbent'].value_counts()
 
 # %%
-# The names of different dyes are
+# The names of different dyes and their counts
 
-data['Dye'].unique()
+data['Dye'].value_counts()
 
 # %%
 # Removing the categorical features from our dataframe

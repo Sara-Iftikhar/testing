@@ -5,8 +5,6 @@
 """
 
 import platform
-import site
-site.addsitedir("D:\\mytools\\AI4Water")
 
 import tensorflow as tf
 tf.compat.v1.disable_v2_behavior()
@@ -25,19 +23,12 @@ from shap import DeepExplainer, GradientExplainer, KernelExplainer
 
 from umap import UMAP
 from sklearn.manifold import TSNE
-from sklearn.preprocessing import OneHotEncoder
-
-from alibi.utils import gen_category_map
-from alibi.explainers import plot_pd_variance
-from alibi.explainers import PartialDependenceVariance
 
 from easy_mpl import imshow, pie, bar_chart
 from easy_mpl.utils import create_subplots
-from ai4water.postprocessing import PermutationImportance
-from ai4water.postprocessing import PartialDependencePlot
 
 from utils import get_dataset, get_fitted_model, evaluate_model, \
-    box_violin, shap_scatter, DYE_TYPES, ADSORBENT_TYPES, make_data
+    box_violin, shap_scatter, DYE_TYPES, ADSORBENT_TYPES
 
 # %%
 
@@ -742,7 +733,7 @@ plt.show()
 
 # %%
 
-tsne = TSNE(n_components=2)
+tsne = TSNE(n_components=2, random_state=313)
 sv_2D = tsne.fit_transform(shap_values)
 
 s = plt.scatter(sv_2D[:, 0], sv_2D[:, 1], c=y_test.reshape(-1,), cmap="Spectral",
@@ -754,7 +745,7 @@ plt.show()
 
 # %%
 
-sv_umap = UMAP(n_components=2).fit_transform(shap_values)
+sv_umap = UMAP(n_components=2, random_state=313).fit_transform(shap_values)
 s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=y_test.reshape(-1,),
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
@@ -769,7 +760,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,0],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Adsorption Time (min)', rotation=270)
+cbar.ax.set_ylabel('Adsorption Time (min)', rotation=270, labelpad=14)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -779,7 +770,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,1],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Pyrolysis Temperature', rotation=270)
+cbar.ax.set_ylabel('Pyrolysis Temperature', rotation=270, labelpad=14)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -789,7 +780,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,2],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Pyrolysis Time (min)', rotation=270)
+cbar.ax.set_ylabel('Pyrolysis Time (min)', rotation=270, labelpad=14)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -799,7 +790,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,3],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Initial Concentration', rotation=270)
+cbar.ax.set_ylabel('Initial Concentration', rotation=270, labelpad=14)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -809,7 +800,7 @@ s = plt.scatter(sv_umap[:, 0], sv_umap[:, 1], c=X_test[:,4],
             s=5, cmap="Spectral")
 plt.gca().set_aspect('equal', 'datalim')
 cbar = plt.colorbar(s)
-cbar.ax.set_ylabel('Solution pH', rotation=270)
+cbar.ax.set_ylabel('Solution pH', rotation=270, labelpad=14)
 plt.title('UMAP projection of shap values', fontsize=18)
 plt.show()
 
@@ -875,248 +866,4 @@ shap_values_exp = Explanation(
 
 beeswarm(shap_values_exp, show=False)
 plt.tight_layout()
-plt.show()
-
-
-# %%
-# partial dependence plots
-# ============================
-# Now we will calculate partial dependence plot (PDP) and Individual Component
-# Elements (ICE) curves using ``PartialDependencePlot`` class of ai4water.
-
-
-pdp = PartialDependencePlot(
-    model.predict,
-    X_train,
-    num_points=20,
-    feature_names=model.input_features,
-    show=False,
-    save=False
-)
-
-# %%
-# We calculate pdp plots only once and then plot them with
-# different options
-feature = [f for f in model.input_features if f.startswith("Dye")]
-pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
-
-# %%
-
-ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
-                        pdp_line_kws={'color': 'darkcyan'})
-ax.set_xticklabels(dye_enc.categories_[0])
-ax.set_xlabel("Dye")
-plt.show()
-
-# %%
-ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature, ice=False,
-                        pdp_line_kws={'color': 'darkcyan'})
-ax.set_xticklabels(dye_enc.categories_[0])
-ax.set_xlabel("Dye")
-plt.show()
-
-# %%
-# Calculate pdp and ice for Adsorbent
-
-feature = [f for f in model.input_features if f.startswith("Adsorbent")]
-pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
-
-# %%
-
-ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
-                        pdp_line_kws={'color': 'darkcyan'})
-ax.set_xticklabels(adsorbent_enc.categories_[0])
-ax.set_xlabel("Adsorbent")
-plt.show()
-
-# %%
-ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
-                        ice=False, pdp_line_kws={'color': 'darkcyan'})
-ax.set_xticklabels(adsorbent_enc.categories_[0])
-ax.set_xlabel("Adsorbent")
-plt.show()
-
-# %%
-# pdp and ice for Surface Area
-pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, 'Surface area')
-
-# %%
-pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, 'Surface area',
-                   pdp_line_kws={'color': 'darkcyan'})
-plt.show()
-
-# %%
-ax = pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train,
-                        'Surface area', ice=False,
-                        pdp_line_kws={'color': 'darkcyan'})
-plt.tight_layout()
-plt.show()
-
-
-# %%
-# pdp and ice for Initial Concentration
-feature = 'initial concentration'
-pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
-
-
-# %%
-pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
-                   pdp_line_kws={'color': 'darkcyan'})
-plt.tight_layout()
-plt.show()
-
-# %%
-pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train,
-                        feature, ice=False,
-                        pdp_line_kws={'color': 'darkcyan'})
-plt.tight_layout()
-plt.show()
-
-# %%
-# pdp and ice for Pyrolysis Temperature
-feature = 'calcination_temperature'
-pdp_vals, ice_vals = pdp.calc_pdp_1dim(X_train, feature)
-
-
-# %%
-pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train, feature,
-                   pdp_line_kws={'color': 'darkcyan'})
-plt.tight_layout()
-plt.show()
-
-# %%
-pdp._plot_pdp_1dim(pdp_vals, ice_vals, X_train,
-                        feature, ice=False,
-                        pdp_line_kws={'color': 'darkcyan'})
-plt.tight_layout()
-plt.show()
-
-# %%
-# Accumulated Local Effects
-# ===========================
-
-from alepython import ale_plot
-
-class Model:
-    def predict(self, X):
-        return model.predict(X).reshape(-1,)
-
-ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
-             model=Model(),
-                  features=["Surface area"]
-             )
-
-# %%
-ae_eff = ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
-             model=Model(),
-                  features=['calcination_temperature']
-             )
-
-# %%
-ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
-             model=Model(),
-                  features=['initial concentration']
-             )
-
-# %%
-
-ale_plot(train_set=pd.DataFrame(X_train, columns=model.input_features),
-             model=Model(),
-                  features=["Surface area", 'Pore volume']
-             )
-
-# %%
-# Permutation importance
-# =======================
-# Permutation importance quantifies reduction in model performance when
-# we corrupt one feature column intentionally. The corruption in one feature
-# column is carried out by randomly permuting its values ``n`` number of
-# times. Then the average reduction in model performance is recorded
-# as permutation feature importance for the feature.
-
-cat_map = {'Catalyst': list(range(10, 58)), 'Anions': list(range(58, 74))}
-
-pimp = PermutationImportance(
-    model.predict, X_train, y_train,
-    show=False,
-    save=False,
-    cat_map=cat_map,
-    feature_names = model.input_features,
-    n_repeats=20)
-
-pimp.plot_1d_pimp()
-plt.tight_layout()
-plt.show()
-
-# %%
-pimp.plot_1d_pimp("barchart")
-plt.tight_layout()
-plt.show()
-
-# %%
-# Partial Dependence Variance
-# ============================
-# We give the data to ``PartialDependenceVariance`` class label-encoded
-# data. When is then one-hot-encoded inside the ``predictor_fn``. Then
-# the data is given to model to make a prediction
-
-# first get data without any encoding
-data, _, _ = make_data()
-ads_ohe_encoder = OneHotEncoder(sparse=False)
-ads_ohe_encoder.fit(data.loc[:, 'Adsorbent'].values.reshape(-1,1))
-
-dye_ohe_encoder = OneHotEncoder(sparse=False)
-dye_ohe_encoder.fit(data.loc[:, 'Dye'].values.reshape(-1,1))
-
-# now get the label-encoded data. This will be passed to ``PartialDependenceVariance``
-# class.
-data_le, ads_le_encoder, dye_le_encoder = make_data(encoding="le")
-
-def predictor_fn(X):
-
-    # The X is given/suggested by ``PartialDependenceVariance`` which
-    # means it is label-encoded. First inverse transform
-    # to get the string columns
-    ads_encoded = X[:, -2]
-    ads_decoded = ads_le_encoder.inverse_transform(ads_encoded.astype(np.int16))
-    ads_ohe_encoded = ads_ohe_encoder.transform(ads_decoded.reshape(-1,1))
-    ads_cols = [f'Adsorbent_{i}' for i in range(ads_ohe_encoded.shape[1])]
-
-    dye_encoded = X[:, -1]
-    dye_decoded = dye_le_encoder.inverse_transform(dye_encoded.astype(np.int16))
-    dye_ohe_encoded = dye_ohe_encoder.transform(dye_decoded.reshape(-1,1))
-    dye_cols = [f'Dye_{i}' for i in range(dye_ohe_encoded.shape[1])]
-
-    X = pd.DataFrame(X, columns=data.columns.tolist()[0:-1])
-    X.pop('Adsorbent')
-    X.pop('Dye')
-
-    X[ads_cols] = ads_ohe_encoded
-    X[dye_cols] = dye_ohe_encoded
-
-    return model.predict(X.values).reshape(-1,)
-
-
-category_map = gen_category_map(data)
-
-pd_variance = PartialDependenceVariance(predictor=predictor_fn,
-                                        feature_names=data.columns.tolist()[0:-1],
-                                        categorical_names=category_map,
-                                        target_names=["Adsorption"])
-
-exp_importance = pd_variance.explain(X=data_le.values[:, 0:-1], method='importance')
-
-# %%
-
-bar_chart(
-    exp_importance.feature_importance.reshape(-1,),
-    sort=True,
-    labels=data.columns.tolist()[0:-1],
-    ax_kws=dict(tight_layout=True)
-)
-
-# %%
-f, ax = plt.subplots(3,4, figsize=(10,10))
-plot_pd_variance(exp=exp_importance, summarise=False, ax=ax)
-plt.subplots_adjust(hspace=0.1)
 plt.show()
