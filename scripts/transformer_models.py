@@ -4,18 +4,12 @@
 ==============================
 """
 
-import site
-
-import matplotlib.pyplot as plt
-
-site.addsitedir("D:\\mytools\\AI4Water")
 from ai4water import Model
-from easy_mpl import imshow, bar_chart
 from ai4water.utils.utils import TrainTestSplit
 from ai4water.models.utils import gen_cat_vocab
 from ai4water.models import FTTransformer, TabTransformer
 
-from scripts.utils import make_data, evaluate_model
+from utils import make_data, evaluate_model
 
 # %%
 # Tab Transformer
