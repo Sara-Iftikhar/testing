@@ -9,14 +9,18 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
+
 import seaborn as sns
-from ai4water.functional import Model
+
 from ai4water.models import MLP
+from ai4water.utils import edf_plot
+from ai4water.functional import Model
+from ai4water.utils.utils import dateandtime_now
 from ai4water.utils.utils import get_version_info
 from ai4water.postprocessing import LossCurve, ProcessPredictions
-from ai4water.utils.utils import dateandtime_now
-from ai4water.utils import edf_plot
+
 from easy_mpl import plot, regplot, ridge, circular_bar_plot
+
 from SeqMetrics import RegressionMetrics
 
 from utils import evaluate_model, get_dataset, make_data
