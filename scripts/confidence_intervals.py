@@ -1,6 +1,6 @@
 """
 =========================
-6. confidence intervals
+8. confidence intervals
 =========================
 """
 
