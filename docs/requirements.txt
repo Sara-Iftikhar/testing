@@ -1,4 +1,4 @@
-git+https://github.com/AtrCheema/AI4Water.git@82a2df445e3c57b9a9c3ad74e76e9e92dc3559ba
+git+https://github.com/AtrCheema/AI4Water.git@5d0257dc2f299aac8ede8e62e7a366e83ea5ce9c
 git+https://github.com/Sara-Iftikhar/easy_mpl.git@a76336b44c46980544d23e59093941c6572638a9
 git+https://github.com/MaximeJumelle/ALEPython.git@dev#egg=alepython
 matplotlib

@@ -62,37 +62,37 @@ num_numeric_features = len(NUMERIC_FEATURES)
 
 # %%
 
-# model = Model(model=TabTransformer(
-#     cat_vocabulary=cat_vocabulary,
-#     num_numeric_features=num_numeric_features,
-#     hidden_units=hidden_units,
-#     final_mlp_units = final_mpl_units,
-#     depth=depth,
-#     num_heads=num_heads,
-# ))
-#
-#
-# # %%
-#
-# model.fit(x=train_x, y= train_data[LABEL].values,
-#               validation_data=(test_x, test_data[LABEL].values),
-#               epochs=500)
-#
-# # %%
-#
-# train_p = model.predict(x=train_x,)
-#
-# # %%
-#
-# evaluate_model(train_data[LABEL].values, train_p)
-#
-# # %%
-#
-# test_p = model.predict(x=test_x,)
-#
-# # %%
-#
-# evaluate_model(test_data[LABEL].values, test_p)
+model = Model(model=TabTransformer(
+    cat_vocabulary=cat_vocabulary,
+    num_numeric_features=num_numeric_features,
+    hidden_units=hidden_units,
+    final_mlp_units = final_mpl_units,
+    depth=depth,
+    num_heads=num_heads,
+))
+
+
+# %%
+
+model.fit(x=train_x, y= train_data[LABEL].values,
+              validation_data=(test_x, test_data[LABEL].values),
+              epochs=500, verbose=0)
+
+# %%
+
+train_p = model.predict(x=train_x,)
+
+# %%
+
+evaluate_model(train_data[LABEL].values, train_p)
+
+# %%
+
+test_p = model.predict(x=test_x,)
+
+# %%
+
+evaluate_model(test_data[LABEL].values, test_p)
 
 # %%
 # FT Transformer
@@ -105,7 +105,7 @@ model = Model(model=FTTransformer(cat_vocabulary, len(NUMERIC_FEATURES),
 # %%
 model.fit(x=train_x, y= train_data[LABEL].values,
               validation_data=(test_x, test_data[LABEL].values),
-              epochs=500)
+              epochs=500, verbose=0)
 
 
 # # %%
@@ -123,18 +123,3 @@ test_p = model.predict(x=test_x,)
 # # %%
 #
 evaluate_model(test_data[LABEL].values, test_p)
-
-# %%
-importances = model.get_fttransformer_weights(train_x)
-imshow(importances, colorbar=True,
-       aspect="auto",
-       xticklabels=data.columns.to_list()[0:-1],
-       show=False)
-plt.tight_layout()
-plt.show()
-
-bar_chart(importances.mean(axis=0),
-          labels=data.columns.to_list()[0:-1],
-          sort=True, show=False)
-plt.tight_layout()
-plt.show()
