@@ -34,7 +34,7 @@ from ai4water.utils.utils import dateandtime_now
 
 from SeqMetrics import RegressionMetrics
 
-from easy_mpl import violin_plot, scatter
+from easy_mpl import violin_plot, scatter, boxplot
 from easy_mpl.utils import is_rgb
 from easy_mpl.utils import BAR_CMAPS
 from easy_mpl.utils import process_axes
@@ -433,10 +433,14 @@ def evaluate_model(true, predicted):
 
 # %%
 
-def plot_violin_(feature_name, test_p, cut,
-                 grid=None,
-                 show_bar=False,
-                 show_violin=True):
+def prediction_distribution(
+        feature_name,
+        test_p,
+        cut,
+        grid=None,
+        plot_type="violine",
+        show:bool = True,
+):
 
     dataset, _, _ = get_dataset()
 
@@ -452,8 +456,9 @@ def plot_violin_(feature_name, test_p, cut,
         cust_grid_points=grid
     )
 
-    if show_bar:
+    if plot_type == "bar":
         plt.show()
+        return
 
     if feature_name == 'Pyrolysis Temperature':
         df.drop(3, inplace=True)
@@ -486,15 +491,21 @@ def plot_violin_(feature_name, test_p, cut,
         assert len(v) > 0, f"{k} has no values in it"
 
     plt.close('all')
-    ax = violin_plot(list(preds.values()), cut=cut, show=False)
-    ax.set_xticks(range(len(preds)))
-    ax.set_xticklabels(list(preds.keys()), size=12, weight='bold')
-    ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
-    ax.set_title(feature_name, size=14, fontweight="bold")
-    ax.set_facecolor("#fbf9f4")
 
-    if show_violin:
+    if plot_type == "violin":
+        ax = violin_plot(list(preds.values()), cut=cut, show=False)
+        ax.set_xticks(range(len(preds)))
+        ax.set_xticklabels(list(preds.keys()), size=12, weight='bold')
+        ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+        ax.set_title(feature_name, size=14, fontweight="bold")
+        ax.set_facecolor("#fbf9f4")
         plt.show()
+
+    else:
+        ax = boxplot(list(preds.values()), labels=list(preds.keys()), show=False)
+        if show:
+            plt.show()
+
     return ax
 
 # %%

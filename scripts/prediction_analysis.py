@@ -9,7 +9,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
-from utils import get_dataset, get_fitted_model, evaluate_model, plot_violin_
+from utils import get_dataset
+from utils import evaluate_model
+from utils import get_fitted_model
+from utils import prediction_distribution
 
 
 # %%
@@ -96,30 +99,30 @@ _ = model.prediction_analysis(
 # Prediction Distribution
 # ------------------------
 
-plot_violin_('Adsorption Time (min)', test_p, 0.4)
+prediction_distribution('Adsorption Time (min)', test_p, 0.4)
 
 # %%
-plot_violin_('Pyrolysis Temperature', test_p, 0.4)
+prediction_distribution('Pyrolysis Temperature', test_p, 0.4)
 
 # %%
-plot_violin_('Initial Concentration', test_p, 0.4)
+prediction_distribution('Initial Concentration', test_p, 0.4)
 
 # %%
-plot_violin_('Solution pH', test_p, 0.4)
+prediction_distribution('Solution pH', test_p, 0.4)
 
 # %%
-plot_violin_('Adsorbent Loading', test_p, 0.4)
+prediction_distribution('Adsorbent Loading', test_p, 0.4)
 
 # %%
-plot_violin_('Volume (L)', test_p, 0.4)
+prediction_distribution('Volume (L)', test_p, 0.4)
 
 # %%
-plot_violin_('Adsorption Temperature', test_p, 0.4)
+prediction_distribution('Adsorption Temperature', test_p, 0.4)
 
 # %%
 grid = [2.75, 26.55, 81, 147.2, 495.5, 1085, 1509.11, 2430]
-plot_violin_('Surface Area', test_p, 0.4, grid=grid)
+prediction_distribution('Surface Area', test_p, 0.4, grid=grid)
 
 # %%
 grid = [0.0, 0.18, 0.38, 0.39, 0.72, 1.32]
-plot_violin_('Pore Volume', test_p, 0.4, grid=grid)
+prediction_distribution('Pore Volume', test_p, 0.4, grid=grid)

@@ -3,7 +3,8 @@
 8. confidence intervals
 =========================
 """
-
+import site
+site.addsitedir("D:\\mytools\\AI4Water")
 import os
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
