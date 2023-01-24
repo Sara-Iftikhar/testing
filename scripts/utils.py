@@ -438,7 +438,7 @@ def prediction_distribution(
         test_p,
         cut,
         grid=None,
-        plot_type="violine",
+        plot_type="violin",
         show:bool = True,
 ):
 
@@ -457,8 +457,9 @@ def prediction_distribution(
     )
 
     if plot_type == "bar":
-        plt.show()
-        return
+        if show:
+            plt.show()
+        return ax
 
     if feature_name == 'Pyrolysis Temperature':
         df.drop(3, inplace=True)
@@ -495,16 +496,18 @@ def prediction_distribution(
     if plot_type == "violin":
         ax = violin_plot(list(preds.values()), cut=cut, show=False)
         ax.set_xticks(range(len(preds)))
-        ax.set_xticklabels(list(preds.keys()), size=12, weight='bold')
-        ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
-        ax.set_title(feature_name, size=14, fontweight="bold")
         ax.set_facecolor("#fbf9f4")
-        plt.show()
 
     else:
-        ax = boxplot(list(preds.values()), labels=list(preds.keys()), show=False)
-        if show:
-            plt.show()
+        ax, _ = boxplot(
+            list(preds.values()), show=False,
+            fill_color="lightpink", patch_artist=True,
+            medianprops={"color": "black"}, flierprops={"ms": 1.0})
+    ax.set_xticklabels(list(preds.keys()), size=12, weight='bold')
+    ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+    ax.set_title(feature_name, size=14, fontweight="bold")
+    if show:
+        plt.show()
 
     return ax
 

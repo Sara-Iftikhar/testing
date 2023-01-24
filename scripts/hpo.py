@@ -33,7 +33,7 @@ X_test, y_test = dataset.test_data()
 
 # %%
 # Performance with default hyperparameters
-# ----------------------------------------
+# =========================================
 # First, we will train the hyperparameters with default parameters
 
 model = Model(
@@ -90,6 +90,8 @@ train_x, val_x, train_y, val_y = spliter.split_by_random(X_train, y_train)
 
 
 # %%
+# Objective Function
+# ======================
 
 def objective_fn(
         prefix: str = None,
@@ -153,6 +155,8 @@ def objective_fn(
 
 
 # %%
+# Parameter Space
+# ================
 
 param_space = [
     Integer(30, 100, name="units"),
@@ -195,6 +199,8 @@ else:
     optimizer.load_results(path)
 
 # %%
+# postprocessing of hpo results
+# ==============================
 
 best_iteration = optimizer.best_iter()
 
@@ -243,6 +249,9 @@ _ = plot_objective(optimizer.gpmin_results)
 
 # %%
 
+# Performance with optimized hyperparameters
+# ===========================================
+
 model = objective_fn(prefix=f"{PREFIX}{SEP}best",
                      seed=seed,
                      return_model=True,
@@ -251,5 +260,4 @@ model = objective_fn(prefix=f"{PREFIX}{SEP}best",
                      **optimizer.best_paras())
 
 # %%
-
 model.evaluate(X_test, y_test, metrics=['r2', 'nse'])
