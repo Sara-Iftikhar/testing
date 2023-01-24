@@ -67,26 +67,26 @@ model = Model(model=TabTransformer(
 
 
 # %%
-#
-# model.fit(x=train_x, y= train_data[LABEL].values,
-#               validation_data=(test_x, test_data[LABEL].values),
-#               epochs=500, verbose=0)
-#
-# # %%
-#
-# train_p = model.predict(x=train_x,)
-#
-# # %%
-#
-# evaluate_model(train_data[LABEL].values, train_p)
-#
-# # %%
-#
-# test_p = model.predict(x=test_x,)
-#
-# # %%
-#
-# evaluate_model(test_data[LABEL].values, test_p)
+
+model.fit(x=train_x, y= train_data[LABEL].values,
+              validation_data=(test_x, test_data[LABEL].values),
+              epochs=500, verbose=0)
+
+# %%
+
+train_p = model.predict(x=train_x,)
+
+# %%
+
+evaluate_model(train_data[LABEL].values, train_p)
+
+# %%
+
+test_p = model.predict(x=test_x,)
+
+# %%
+
+evaluate_model(test_data[LABEL].values, test_p)
 
 # %%
 # FT Transformer
