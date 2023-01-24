@@ -1,6 +1,6 @@
 """
 ==========================
-8. More Interpretations
+9. More Interpretations
 ==========================
 For the calculation of integraded gradients we need to enable eager execution in tensorflow.
 However, for SHAP value calculation of tensorflow based models, we need to disable v2 behaviour
@@ -40,47 +40,47 @@ model, _ = get_fitted_model(model_type='functional')
 # %%
 # Integrated Gradients
 # =======================
-
-ig  = IntegratedGradients(model._model,
-                          layer=None,
-                          method="gausslegendre",
-                          n_steps=50,
-                          internal_batch_size=100)
-
-# %%
-# Training data
-explanation = ig.explain(X_train,
-                         baselines=None,
-                         target=None)
-
-attributions = explanation.attributions[0]
-
-con = attributions[:, 0:10]
-ads = attributions[:, 10:58]
-dye = attributions[:, 58:]
-attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
-
-imshow(attr, aspect="auto", colorbar=True,
-       xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
-       show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
-plt.tight_layout()
-plt.show()
-
-# %%
-# Test data
-explanation = ig.explain(X_test,
-                         baselines=None,
-                         target=None)
-
-attributions = explanation.attributions[0]
-
-con = attributions[:, 0:10]
-ads = attributions[:, 10:58]
-dye = attributions[:, 58:]
-attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
-
-imshow(attr, aspect="auto", colorbar=True,
-       xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
-       show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
-plt.tight_layout()
-plt.show()
+#
+# ig  = IntegratedGradients(model._model,
+#                           layer=None,
+#                           method="gausslegendre",
+#                           n_steps=50,
+#                           internal_batch_size=100)
+#
+# # %%
+# # Training data
+# explanation = ig.explain(X_train,
+#                          baselines=None,
+#                          target=None)
+#
+# attributions = explanation.attributions[0]
+#
+# con = attributions[:, 0:10]
+# ads = attributions[:, 10:58]
+# dye = attributions[:, 58:]
+# attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
+#
+# imshow(attr, aspect="auto", colorbar=True,
+#        xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
+#        show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
+# plt.tight_layout()
+# plt.show()
+#
+# # %%
+# # Test data
+# explanation = ig.explain(X_test,
+#                          baselines=None,
+#                          target=None)
+#
+# attributions = explanation.attributions[0]
+#
+# con = attributions[:, 0:10]
+# ads = attributions[:, 10:58]
+# dye = attributions[:, 58:]
+# attr = np.column_stack([con, ads.sum(axis=1), dye.sum(axis=1)])
+#
+# imshow(attr, aspect="auto", colorbar=True,
+#        xticklabels=model.input_features[0:10] + ["Adsorbent", "Dye"],
+#        show=False, ax_kws=dict(ylabel="Samples"), cmap="Greens")
+# plt.tight_layout()
+# plt.show()
