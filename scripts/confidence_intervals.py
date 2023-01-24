@@ -27,10 +27,10 @@ X_test, y_test = dataset.test_data()
 feature_names = dataset.input_features[0:10] + ['Adsorbent'] + ['Dye']
 # %%
 
-model, path, _ = get_fitted_model(return_path=True)
+model, path, _ = get_fitted_model(model_type="functional", return_path=True)
 
 # %%
-model._distribution_strategy = None
+
 test_p = model.predict(x=X_test)
 
 # %%
