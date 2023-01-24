@@ -7,7 +7,7 @@
 import os
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
-
+from keras.engine.training import *
 from utils import get_dataset, get_fitted_model, \
     confidenc_interval, plot_ci, evaluate_model
 
@@ -30,7 +30,7 @@ feature_names = dataset.input_features[0:10] + ['Adsorbent'] + ['Dye']
 model, path, _ = get_fitted_model(return_path=True)
 
 # %%
-
+model._distribution_strategy = None
 test_p = model.predict(x=X_test)
 
 # %%
