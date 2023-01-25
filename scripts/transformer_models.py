@@ -41,10 +41,8 @@ cat_vocabulary = gen_cat_vocab(data)
 
 # %%
 # make a list of input arrays for training data
-train_x = [train_data[NUMERIC_FEATURES].values, train_data["Adsorbent"].values,
-           train_data["Dye"].values]
-test_x = [test_data[NUMERIC_FEATURES].values, test_data["Adsorbent"].values,
-          test_data["Dye"].values]
+train_x = [train_data[NUMERIC_FEATURES].values, train_data[CAT_FEATURES].values]
+test_x = [test_data[NUMERIC_FEATURES].values, test_data[CAT_FEATURES].values]
 
 # %%
 

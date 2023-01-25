@@ -76,7 +76,7 @@ _ = model.prediction_analysis(
     features = ['Adsorption Time (min)', 'Pyrolysis Time (min)'],
     feature_names = ['Adsorption Time (min)', 'Pyrolysis Time (min)'],
     grid_types=["percentile", "percentile"],
-    num_grid_points=[6,6],
+    num_grid_points=[6, 6],
     border=True,
     annotate_kws={'annotate_fontsize':15,
                   'annotate_colors': np.array(
