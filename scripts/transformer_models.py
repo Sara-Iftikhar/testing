@@ -91,7 +91,7 @@ evaluate_model(test_data[LABEL].values, test_p)
 # =================
 
 # build the FTTransformer model
-model = Model(model=FTTransformer(cat_vocabulary, len(NUMERIC_FEATURES),
+model = Model(model=FTTransformer(len(NUMERIC_FEATURES), cat_vocabulary,
                                   hidden_units=16, num_heads=8))
 
 # %%
