@@ -3,8 +3,6 @@
 utils
 ================
 """
-import site
-site.addsitedir("D:\\mytools\\AI4Water")
 
 import os
 import random
@@ -461,21 +459,9 @@ def prediction_distribution(
             plt.show()
         return ax
 
-    if feature_name == 'Pyrolysis Temperature':
-        df.drop(3, inplace=True)
-        df['display_column'] = ['[25,550)', '[550,600)', '[600,700)', '[700,800)', '[800,900)']
-
-    elif feature_name == 'Initial Concentration':
-        df.drop(0, inplace=True)
-        df['display_column'] = ['[1.01,10)', '[10,50)', '[50,100)', '[100,200)', '[200,300)', '[300,400)', '[400,900)']
-
-    elif feature_name == 'Volume (L)':
+    if feature_name == 'Volume (L)':
         df.drop(1, inplace=True)
         df['display_column'] = ['[0.02,0.04)', '[0.04,0.05)', '[0.05,0.1)', '[0.1,0.25)', '[0.25,1)']
-
-    elif feature_name == 'Adsorbent Loading':
-        df.drop(2, inplace=True)
-        df['display_column'] = ['[0.0,0.01)', '[0.01,0.04)', '[0.04,0.1)', '[0.1,0.5)', '[0.5,2.47)', '[2.47,10)']
 
     preds = {}
     for interval in df['display_column']:

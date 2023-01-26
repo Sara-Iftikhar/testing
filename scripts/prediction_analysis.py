@@ -41,16 +41,19 @@ test_p = model.predict(x=X_test)
 prediction_distribution('Adsorption Time (min)', test_p, 0.4 )
 
 # %%
-prediction_distribution('Pyrolysis Temperature', test_p, 0.4)
+grid = [25, 550, 600, 700, 800, 900]
+prediction_distribution('Pyrolysis Temperature', test_p, 0.4, grid=grid)
 
 # %%
-prediction_distribution('Initial Concentration', test_p, 0.4)
+grid = [1.01, 10, 50, 100, 200, 300, 400, 900]
+prediction_distribution('Initial Concentration', test_p, 0.4, grid=grid)
 
 # %%
 prediction_distribution('Solution pH', test_p, 0.4)
 
 # %%
-prediction_distribution('Adsorbent Loading', test_p, 0.4)
+grid = [0.0, 0.01, 0.04, 0.1, 0.5, 2.47, 10]
+prediction_distribution('Adsorbent Loading', test_p, 0.4, grid)
 
 # %%
 prediction_distribution('Volume (L)', test_p, 0.4)
