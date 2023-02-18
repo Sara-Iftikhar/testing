@@ -248,7 +248,6 @@ plt.show()
 _ = plot_objective(optimizer.gpmin_results)
 
 # %%
-
 # Performance with optimized hyperparameters
 # ===========================================
 

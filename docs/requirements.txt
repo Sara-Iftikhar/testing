@@ -1,5 +1,4 @@
-git+https://github.com/AtrCheema/AI4Water.git@b0cb440f1c5e28477e2d1ea6f3ece2f68851bd93
-git+https://github.com/Sara-Iftikhar/easy_mpl.git@9755c5f17bd410add2439e9c6adf7fb86c722eaf
+ai4water==1.6
 git+https://github.com/MaximeJumelle/ALEPython.git@dev#egg=alepython
 matplotlib==3.4.3
 tensorflow==2.6.0
