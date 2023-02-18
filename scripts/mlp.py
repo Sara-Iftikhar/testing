@@ -110,9 +110,7 @@ plt.show()
 
 # %%
 
-regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
-        annotation_key='$R^2$',
-        annotation_val=RegressionMetrics(y_train,train_p).r2(),
+axes = regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
         marker_size=60,
         marker_color='snow',
         line_style='--',
@@ -121,8 +119,15 @@ regplot(pd.DataFrame(y_train), pd.DataFrame(train_p),
         scatter_kws=dict(linewidths=1.1, edgecolors=np.array([56, 86, 199])/255,
                          marker="8",
                          alpha=0.7
-                         )
+                         ),
+        show=False
         )
+axes.annotate(f'$R^2$: {round(RegressionMetrics(y_train,train_p).r2(), 3)}',
+              xy=(0.3, 0.95),
+              xycoords='axes fraction',
+              horizontalalignment='right', verticalalignment='top',
+              fontsize=16)
+plt.show()
 
 # %%
 # Test data
@@ -160,9 +165,7 @@ plt.show()
 
 # %%
 
-regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
-        annotation_key='$R^2$',
-        annotation_val=RegressionMetrics(y_test,test_p).r2(),
+axes = regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         marker_size=60,
         marker_color='snow',
         line_style='--',
@@ -171,8 +174,15 @@ regplot(pd.DataFrame(y_test), pd.DataFrame(test_p),
         scatter_kws=dict(linewidths=1.1, edgecolors=np.array([56, 86, 199])/255,
                          marker="8",
                          alpha=0.7
-                         )
+                         ),
+        show=False
         )
+axes.annotate(f'$R^2$: {round(RegressionMetrics(y_test,test_p).r2(), 3)}',
+              xy=(0.3, 0.95),
+              xycoords='axes fraction',
+              horizontalalignment='right', verticalalignment='top',
+              fontsize=16)
+plt.show()
 
 # %%
 # combined
