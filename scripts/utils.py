@@ -610,11 +610,7 @@ def shap_scatter(
             cbar.ax.set_ylabel(feature_wrt_name, rotation=90, labelpad=14,
                                fontsize=14, weight="bold")
 
-            if 'volume' in feature_wrt_name.lower():
-                ticks = np.round(cbar.ax.get_yticks(), 2)
-                cbar.ax.set_yticklabels(ticks, size=12, weight='bold')
-            else:
-                cbar.ax.set_yticklabels(cbar.ax.get_yticks().astype(int), size=12, weight='bold')
+            set_ticks(cbar.ax, "y")
 
             cbar.set_alpha(1)
             cbar.outline.set_visible(False)
@@ -625,13 +621,9 @@ def shap_scatter(
     ax.set_ylabel(f"SHAP value for {feature_name}", fontsize=14, weight="bold")
     ax.axhline(0, color='grey', linewidth=1.3, alpha=0.3, linestyle='--')
 
-    if 'volume' in feature_name.lower():
-        ticks = np.round(ax.get_xticks(), 2)
-        ax.set_xticklabels(ticks, size=12, weight='bold')
-    else:
-       ax.set_xticklabels(ax.get_xticks().astype(int), size=12, weight='bold')
 
-    ax.set_yticklabels(ax.get_yticks().astype(int), size=12, weight='bold')
+    set_ticks(ax)
+    set_ticks(ax, "y")
 
     if show_hist:
         x = shap_values.data
@@ -659,6 +651,19 @@ def shap_scatter(
         plt.show()
 
     return ax
+
+
+def set_ticks(axes:plt.Axes, which="x", size=12):
+    ticks = getattr(axes, f"get_{which}ticks")()
+    ticks = np.array(ticks)
+
+    if 'float' in ticks.dtype.name:
+        ticks = np.round(ticks, 2)
+    else:
+        ticks = ticks.astype(int)
+
+    getattr(axes, f"set_{which}ticklabels")(ticks, size=size, weight="bold")
+    return
 
 # %%
 

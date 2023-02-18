@@ -42,6 +42,9 @@ extensions = [
 "sphinx-prompt",
 "sphinx_gallery.gen_gallery",
 'sphinx.ext.ifconfig',
+'sphinx_toggleprompt',
+'sphinx_copybutton',
+'nbsphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
