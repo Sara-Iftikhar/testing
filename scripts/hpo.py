@@ -239,7 +239,7 @@ plt.show()
 
 # %%
 
-optimizer._plot_parallel_coords(figsize=(14, 8))
+optimizer.plot_parallel_coords(figsize=(14, 8))
 plt.tight_layout()
 plt.show()
 
