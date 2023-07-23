@@ -1,4 +1,5 @@
-Insights into adsorption capacity prediction on carbon-based materials using deep learning
+Adsorption capacity prediction on carbon-based materials using deep learning
+=============================================================================
 In this study we performed data-driven modeling of adsorption capacity on 
 carbon-based materials by the use of artificial neural networks on a dataset
 of 1514 data points. The objective was to predict 
@@ -21,6 +22,7 @@ input and output. The final value that comes out of the output layer is the pred
 by the MLP.
 
 Data
+-----
 The input confined 12 input variables, such
 as the adsorption time (min), type of adsorbent, calcination temperature (oC), calculation time
 (min), type of dye, initial dye concentration (mg/L), solution pH, adsorbent loading (g), volume
@@ -35,6 +37,7 @@ A comprehensive analysis of data is given in
 :ref:`sphx_glr_auto_examples_eda.py`
 
 Results
+--------
 various performance metrics including the root-mean-square error
 (RMSE), mean absolute error (MAE), and coefficient of determination (R2) was applied to
 study the model performance. Pearson correlation results
@@ -52,6 +55,7 @@ prediction. The SHAP dependency analysis was further applied to model the impact
 important input features.
 
 Reproducibility
+---------------
 To replicate the experiments, you need to install all requirements given in
 requirements file .
 If your results are quite different from what are presented here, then make sure
@@ -60,3 +64,9 @@ at the time of running of these scripts. These versions are given printed
 at the start of each script. Download all the .py files in the scripts including
 utils.py (:ref:`sphx_glr_auto_examples_utils.py`) file. The data is expected to be
 in the data folder under the scripts folder.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Scripts
+
+   auto_examples/index
