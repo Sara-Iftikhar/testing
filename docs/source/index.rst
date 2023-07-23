@@ -1,8 +1,11 @@
 Adsorption capacity prediction on carbon-based materials using deep learning
 =============================================================================
-In this study we performed data-driven modeling of adsorption capacity on 
+.. image:: fig1.png
+    :align: center
+
+In this study we performed data-driven modeling of adsorption capacity on
 carbon-based materials by the use of artificial neural networks on a dataset
-of 1514 data points. The objective was to predict 
+of 1514 data points. The objective was to predict
 the adsoprtion capacity of various
 organic based activated carbon materials towards the elimination of industrial dyes from
 wastewater.
@@ -43,7 +46,7 @@ various performance metrics including the root-mean-square error
 study the model performance. Pearson correlation results
 showed that the adsorption capacity prediction was positively correlated with the pore volume,
 BET surface area, initial concentration, solution pH, and negatively correlated with the volume,
-adsorbent loading, calcination time and temperature for adsorbent synthesis. 
+adsorbent loading, calcination time and temperature for adsorbent synthesis.
 Feature importance using SHAP analysis suggested that the adsorption
 characteristics with 51.4% was the most imported in the ANN prediction followed by the
 adsorption experimental condition (31.2%) and adsorbent synthesis condition (17.4%).
